@@ -1,80 +1,80 @@
-set PROGRAM="%~1"
+ï»¿set PROGRAM="%~1"
 
-rem Ïóñòîé ïàðàìåòð âõîäíîãî ôàéëà
+rem ÐŸÑƒÑÑ‚Ð¾Ð¹ Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€ Ð²Ñ…Ð¾Ð´Ð½Ð¾Ð³Ð¾ Ñ„Ð°Ð¹Ð»Ð°
 set TEST_NUMBER=1
 %PROGRAM% "" %TEMP%\output.txt "source" "target" >NUL
 if NOT ERRORLEVEL 1 goto err
 
-rem Ïóñòîé ïàðàìåòð âûõîäíîãî ôàéëà
+rem ÐŸÑƒÑÑ‚Ð¾Ð¹ Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€ Ð²Ñ‹Ñ…Ð¾Ð´Ð½Ð¾Ð³Ð¾ Ñ„Ð°Ð¹Ð»Ð°
 set TEST_NUMBER=2
 %PROGRAM% "test\test.txt" "" "source" "target" >NUL
 if NOT ERRORLEVEL 1 goto err
 
-rem Ïóñòàÿ ïàðàìåòð ïîèñêà ïîäñòðîêè
+rem ÐŸÑƒÑÑ‚Ð°Ñ Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€ Ð¿Ð¾Ð¸ÑÐºÐ° Ð¿Ð¾Ð´ÑÑ‚Ñ€Ð¾ÐºÐ¸
 set TEST_NUMBER=3
 %PROGRAM% "test\test.txt" %TEMP%\output.txt "" "target" >NUL
 if NOT ERRORLEVEL 1 goto 
 
-rem Íåñóùåñòâóþùèé âõîäíîé ôàéë
+rem ÐÐµÑÑƒÑ‰ÐµÑÑ‚Ð²ÑƒÑŽÑ‰Ð¸Ð¹ Ð²Ñ…Ð¾Ð´Ð½Ð¾Ð¹ Ñ„Ð°Ð¹Ð»
 set TEST_NUMBER=4
 %PROGRAM% "notExist.txt" %TEMP%\output.txt "source" "target" >NUL
 if NOT ERRORLEVEL 1 goto err
 
-rem Îøèáêà çàïèñè ôàéëà
+rem ÐžÑˆÐ¸Ð±ÐºÐ° Ð·Ð°Ð¿Ð¸ÑÐ¸ Ñ„Ð°Ð¹Ð»Ð°
 set TEST_NUMBER=5
 %PROGRAM% "test\test.txt" %PROGRAM% "source" "target" >NUL
 if NOT ERRORLEVEL 1 goto err
 
-rem Ïóñòîé âõîäíîé ôàéë
+rem ÐŸÑƒÑÑ‚Ð¾Ð¹ Ð²Ñ…Ð¾Ð´Ð½Ð¾Ð¹ Ñ„Ð°Ð¹Ð»
 set TEST_NUMBER=6
 %PROGRAM% "test\empty.txt" %TEMP%\empty.txt "source" "target" >NUL
 if ERRORLEVEL 1 goto err
 fc.exe  "%TEMP%\empty.txt" "test\empty.txt" >NUL
 if ERRORLEVEL 1 goto err
 
-rem Ïóñòûå ñòðîêè â ôàéëå
+rem ÐŸÑƒÑÑ‚Ñ‹Ðµ ÑÑ‚Ñ€Ð¾ÐºÐ¸ Ð² Ñ„Ð°Ð¹Ð»Ðµ
 set TEST_NUMBER=7
 %PROGRAM% "test\empty_lines.txt" %TEMP%\empty_lines.txt "source" "target" >NUL
 if ERRORLEVEL 1 goto err
 fc.exe  "%TEMP%\empty_lines.txt" "test\empty_lines_out.txt" >NUL
 if ERRORLEVEL 1 goto err
 
-rem Ôàéë áåç èñêîìîé ñòðîêè
+rem Ð¤Ð°Ð¹Ð» Ð±ÐµÐ· Ð¸ÑÐºÐ¾Ð¼Ð¾Ð¹ ÑÑ‚Ñ€Ð¾ÐºÐ¸
 set TEST_NUMBER=8
 %PROGRAM% "test\test.txt" "%TEMP%\test.txt" "source" "target" >NUL
 if ERRORLEVEL 1 goto err
 fc.exe  "%TEMP%\test.txt" "test\test.txt" >NUL
 if ERRORLEVEL 1 goto err
 
-rem Çàìåíà íà ïóñòóþ ñòðîêó
+rem Ð—Ð°Ð¼ÐµÐ½Ð° Ð½Ð° Ð¿ÑƒÑÑ‚ÑƒÑŽ ÑÑ‚Ñ€Ð¾ÐºÑƒ
 set TEST_NUMBER=9
 %PROGRAM% "test\test.txt" "%TEMP%\test.txt" "jumps" "" >NUL
 if ERRORLEVEL 1 goto err
 fc.exe  "%TEMP%\test.txt" "test\test_out.txt" >NUL
 if ERRORLEVEL 1 goto err
 
-rem Òåñò ìíîãîêðàòíûõ âõîæåíèé
+rem Ð¢ÐµÑÑ‚ Ð¼Ð½Ð¾Ð³Ð¾ÐºÑ€Ð°Ñ‚Ð½Ñ‹Ñ… Ð²Ñ…Ð¾Ð¶ÐµÐ½Ð¸Ð¹
 set TEST_NUMBER=10
 %PROGRAM% "test\multiply.txt" "%TEMP%\multiply.txt" "ma" "mama" >NUL
 if ERRORLEVEL 1 goto err
 fc.exe  "%TEMP%\multiply.txt" "test\multiply_out.txt" >NUL
 if ERRORLEVEL 1 goto err
 
-rem Ôàéë ñ íåñêîëüêèìè âõîæäåíèÿìè èñêîìîé ñòðîêè
+rem Ð¤Ð°Ð¹Ð» Ñ Ð½ÐµÑÐºÐ¾Ð»ÑŒÐºÐ¸Ð¼Ð¸ Ð²Ñ…Ð¾Ð¶Ð´ÐµÐ½Ð¸ÑÐ¼Ð¸ Ð¸ÑÐºÐ¾Ð¼Ð¾Ð¹ ÑÑ‚Ñ€Ð¾ÐºÐ¸
 set TEST_NUMBER=11
 %PROGRAM% "test\some.txt" "%TEMP%\some.txt" "test" "shmest" >NUL
 if ERRORLEVEL 1 goto err
 fc.exe  "%TEMP%\some.txt" "test\some_out.txt" >NUL
 if ERRORLEVEL 1 goto err
 
-rem Ôàéë, ñîñòîÿùèé èç îäíîé, èñêîìîé ïîäñòðîêè
+rem Ð¤Ð°Ð¹Ð», ÑÐ¾ÑÑ‚Ð¾ÑÑ‰Ð¸Ð¹ Ð¸Ð· Ð¾Ð´Ð½Ð¾Ð¹, Ð¸ÑÐºÐ¾Ð¼Ð¾Ð¹ Ð¿Ð¾Ð´ÑÑ‚Ñ€Ð¾ÐºÐ¸
 set TEST_NUMBER=12
 %PROGRAM% "test\one.txt" "%TEMP%\one.txt" "first" "second" >NUL
 if ERRORLEVEL 1 goto err
 fc.exe  "%TEMP%\one.txt" "test\one_out.txt" >NUL
 if ERRORLEVEL 1 goto err
 
-rem Ìíîãîñòðî÷íûé ôàéë
+rem ÐœÐ½Ð¾Ð³Ð¾ÑÑ‚Ñ€Ð¾Ñ‡Ð½Ñ‹Ð¹ Ñ„Ð°Ð¹Ð»
 set TEST_NUMBER=13
 %PROGRAM% "test\multiline.txt" "%TEMP%\multiline.txt" " one " "two" >NUL
 if ERRORLEVEL 1 goto err
