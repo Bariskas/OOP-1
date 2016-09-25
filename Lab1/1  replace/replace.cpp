@@ -1,10 +1,11 @@
 #include <iostream>
+#include <algorithm>
 #include <fstream>
 #include <string>
 
 using namespace std;
 
-string strReplace(const string& sourceStr, const string& searchStr, const string& replaceStr)
+string StrReplace(const string& sourceStr, const string& searchStr, const string& replaceStr)
 {
 	const size_t searchStrLength = searchStr.length();
 	size_t searchPosition = 0;
@@ -13,27 +14,44 @@ string strReplace(const string& sourceStr, const string& searchStr, const string
 	size_t foundPosition = sourceStr.find(searchStr, searchPosition);
 	while (foundPosition != string::npos)
 	{
-		string strBeforeFound = sourceStr.substr(searchPosition, foundPosition - searchPosition);
-		outputStr += strBeforeFound + replaceStr;
+		outputStr.append(sourceStr, searchPosition, foundPosition - searchPosition);
+		outputStr.append(replaceStr);
 
 		searchPosition = foundPosition + searchStrLength;
 		foundPosition = sourceStr.find(searchStr, searchPosition);
 	}
 
-	outputStr += sourceStr.substr(searchPosition);
+	outputStr.append(sourceStr, searchPosition);
 
 	return outputStr;
 }
 
-bool writeLineToFile(ofstream& output, const string& str)
+bool ReplaceStringInFile(const string& inputFileName, const string& outputFileName, const string& searchString, const string& replaceString)
 {
-	string lineStr = str + '\n';
-	for (const char& ch : lineStr)
+	ifstream inputFile(inputFileName);
+	if (!inputFile.is_open())
 	{
-		if (!output.put(ch))
+		cout << "Failed to open " << inputFileName << " for reading\n";
+		return false;
+	}
+
+	ofstream outputFile(outputFileName);
+	if (!outputFile.is_open())
+	{
+		cout << "Failed to open " << outputFileName << " for writing\n";
+		return false;
+	}
+
+	string lineStr;
+	while (getline(inputFile, lineStr))
+	{
+		string processedStr = StrReplace(lineStr, searchString, replaceString);
+		if (!(outputFile << processedStr << endl))
 		{
+			cout << "Failed to save data on disk\n";
 			return false;
 		}
+		outputFile.flush();
 	}
 	return true;
 }
@@ -46,38 +64,21 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-	for (int i = 1; i < 4; i++)
+	if (std::any_of(&argv[1], &argv[4], [](char* arg) {
+		return strlen(arg) == 0;
+	}))
 	{
-		string argStrValue = argv[i];
-		if (argStrValue.empty())
-		{
-			cout << "Argument " << i << " must be non empty\n";
-			return 1;
-		}
-	}
-
-	ifstream inputFile(argv[1]);
-	if (!inputFile.is_open())
-	{
-		cout << "Failed to open " << argv[1] << " for reading\n";
+		cout << "Arguments <input file>, <output file>, <search string> must be non empty!";
 		return 1;
 	}
 
-	ofstream outputFile(argv[2]);
-	if (!outputFile.is_open())
-	{
-		cout << "Failed to open " << argv[2] << " for writing\n";
-		return 1;
-	}
+	string inputFileName = argv[1];
+	string outputFileName = argv[2];
+	string searchString = argv[3];
+	string replaceString = argv[4];
 
-	string lineStr;
-	while (getline(inputFile, lineStr))
+	if (!ReplaceStringInFile(inputFileName, outputFileName, searchString, replaceString))
 	{
-		string processedStr = strReplace(lineStr, argv[3], argv[4]);
-		if (!writeLineToFile(outputFile, processedStr))
-		{
-			cout << "Failed to save data on disk\n";
-			return 1;
-		}
+		return 1;
 	}
 }

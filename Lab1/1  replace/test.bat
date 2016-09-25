@@ -1,4 +1,4 @@
-﻿set PROGRAM="%~1"
+set PROGRAM="%~1"
 
 rem Пустой параметр входного файла
 set TEST_NUMBER=1
