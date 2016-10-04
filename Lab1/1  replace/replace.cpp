@@ -26,7 +26,7 @@ string StrReplace(const string& sourceStr, const string& searchStr, const string
 	return outputStr;
 }
 
-bool ReplaceStringInFile(const string& inputFileName, const string& outputFileName, const string& searchString, const string& replaceString)
+bool ReplaceStringsInFile(const string& inputFileName, const string& outputFileName, const string& searchString, const string& replaceString)
 {
 	ifstream inputFile(inputFileName);
 	if (!inputFile.is_open())
@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
 	string searchString = argv[3];
 	string replaceString = argv[4];
 
-	if (!ReplaceStringInFile(inputFileName, outputFileName, searchString, replaceString))
+	if (!ReplaceStringsInFile(inputFileName, outputFileName, searchString, replaceString))
 	{
 		return 1;
 	}
