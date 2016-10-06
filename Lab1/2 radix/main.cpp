@@ -1,5 +1,4 @@
 #include <iostream>
-#include <string>
 #include "Radix.h"
 
 using namespace std;
@@ -11,7 +10,7 @@ int ReadNotationFromString(string const& strNotation)
 	{
 		notation = stoi(strNotation);
 	}
-	catch (invalid_argument)
+	catch (invalid_argument const&)
 	{
 		throw invalid_argument("Arguments <source notation> <destination notation> <value> must be a numbers!");
 	}

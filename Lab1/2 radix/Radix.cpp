@@ -58,7 +58,7 @@ char NumberToChar(const int number)
 	}
 }
 
-void ValidateNotation(int notation)
+void ValidateNotation(const int notation)
 {
 	const int MIN_ALLOWED_NOTATION = 2;
 	const int MAX_ALLOWED_NOTATION = 36;
@@ -102,14 +102,14 @@ void ValidateValue(string const& value, const int notation)
 				throw invalid_argument("Wrong char in current notation!");
 			}
 		}
-		catch (invalid_argument)
+		catch (invalid_argument const&)
 		{
 			throw invalid_argument("Value must be a number in specified notation!");
 		}
 	}
 }
 
-int ConvertToDecimal(string const& value, const int sourceNotation)
+int StringToInt(string const& value, const int sourceNotation)
 {
 	const int DECIMAL_RADIX = 10;
 	int result = 0;
@@ -137,7 +137,7 @@ int ConvertToDecimal(string const& value, const int sourceNotation)
 	return result;
 }
 
-string ConvertToDestination(int decimalValue, int destinationNotation)
+string IntToString(const int decimalValue, const int destinationNotation)
 {
 	const int DECIMAL_RADIX = 10;
 	if (destinationNotation == DECIMAL_RADIX)
@@ -163,7 +163,7 @@ string ConvertToDestination(int decimalValue, int destinationNotation)
 	}
 }
 
-string ConvertRadix(const int sourceNotation, const int destinationNotation, string value)
+string ConvertRadix(const int sourceNotation, const int destinationNotation, string const& value)
 {
 	string result;
 	if (sourceNotation == destinationNotation)
@@ -172,8 +172,8 @@ string ConvertRadix(const int sourceNotation, const int destinationNotation, str
 	}
 	else
 	{
-		int decimalValue = ConvertToDecimal(value, sourceNotation);
-		result = ConvertToDestination(decimalValue, destinationNotation);
+		int decimalValue = StringToInt(value, sourceNotation);
+		result = IntToString(decimalValue, destinationNotation);
 	}
 	return result;
 }
