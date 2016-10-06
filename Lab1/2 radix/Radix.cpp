@@ -1,4 +1,7 @@
+#include <limits>
 #include "Radix.h"
+
+using namespace std;
 
 int MultiplyWithOverflowCheck(unsigned const int multiplier1, unsigned const int multiplier2)
 {
@@ -16,21 +19,6 @@ int AddWithOverflowCheck(unsigned const int add1, unsigned const int add2)
 		throw overflow_error("Overflow on calculating value!");
 	}
 	return add1 + add2;
-}
-
-int ExpWithOverflowCheck(unsigned const int number, unsigned const int degree)
-{
-	if (degree == 0)
-	{
-		return 1;
-	}
-
-	int result = number;
-	for (unsigned int i = 1; i < degree; i++)
-	{
-		result = MultiplyWithOverflowCheck(result, number);
-	}
-	return result;
 }
 
 int CharToNumber(const char ch)
@@ -81,7 +69,7 @@ void ValidateNotation(int notation)
 	}
 }
 
-bool ValidateStringValue(string const& value)
+void ValidateStringValue(string const& value)
 {
 	const string BOUNDARY_VALUE_STR = (value[0] == '-') ? to_string(INT_MIN) : to_string(INT_MAX);
 	const size_t BOUNDATRY_VALUE_LENGTH = BOUNDARY_VALUE_STR.length();
@@ -134,11 +122,12 @@ int ConvertToDecimal(string const& value, const int sourceNotation)
 		const size_t valueLength = value.length();
 		const bool isNegative = (value[0] == '-');
 
-		for (size_t i = (isNegative) ? 1 : 0; i < valueLength; i++)
+		int startPos = (isNegative) ? 1 : 0;
+		result = CharToNumber(value[startPos]);
+		for (size_t i = startPos + 1; i < valueLength; i++)
 		{
-			int expResult = ExpWithOverflowCheck(sourceNotation, valueLength - i - 1);
-			int multiplyResult = MultiplyWithOverflowCheck(CharToNumber(value[i]), expResult);
-			result = AddWithOverflowCheck(result, multiplyResult);
+			result = MultiplyWithOverflowCheck(result, sourceNotation);
+			result = AddWithOverflowCheck(result, CharToNumber(value[i]));
 		}
 		if (isNegative)
 		{
@@ -161,16 +150,16 @@ string ConvertToDestination(int decimalValue, int destinationNotation)
 		int balance = abs(decimalValue);
 		while (balance >= destinationNotation)
 		{
-			result += NumberToChar(balance % destinationNotation);
+			result.push_back(NumberToChar(balance % destinationNotation));
 			balance /= destinationNotation;
 		}
-		result += NumberToChar(balance);
+		result.push_back(NumberToChar(balance));
 		if (decimalValue < 0)
 		{
-			result += '-';
+			result.push_back('-');
 		}
 
-		return{ result.rbegin(), result.rend() };
+		return { result.rbegin(), result.rend() };
 	}
 }
 
