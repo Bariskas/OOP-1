@@ -81,24 +81,18 @@ void ValidateNotation(int notation)
 	}
 }
 
-bool CheckStrNumberValueOverflow(string const& value)
+bool ValidateStringValue(string const& value)
 {
-	const size_t valueLength = value.length();
-	const string INT_MAX_STR = to_string(INT_MAX);
-	const size_t INT_MAX_STR_LENGTH = INT_MAX_STR.length();
+	const string BOUNDARY_VALUE_STR = (value[0] == '-') ? to_string(INT_MIN) : to_string(INT_MAX);
+	const size_t BOUNDATRY_VALUE_LENGTH = BOUNDARY_VALUE_STR.length();
 
-	return (value[0] != '-' && (valueLength > INT_MAX_STR_LENGTH
-		|| (valueLength == INT_MAX_STR_LENGTH && value > INT_MAX_STR)));
-}
+	size_t valueLength = value.length();
 
-bool CheckStrNumberValueUnderflow(string const& value)
-{
-	const size_t valueLength = value.length();
-	const string INT_MIN_STR = to_string(INT_MIN);
-	const size_t INT_MIN_STR_LENGTH = INT_MIN_STR.length();
-
-	return (value[0] == '-' && (valueLength > INT_MIN_STR_LENGTH
-		|| (valueLength == INT_MIN_STR_LENGTH && value > INT_MIN_STR)));
+	if (valueLength > BOUNDATRY_VALUE_LENGTH
+		|| (valueLength == BOUNDATRY_VALUE_LENGTH && value > BOUNDARY_VALUE_STR))
+	{
+		throw overflow_error("Input value overflow!");
+	}
 }
 
 void ValidateValue(string const& value, const int notation)
@@ -108,14 +102,7 @@ void ValidateValue(string const& value, const int notation)
 
 	if (notation == DECIMAL_RADIX)
 	{
-		if (CheckStrNumberValueOverflow(value))
-		{
-			throw overflow_error("Input value overflow!");
-		}
-		if (CheckStrNumberValueUnderflow(value))
-		{
-			throw underflow_error("Input value underflow!");
-		}
+		ValidateStringValue(value);
 	}
 
 	for (size_t i = 0; i < valueLength; i++)
