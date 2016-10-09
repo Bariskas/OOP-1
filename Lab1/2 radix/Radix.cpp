@@ -40,8 +40,11 @@ int CharToNumber(const char ch)
 	{
 		return -1;
 	}
+	else if (ch == '+')
+	{
+		return 0;
+	}
 	throw invalid_argument("Can't convert char to number");
-	return 0;
 }
 
 char NumberToChar(const int number)
@@ -75,6 +78,10 @@ void ValidateStringValue(string const& value)
 	const size_t BOUNDATRY_VALUE_LENGTH = BOUNDARY_VALUE_STR.length();
 
 	size_t valueLength = value.length();
+	if (value[0] == '+')
+	{
+		valueLength -= 1;
+	}
 
 	if (valueLength > BOUNDATRY_VALUE_LENGTH
 		|| (valueLength == BOUNDATRY_VALUE_LENGTH && value > BOUNDARY_VALUE_STR))
