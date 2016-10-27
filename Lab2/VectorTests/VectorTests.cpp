@@ -3,58 +3,41 @@
 #include <boost/test/output/compiler_log_formatter.hpp>
 #include <boost/algorithm/string/replace.hpp>
 
-
 using namespace std;
 
-BOOST_AUTO_TEST_SUITE(An_apple)
-	BOOST_AUTO_TEST_CASE(is_round)
+BOOST_AUTO_TEST_SUITE(Processed_vector)
+
+	BOOST_AUTO_TEST_CASE(remains_empty_from_empty_vector)
 	{
-		// TODO: check that apple is round
-		BOOST_CHECK(true);
+		vector<double> emptyVector;
+		ProcessVector(emptyVector);
+		BOOST_CHECK(emptyVector.empty());
 	}
-	BOOST_AUTO_TEST_SUITE(when_bitten)
-		BOOST_AUTO_TEST_CASE(produces_its_juice)
-		{
-			BOOST_CHECK(true);
 
-		}
-		BOOST_AUTO_TEST_CASE(becomes_lighter)
-		{
-			BOOST_CHECK(true);
+	BOOST_AUTO_TEST_CASE(with_zero_min_value_does_not_change)
+	{
+		vector<double> resultVector = {3, 0, 1, 2};
+		vector<double> testVector(resultVector);
+		BOOST_CHECK_THROW(ProcessVector(testVector), runtime_error);
+		BOOST_CHECK(testVector == resultVector);
+	}
 
-		}
-	BOOST_AUTO_TEST_SUITE_END()
+	BOOST_AUTO_TEST_CASE(with_one_value_does_not_change)
+	{
+		vector<double> resultVector = {42};
+		vector<double> testVector(resultVector);
+		BOOST_CHECK(testVector == resultVector);
+	}
+
+	BOOST_AUTO_TEST_CASE(returns_correct_results)
+	{
+		vector<double> resultVector = {50, 100, 200, 300, 500};
+		vector<double> testVector = {5, 10, 20, 30, 50};
+		ProcessVector(testVector);
+		BOOST_CHECK(testVector == resultVector);
+	}
+
 BOOST_AUTO_TEST_SUITE_END()
-
-
-//BOOST_AUTO_TEST_SUITE(VectorTests34a)
-
-// Пустой вектор остается пустым
-BOOST_AUTO_TEST_CASE(makes_empty_vector_from_empty_vector)
-{
-	vector<double> emptyVector;
-	ProcessVector(emptyVector);
-	BOOST_CHECK(emptyVector.empty());
-}
-
-// Вектор с минимальным значением - 0.0
-BOOST_AUTO_TEST_CASE(vector_with_min_value_equal_zero_does_not_change)
-{
-	vector<double> testVector = {3, 0, 1, 2};
-	vector<double> vectorCopy(testVector);
-	ProcessVector(testVector);
-	BOOST_CHECK(testVector == vectorCopy);
-}
-
-// Вектор с одним значением
-
-// Вектор с несколькими значениями
-
-// Невалидные символы в начале строки
-
-// Невалидные символы посреди строки
-
-//BOOST_AUTO_TEST_SUITE_END()
 
 
 

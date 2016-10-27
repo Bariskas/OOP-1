@@ -5,7 +5,7 @@ using namespace std;
 
 void PrintVectorInSortedOrder(vector<double> numbers)
 {
-	sort(numbers.begin(), numbers.end(), CompareNumbers);
+	sort(numbers.begin(), numbers.end());
 	copy(numbers.cbegin(), numbers.cend(), ostream_iterator<double>(cout, " "));
 	cout << endl;
 }

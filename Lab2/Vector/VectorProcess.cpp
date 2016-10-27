@@ -1,27 +1,22 @@
 #include "stdafx.h"
 #include "VectorProcess.h"
 
-bool CompareNumbers(const double a, const double b)
-{
-	return a < b;
-}
-
 void ProcessVector(vector<double>& numbers)
 {
-	/* Умножить каждый элемент массива на максимальный элемент исходного массива
-	и разделить на минимальный элемент исходного массива */
+	/* РЈРјРЅРѕР¶РёС‚СЊ РєР°Р¶РґС‹Р№ СЌР»РµРјРµРЅС‚ РјР°СЃСЃРёРІР° РЅР° РјР°РєСЃРёРјР°Р»СЊРЅС‹Р№ СЌР»РµРјРµРЅС‚ РёСЃС…РѕРґРЅРѕРіРѕ РјР°СЃСЃРёРІР°
+	Рё СЂР°Р·РґРµР»РёС‚СЊ РЅР° РјРёРЅРёРјР°Р»СЊРЅС‹Р№ СЌР»РµРјРµРЅС‚ РёСЃС…РѕРґРЅРѕРіРѕ РјР°СЃСЃРёРІР° */
 	if (!numbers.empty())
 	{
-		const double minNumber = *min_element(numbers.begin(), numbers.end());
-		if (minNumber <= DBL_EPSILON)
+		auto minMaxIterators = minmax_element(numbers.begin(), numbers.end());
+		double minValue = *minMaxIterators.first;
+		double maxValue = *minMaxIterators.second;
+		if (abs(minValue) <= DBL_EPSILON)
 		{
-			throw exception("Can't divide by zero!");
+			throw runtime_error("Can't divide by zero!");
 		}
-
-		const double maxNumber = *max_element(numbers.begin(), numbers.end());
-		transform(numbers.begin(), numbers.end(), numbers.begin(), [minNumber, maxNumber](double value)
+		transform(numbers.begin(), numbers.end(), numbers.begin(), [minValue, maxValue](double value)
 		{
-			return value * maxNumber / minNumber;
+			return value / minValue * maxValue;
 		});
 	}
 }
