@@ -17,6 +17,7 @@ void ProcessVector(vector<double>& numbers)
 		{
 			throw exception("Can't divide by zero!");
 		}
+
 		const double maxNumber = *max_element(numbers.begin(), numbers.end());
 		transform(numbers.begin(), numbers.end(), numbers.begin(), [minNumber, maxNumber](double value)
 		{
