@@ -27,9 +27,13 @@ string HtmlDecode(string const& html)
 		{
 			resultStr.append(html, lastSearchPos, searchPos - lastSearchPos);
 			resultStr += it->second;
-			lastSearchPos = searchPos + it->first.length();
+			searchPos += it->first.length();
+			lastSearchPos = searchPos;
 		}
-		++searchPos;
+		else
+		{
+			++searchPos;
+		}
 	}
 	resultStr.append(html, lastSearchPos);
 
