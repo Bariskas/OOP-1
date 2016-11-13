@@ -39,8 +39,3 @@ string HtmlDecode(string const& html)
 
 	return resultStr;
 }
-
-void StreamToString(istream& stream, string& str)
-{
-	str = string(std::istreambuf_iterator<char>(stream), {});
-}

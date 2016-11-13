@@ -27,6 +27,9 @@
     <ClInclude Include="HtmlDecode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GetlineIterator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

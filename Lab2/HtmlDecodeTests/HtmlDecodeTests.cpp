@@ -5,35 +5,35 @@
 
 using namespace std;
 
-BOOST_AUTO_TEST_SUITE(The_decoded_text)
+BOOST_AUTO_TEST_SUITE(HtmlDecode_returns)
 
-	BOOST_AUTO_TEST_CASE(remains_empty_from_empty_string)
+	BOOST_AUTO_TEST_CASE(empty_string_from_empty_string)
 	{
 		string emptyStr;
 		BOOST_CHECK(HtmlDecode(emptyStr).empty());
 	}
 
-	BOOST_AUTO_TEST_CASE(remains_the_same_from_string_without_html_entities)
+	BOOST_AUTO_TEST_CASE(the_same_result_from_string_without_html_entities)
 	{
 		string str = "Hello, yes, this is dog!";
 		BOOST_CHECK(str == HtmlDecode(str));
 	}
 
-	BOOST_AUTO_TEST_CASE(is_correct_from_string_containing_only_html_entities)
+	BOOST_AUTO_TEST_CASE(correct_result_from_string_containing_only_html_entities)
 	{
 		string str = "&quot;&apos;&lt;&gt;&amp;";
 		string expectedResult = "\"'<>&";
 		BOOST_CHECK(expectedResult == HtmlDecode(str));
 	}
 
-	BOOST_AUTO_TEST_CASE(is_correct_from_string_containing_html_entites_inside_text)
+	BOOST_AUTO_TEST_CASE(correct_result_from_string_containing_html_entites_inside_text)
 	{
 		string str = "This is a &lt;test&gt; &amp;string";
 		string expectedResult = "This is a <test> &string";
 		BOOST_CHECK(expectedResult == HtmlDecode(str));
 	}
 
-	BOOST_AUTO_TEST_CASE(is_correct_from_string_containing_fake_html_entity)
+	BOOST_AUTO_TEST_CASE(correct_result_from_string_containing_fake_html_entity)
 	{
 		string str = "This is a &amp;quot;fake&quot; two html-entities!";
 		string expectedResult = "This is a &quot;fake\" two html-entities!";
