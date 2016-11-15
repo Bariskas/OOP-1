@@ -23,6 +23,7 @@
 #include <boost/algorithm/string.hpp>
 #include <vector>
 #include <algorithm>
+#include <functional>
 #include "../Dictionary/GetlineIterator.h"
 #include "../Dictionary/FileUtils.h"
 #include "../Dictionary/StringUtils.h"

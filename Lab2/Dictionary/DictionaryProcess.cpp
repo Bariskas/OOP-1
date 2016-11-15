@@ -134,7 +134,7 @@ dictionaryMap LoadDictionaryFromStream(istream& dictFile)
 	dictionaryMap dictionary;
 	for_each(CGetlineIterator(dictFile), CGetlineIterator(), [&](string const& pairStr) {
 		vector<string> pair;
-		boost::split(pair, pairStr, boost::is_any_of(":"));
+		boost::split(pair, pairStr, bind2nd(equal_to<char>(), ':'));
 		if (pair.size() != 2 || pair[0].empty() || pair[1].empty())
 		{
 			throw invalid_argument("Invalid dictionary structure!");

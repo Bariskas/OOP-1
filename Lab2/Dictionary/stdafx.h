@@ -20,5 +20,6 @@
 #include <unordered_map>
 #include <boost/algorithm/string.hpp>
 #include <vector>
+#include <functional>
 #include "FileUtils.h"
 #include "StringUtils.h"
