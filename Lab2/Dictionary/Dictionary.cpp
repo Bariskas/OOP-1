@@ -3,15 +3,6 @@
 
 using namespace std;
 
-void PrepareFileForRead(string const& fileName, ifstream& inputFile)
-{
-	inputFile = ifstream(fileName);
-	if (!inputFile.is_open())
-	{
-		throw invalid_argument("Failed to open file for reading!");
-	}
-}
-
 void CheckForArguments(int argc)
 {
 	if (argc != 2)
@@ -24,13 +15,14 @@ int main(int argc, char *argv[])
 {
 	setlocale(LC_ALL, "");
 
+	Dict dictionary;
 	try
 	{
 		CheckForArguments(argc);
-		string dictFileName = argv[1];
-		ifstream dictFile;
-		PrepareFileForRead(dictFileName, dictFile);
-		dict dictionary = CreateDictionaryFromStream(dictFile);
+		dictionary.fileName = argv[1];
+		ifstream inputFile;
+		PrepareFileForRead(dictionary.fileName, inputFile);
+		dictionary.oldWordMap = LoadDictionaryFromStream(inputFile);
 	}
 	catch (exception const& e)
 	{
@@ -38,7 +30,7 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 	PrintWelcomeMessage();
-	ProcessInput(cin, dict);
+	ProcessInput(cin, dictionary);
     return 0;
 }
 

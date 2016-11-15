@@ -158,6 +158,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Dictionary\DictionaryProcess.cpp" />
+    <ClCompile Include="..\Dictionary\FileUtils.cpp" />
     <ClCompile Include="DictionaryTests.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

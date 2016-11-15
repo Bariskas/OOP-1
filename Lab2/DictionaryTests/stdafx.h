@@ -24,3 +24,5 @@
 #include <vector>
 #include <algorithm>
 #include "../Dictionary/GetlineIterator.h"
+#include "../Dictionary/FileUtils.h"
+#include <boost/test/output_test_stream.hpp>

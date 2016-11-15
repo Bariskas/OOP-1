@@ -1,0 +1,25 @@
+bool ProcessCommand(string const& cmd, Dict& dictionary)
+{
+	static map<string, function<void(Dict & args)>> actionMap{
+		{"...", bind(&SaveDictionaryToFile, placeholders::_1)}
+	};
+	const string EXIT_CMD = "...";
+
+	bool result = true;
+
+	auto it = actionMap.find(cmd);
+	if (it != actionMap.end())
+	{
+		it->second(dictionary);
+		if (it->first == EXIT_CMD)
+		{
+			result = false;
+		}
+	}
+	else
+	{
+		ProcessEnteredWord(cmd, dictionary);
+		PrintCursor();
+	}
+	return result;
+}
