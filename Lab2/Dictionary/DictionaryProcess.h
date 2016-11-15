@@ -1,6 +1,6 @@
 #pragma once
 
-typedef std::map<std::string, std::string> dictionaryMap;
+typedef std::unordered_multimap<std::string, std::string> dictionaryMap;
 
 struct Dict
 {
@@ -13,12 +13,18 @@ struct Dict
 
 void PrintCursor();
 void PrintWelcomeMessage();
+void PrintTranslations(std::vector<std::string> const& translations);
+void AskForAddToDictionary(std::string const& word, Dict& dictionary);
 bool AskForSaveBeforeExit(std::istream& input);
-bool CheckForUserWantsToSave(std::istream& input);
+bool GetUserResponseForTranslatedWord(std::istream& input, std::string const& word, std::string& translatedWord);
+bool GetUserResponseForSavingFile(std::istream& input);
+bool GetTranslateOfWord(std::string const& word, Dict& dictionary, std::vector<std::string>& translations);
 bool CheckIsDictionaryModified(Dict& dictionary);
+void AddPairToDictionary(std::pair<std::string, std::string> pair, Dict& dictionary);
 void SaveDictionaryToFileIfNeeded(Dict& dictionary);
 void SaveDictionaryToFile(Dict& dictionary);
 dictionaryMap LoadDictionaryFromStream(std::istream& dictFile);
 void SaveMapToStream(dictionaryMap& map, std::ostream& outputFile);
+void ProcessEnteredWord(std::string const& word, Dict& dictionary);
 bool ProcessCommand(std::string const& cmd, Dict& dictionary);
 void ProcessInput(std::istream& input, Dict& dictionary);

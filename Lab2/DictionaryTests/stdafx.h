@@ -19,10 +19,10 @@
 #include <sstream>
 #include <fstream>
 #include <string>
-#include <map>
+#include <unordered_map>
 #include <boost/algorithm/string.hpp>
 #include <vector>
 #include <algorithm>
 #include "../Dictionary/GetlineIterator.h"
 #include "../Dictionary/FileUtils.h"
-#include <boost/test/output_test_stream.hpp>
+#include "../Dictionary/StringUtils.h"

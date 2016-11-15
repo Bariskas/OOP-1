@@ -13,10 +13,12 @@
 
 
 // TODO: reference additional headers your program requires here
+#include <windows.h>
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <map>
+#include <unordered_map>
 #include <boost/algorithm/string.hpp>
 #include <vector>
 #include "FileUtils.h"
+#include "StringUtils.h"

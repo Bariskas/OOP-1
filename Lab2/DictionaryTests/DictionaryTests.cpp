@@ -63,9 +63,9 @@ BOOST_FIXTURE_TEST_SUITE(Dictionary_that_contains_new_words, ModifiedDictionaryF
 		stringstream negativeResponse("test");
 		stringstream emptyResponse("");
 
-		BOOST_CHECK(CheckForUserWantsToSave(positiveResponse));
-		BOOST_CHECK(!CheckForUserWantsToSave(negativeResponse));
-		BOOST_CHECK(!CheckForUserWantsToSave(emptyResponse));
+		BOOST_CHECK(GetUserResponseForSavingFile(positiveResponse));
+		BOOST_CHECK(!GetUserResponseForSavingFile(negativeResponse));
+		BOOST_CHECK(!GetUserResponseForSavingFile(emptyResponse));
 	}
 	
 	BOOST_AUTO_TEST_CASE(can_append_new_words_to_existed_dictionary_file)
@@ -91,11 +91,10 @@ BOOST_FIXTURE_TEST_SUITE(Dictionary_that_contains_new_words, ModifiedDictionaryF
 		remove(nonExistentFile);
 		dict.fileName = nonExistentFile;
 		SaveDictionaryToFile(dict);
-		
+
 		ifstream file(nonExistentFile);
 		dictionaryMap loadedMap = LoadDictionaryFromStream(file);
 		BOOST_CHECK(dict.newWordMap == loadedMap);
-		remove(nonExistentFile);
 	}
 
 BOOST_AUTO_TEST_SUITE_END()

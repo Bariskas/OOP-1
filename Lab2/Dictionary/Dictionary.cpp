@@ -13,7 +13,8 @@ void CheckForArguments(int argc)
 
 int main(int argc, char *argv[])
 {
-	setlocale(LC_ALL, "");
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);
 
 	Dict dictionary;
 	try

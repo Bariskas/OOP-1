@@ -26,14 +26,41 @@ void PrintWelcomeMessage()
 	PrintCursor();
 }
 
+void PrintTranslations(vector<string> const& translations)
+{
+	copy(translations.begin(), translations.end(), ostream_iterator<string>(cout, " "));
+	cout << endl;
+}
+
+void AskForAddToDictionary(string const& word, Dict& dictionary)
+{
+	cout << "Неизвестное слово \"" << word << "\". Введите перевод или пустую строку для отказа." << endl;
+	PrintCursor();
+	string translatedWord;
+	if (GetUserResponseForTranslatedWord(cin, word, translatedWord))
+	{
+		AddPairToDictionary(make_pair(word, translatedWord), dictionary);
+		cout << "Слово \"" << word << "\" сохранено в словаре как \"" << translatedWord << "\"." << endl;
+	}
+	else
+	{
+		cout << "Слово \"" << word << "\" проигнорировано." << endl;
+	}
+}
+
 bool AskForSaveBeforeExit(istream& input)
 {
 	cout << "В словарь были внесены изменения. Введите y для сохранения перед выходом." << endl;
 	PrintCursor();
-	return CheckForUserWantsToSave(input);
+	return GetUserResponseForSavingFile(input);
 }
 
-bool CheckForUserWantsToSave(istream& input)
+bool GetUserResponseForTranslatedWord(istream& input, string const& word, string& translatedWord)
+{
+	return (getline(input, translatedWord) && translatedWord.size() != 0);
+}
+
+bool GetUserResponseForSavingFile(istream& input)
 {
 	const char POSITIVE_RESPONSE = 'y';
 
@@ -41,9 +68,42 @@ bool CheckForUserWantsToSave(istream& input)
 	return (getline(input, response) && response.size() == 1 && response[0] == POSITIVE_RESPONSE);
 }
 
+bool GetTranslateOfWord(string const& word, Dict& dictionary, vector<string>& translations)
+{
+	bool isFound = false;
+
+	auto it = dictionary.oldWordMap.begin();
+	while (it != dictionary.oldWordMap.end())
+	{
+		bool isFoundByKey = false;
+		string wordLowered = StrToLowerCase(word);
+		it = find_if(it, dictionary.oldWordMap.end(), [&](pair<string, string> const& pair) {
+			if (StrToLowerCase(pair.first) == wordLowered)
+			{
+				isFoundByKey = true;
+				return true;
+			}
+			return (StrToLowerCase(pair.second) == wordLowered);
+		});
+		if (it != dictionary.oldWordMap.end())
+		{
+			translations.push_back((isFoundByKey) ? it->second : it->first);
+			isFound = true;
+			++it;
+		}
+	}
+	return isFound;
+}
+
 bool CheckIsDictionaryModified(Dict& dictionary)
 {
 	return (dictionary.newWordMap.size() != 0);
+}
+
+void AddPairToDictionary(pair<string, string> pair, Dict& dictionary)
+{
+	dictionary.oldWordMap.insert(pair);
+	dictionary.newWordMap.insert(pair);
 }
 
 void SaveDictionaryToFileIfNeeded(Dict& dictionary)
@@ -94,7 +154,15 @@ void SaveMapToStream(dictionaryMap& map, ostream& outputStream)
 
 void ProcessEnteredWord(string const& word, Dict& dictionary)
 {
-
+	vector<string> translations;
+	if (GetTranslateOfWord(word, dictionary, translations))
+	{
+		PrintTranslations(translations);
+	}
+	else
+	{
+		AskForAddToDictionary(word, dictionary);
+	}
 }
 
 bool ProcessCommand(string const& cmd, Dict& dictionary)
