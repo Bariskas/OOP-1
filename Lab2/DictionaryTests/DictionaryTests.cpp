@@ -19,21 +19,25 @@ BOOST_AUTO_TEST_SUITE(The_Dictionary)
 
 		BOOST_AUTO_TEST_CASE(wrong_file_and_returns_an_error)
 		{
-			ifstream wrongFile1("dictionaries\\wrong1.txt");
-			ifstream wrongFile2("dictionaries\\wrong2.txt");
-			ifstream wrongFile3("dictionaries\\wrong3.txt");
+			istringstream wrongFile1("dog:собака\ncat:кошка:кот");
+			istringstream wrongFile2("dog:собака\ncat:\n");
+			istringstream wrongFile3("dog:собака\n:кошка\n");
+			istringstream wrongFile4("dog:собака\ncatкошка");
+			istringstream wrongFile5("dog:собака\n\ncat:кошка");
 
 			BOOST_CHECK_THROW(CreateDictionaryFromStream(wrongFile1), invalid_argument);
 			BOOST_CHECK_THROW(CreateDictionaryFromStream(wrongFile2), invalid_argument);
 			BOOST_CHECK_THROW(CreateDictionaryFromStream(wrongFile3), invalid_argument);
+			BOOST_CHECK_THROW(CreateDictionaryFromStream(wrongFile4), invalid_argument);
+			BOOST_CHECK_THROW(CreateDictionaryFromStream(wrongFile5), invalid_argument);
 		}
 
 		BOOST_AUTO_TEST_CASE(correct_file_and_returns_filled_dictionary)
 		{
 			dict dic;
+			stringstream dicFile("cat:кошка\ndog:собака\nхотдог:hotdog\n");
 			dict dicResult{ {"cat", "кошка"}, {"dog", "собака"}, {"хотдог", "hotdog"} };
-			ifstream correctFile1("dictionaries\\correct1.txt");
-			BOOST_CHECK_NO_THROW(dic = CreateDictionaryFromStream(correctFile1));
+			BOOST_CHECK_NO_THROW(dic = CreateDictionaryFromStream(dicFile));
 			BOOST_CHECK(dic == dicResult);
 		}
 

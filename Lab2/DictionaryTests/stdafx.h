@@ -16,8 +16,11 @@
 
 // TODO: reference additional headers your program requires here
 #include <iostream>
+#include <sstream>
 #include <fstream>
 #include <string>
 #include <map>
 #include <boost/algorithm/string.hpp>
 #include <vector>
+#include <algorithm>
+#include "../Dictionary/GetlineIterator.h"

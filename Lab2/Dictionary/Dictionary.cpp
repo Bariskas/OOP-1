@@ -31,7 +31,6 @@ int main(int argc, char *argv[])
 		ifstream dictFile;
 		PrepareFileForRead(dictFileName, dictFile);
 		dict dictionary = CreateDictionaryFromStream(dictFile);
-
 	}
 	catch (exception const& e)
 	{
@@ -39,6 +38,7 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 	PrintWelcomeMessage();
+	ProcessInput(cin, dict);
     return 0;
 }
 
