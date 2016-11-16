@@ -37,9 +37,9 @@ void AskForAddToDictionary(string const& word, Dict& dictionary)
 	cout << "Неизвестное слово \"" << word << "\". Введите перевод или пустую строку для отказа." << endl;
 	PrintCursor();
 	string translatedWord;
-	if (GetUserResponseForTranslatedWord(cin, word, translatedWord))
+	if (GetUserResponseForTranslationOfWord(cin, word, translatedWord))
 	{
-		AddPairToDictionary(make_pair(word, translatedWord), dictionary);
+		AddWordsPairToDictionary(make_pair(word, translatedWord), dictionary);
 		cout << "Слово \"" << word << "\" сохранено в словаре как \"" << translatedWord << "\"." << endl;
 	}
 	else
@@ -55,7 +55,7 @@ bool AskForSaveBeforeExit(istream& input)
 	return GetUserResponseForSavingFile(input);
 }
 
-bool GetUserResponseForTranslatedWord(istream& input, string const& word, string& translatedWord)
+bool GetUserResponseForTranslationOfWord(istream& input, string const& word, string& translatedWord)
 {
 	return (getline(input, translatedWord) && translatedWord.size() != 0);
 }
@@ -68,7 +68,7 @@ bool GetUserResponseForSavingFile(istream& input)
 	return (getline(input, response) && response.size() == 1 && response[0] == POSITIVE_RESPONSE);
 }
 
-bool GetTranslateOfWord(string const& word, Dict& dictionary, vector<string>& translations)
+bool GetTranslationsOfWord(string const& word, Dict& dictionary, vector<string>& translations)
 {
 	bool isFound = false;
 
@@ -100,7 +100,7 @@ bool CheckIsDictionaryModified(Dict& dictionary)
 	return (dictionary.newWordMap.size() != 0);
 }
 
-void AddPairToDictionary(pair<string, string> pair, Dict& dictionary)
+void AddWordsPairToDictionary(pair<string, string> pair, Dict& dictionary)
 {
 	dictionary.oldWordMap.insert(pair);
 	dictionary.newWordMap.insert(pair);
@@ -155,7 +155,7 @@ void SaveMapToStream(dictionaryMap& map, ostream& outputStream)
 void ProcessEnteredWord(string const& word, Dict& dictionary)
 {
 	vector<string> translations;
-	if (GetTranslateOfWord(word, dictionary, translations))
+	if (GetTranslationsOfWord(word, dictionary, translations))
 	{
 		PrintTranslations(translations);
 	}

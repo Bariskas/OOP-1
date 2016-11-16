@@ -7,14 +7,14 @@ using namespace std;
 
 struct ModifiedDictionaryFixture
 {
-	dictionaryMap oldMap;
-	dictionaryMap newMap{ { "cat", "кошка" },{ "dog", "собака" } };
+	dictionaryMap oldMap{ { "cat", "кошка" },{ "cat", "кот" },{ "dog", "собака" }, { "The Bolshoi Theatre", "Большой театр"} };
+	dictionaryMap newMap{ { "cat", "кошка" }, {"cat", "кот"}, { "dog", "собака" } };
 	Dict dict = Dict(oldMap, newMap);
 };
 
-BOOST_AUTO_TEST_SUITE(Dictionary_reads)
+BOOST_AUTO_TEST_SUITE(Dictionary)
 
-	BOOST_AUTO_TEST_CASE(empty_file_and_returns_empty_map)
+	BOOST_AUTO_TEST_CASE(reads_empty_file_and_returns_empty_map)
 	{
 		ifstream emptyFile;
 		dictionaryMap dic;
@@ -22,7 +22,7 @@ BOOST_AUTO_TEST_SUITE(Dictionary_reads)
 		BOOST_CHECK(dic.size() == 0);
 	}
 
-	BOOST_AUTO_TEST_CASE(wrong_file_and_returns_an_error)
+	BOOST_AUTO_TEST_CASE(reads_wrong_file_and_returns_an_error)
 	{
 		istringstream wrongFile1("dog:собака\ncat:кошка:кот");
 		istringstream wrongFile2("dog:собака\ncat:\n");
@@ -37,7 +37,7 @@ BOOST_AUTO_TEST_SUITE(Dictionary_reads)
 		BOOST_CHECK_THROW(LoadDictionaryFromStream(wrongFile5), invalid_argument);
 	}
 
-	BOOST_AUTO_TEST_CASE(correct_file_and_returns_filled_dictionary)
+	BOOST_AUTO_TEST_CASE(reads_correct_file_and_returns_filled_dictionary)
 	{
 		dictionaryMap dic;
 		stringstream dicFile("cat:кошка\ndog:собака\nхотдог:hotdog\n");
@@ -46,9 +46,53 @@ BOOST_AUTO_TEST_SUITE(Dictionary_reads)
 		BOOST_CHECK(dic == dicResult);
 	}
 
+	BOOST_AUTO_TEST_CASE(can_get_translation_of_new_word_from_input)
+	{
+		string word("test");
+		string translatedWord;
+
+		stringstream userResponse("Тест");
+		BOOST_CHECK(GetUserResponseForTranslationOfWord(userResponse, word, translatedWord));
+		BOOST_CHECK(translatedWord == userResponse.str());
+
+		stringstream emptyResponse("");
+		BOOST_CHECK(!GetUserResponseForTranslationOfWord(emptyResponse, word, translatedWord));
+		BOOST_CHECK(translatedWord == emptyResponse.str());
+	}
+
 BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_FIXTURE_TEST_SUITE(Dictionary_that_contains_new_words, ModifiedDictionaryFixture)
+
+	BOOST_AUTO_TEST_CASE(translates_in_both_directions)
+	{
+		vector<string> translations;
+
+		vector<string> expectedResult{"кошка", "кот"};
+		GetTranslationsOfWord("cat", dict, translations);
+		BOOST_CHECK(translations == expectedResult);
+
+		translations.clear();
+		vector<string> expectedResult1{ "Большой театр" };
+		GetTranslationsOfWord("the bolshoi theatre", dict, translations);
+		BOOST_CHECK(translations == expectedResult1);
+
+		translations.clear();
+		vector<string> expectedResult2{ "The Bolshoi Theatre" };
+		GetTranslationsOfWord("большой Театр", dict, translations);
+		BOOST_CHECK(translations == expectedResult2);
+	}
+	
+	BOOST_AUTO_TEST_CASE(can_insert_new_pair_of_words_in_dictionary)
+	{
+		AddWordsPairToDictionary(make_pair("foreign", "иностранный"), dict);
+		AddWordsPairToDictionary(make_pair("foreign", "чужой"), dict);
+		
+		vector<string> translations;
+		vector<string> expectedResult{ "иностранный", "чужой" };
+		GetTranslationsOfWord("foreign", dict, translations);
+		BOOST_CHECK(translations == expectedResult);
+	}
 
 	BOOST_AUTO_TEST_CASE(can_check_is_dictionary_modified)
 	{
@@ -68,7 +112,7 @@ BOOST_FIXTURE_TEST_SUITE(Dictionary_that_contains_new_words, ModifiedDictionaryF
 		BOOST_CHECK(!GetUserResponseForSavingFile(emptyResponse));
 	}
 	
-	BOOST_AUTO_TEST_CASE(can_append_new_words_to_existed_dictionary_file)
+	BOOST_AUTO_TEST_CASE(can_write_new_words_to_existed_dictionary_file)
 	{
 		char* testFile = "test.txt";
 		dict.fileName = testFile;
