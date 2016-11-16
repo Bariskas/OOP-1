@@ -19,7 +19,7 @@ BOOST_AUTO_TEST_SUITE(Dictionary)
 		ifstream emptyFile;
 		dictionaryMap dic;
 		BOOST_CHECK_NO_THROW(dic = LoadDictionaryFromStream(emptyFile));
-		BOOST_CHECK(dic.size() == 0);
+		BOOST_CHECK(dic.empty());
 	}
 
 	BOOST_AUTO_TEST_CASE(reads_wrong_file_and_returns_an_error)
