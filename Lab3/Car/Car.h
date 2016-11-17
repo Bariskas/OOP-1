@@ -10,14 +10,14 @@ public:
 	bool TurnOffEngine();
 	bool SetGear();
 	bool SetSpeed();
-	bool GetIsTurnedOn();
-	int GetGear();
-	int GetSpeed();
-	MovementDirection GetDirection();
+	bool GetIsTurnedOn()const;
+	int GetGear()const;
+	int GetSpeed()const;
+	MovementDirection GetDirection()const;
 private:
-	bool IsSpeedCompatibleWithGear(int gearNumber);
-	bool IsDirectionCompatibleWithGear(int gearNumber);
-	bool IsGearSupported(int gearNumber);
+	bool IsSpeedCompatibleWithGear(int gearNumber)const;
+	bool IsDirectionCompatibleWithGear(int gearNumber)const;
+	bool IsGearSupported(int gearNumber)const;
 	std::map<int, std::pair<int, int>> m_speedRangesMap;
 	bool m_isTurnedOn;
 	int m_gear;
