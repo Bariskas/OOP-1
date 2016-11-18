@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
 	}
 	catch (exception const& e)
 	{
-		cout << e.what();
+		cout << e.what() << endl;
 		return 1;
 	}
 	PrintWelcomeMessage();

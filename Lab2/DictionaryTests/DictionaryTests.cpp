@@ -7,8 +7,8 @@ using namespace std;
 
 struct ModifiedDictionaryFixture
 {
-	dictionaryMap oldMap{ { "cat", "кошка" },{ "cat", "кот" },{ "dog", "собака" }, { "The Bolshoi Theatre", "Большой театр"} };
-	dictionaryMap newMap{ { "cat", "кошка" }, {"cat", "кот"}, { "dog", "собака" } };
+	DictionaryMap oldMap{ { "cat", "кошка" },{ "cat", "кот" },{ "dog", "собака" }, { "The Bolshoi Theatre", "Большой театр"} };
+	DictionaryMap newMap{ { "cat", "кошка" }, {"cat", "кот"}, { "dog", "собака" } };
 	Dict dict = Dict(oldMap, newMap);
 };
 
@@ -17,7 +17,7 @@ BOOST_AUTO_TEST_SUITE(Dictionary)
 	BOOST_AUTO_TEST_CASE(reads_empty_file_and_returns_empty_map)
 	{
 		ifstream emptyFile;
-		dictionaryMap dic;
+		DictionaryMap dic;
 		BOOST_CHECK_NO_THROW(dic = LoadDictionaryFromStream(emptyFile));
 		BOOST_CHECK(dic.empty());
 	}
@@ -39,9 +39,9 @@ BOOST_AUTO_TEST_SUITE(Dictionary)
 
 	BOOST_AUTO_TEST_CASE(reads_correct_file_and_returns_filled_dictionary)
 	{
-		dictionaryMap dic;
+		DictionaryMap dic;
 		stringstream dicFile("cat:кошка\ndog:собака\nхотдог:hotdog\n");
-		dictionaryMap dicResult{ {"cat", "кошка"}, {"dog", "собака"}, {"хотдог", "hotdog"} };
+		DictionaryMap dicResult{ {"cat", "кошка"}, {"dog", "собака"}, {"хотдог", "hotdog"} };
 		BOOST_CHECK_NO_THROW(dic = LoadDictionaryFromStream(dicFile));
 		BOOST_CHECK(dic == dicResult);
 	}
@@ -96,9 +96,9 @@ BOOST_FIXTURE_TEST_SUITE(Dictionary_that_contains_new_words, ModifiedDictionaryF
 
 	BOOST_AUTO_TEST_CASE(can_check_is_dictionary_modified)
 	{
-		BOOST_CHECK(CheckIsDictionaryModified(dict));
+		BOOST_CHECK(IsDictionaryModified(dict));
 		Dict notModifiedDict;
-		BOOST_CHECK(!CheckIsDictionaryModified(notModifiedDict));
+		BOOST_CHECK(!IsDictionaryModified(notModifiedDict));
 	}
 
 	BOOST_AUTO_TEST_CASE(can_check_is_user_wants_to_save_modified_dictionary)
@@ -120,11 +120,11 @@ BOOST_FIXTURE_TEST_SUITE(Dictionary_that_contains_new_words, ModifiedDictionaryF
 		dict.oldWordMap = LoadDictionaryFromStream(file);
 		SaveDictionaryToFile(dict);
 
-		dictionaryMap expectedMap(dict.oldWordMap);
+		DictionaryMap expectedMap(dict.oldWordMap);
 		expectedMap.insert(dict.newWordMap.begin(), dict.newWordMap.end());
 	
 		PrepareFileForRead(testFile, file);
-		dictionaryMap loadedMap = LoadDictionaryFromStream(file);
+		DictionaryMap loadedMap = LoadDictionaryFromStream(file);
 		BOOST_CHECK(loadedMap == expectedMap);
 	}
 
@@ -137,7 +137,7 @@ BOOST_FIXTURE_TEST_SUITE(Dictionary_that_contains_new_words, ModifiedDictionaryF
 		SaveDictionaryToFile(dict);
 
 		ifstream file(nonExistentFile);
-		dictionaryMap loadedMap = LoadDictionaryFromStream(file);
+		DictionaryMap loadedMap = LoadDictionaryFromStream(file);
 		BOOST_CHECK(dict.newWordMap == loadedMap);
 	}
 

@@ -4,13 +4,8 @@
 
 using namespace std;
 
-Dict::Dict(dictionaryMap oldMap, dictionaryMap newMap)
+Dict::Dict(DictionaryMap& oldMap, DictionaryMap& newMap)
 	: oldWordMap(move(oldMap)), newWordMap(move(newMap))
-{
-
-}
-
-Dict::Dict()
 {
 
 }
@@ -32,7 +27,7 @@ void PrintTranslations(vector<string> const& translations)
 	cout << endl;
 }
 
-void AskForAddToDictionary(string const& word, Dict& dictionary)
+void RequestAddingNewWordToDictionary(string const& word, Dict& dictionary)
 {
 	cout << "Неизвестное слово \"" << word << "\". Введите перевод или пустую строку для отказа." << endl;
 	PrintCursor();
@@ -48,7 +43,7 @@ void AskForAddToDictionary(string const& word, Dict& dictionary)
 	}
 }
 
-bool AskForSaveBeforeExit(istream& input)
+bool PromptToSave(istream& input)
 {
 	cout << "В словарь были внесены изменения. Введите y для сохранения перед выходом." << endl;
 	PrintCursor();
@@ -95,9 +90,9 @@ bool GetTranslationsOfWord(string const& word, Dict& dictionary, vector<string>&
 	return isFound;
 }
 
-bool CheckIsDictionaryModified(Dict& dictionary)
+bool IsDictionaryModified(Dict& dictionary)
 {
-	return (dictionary.newWordMap.size() != 0);
+	return (!dictionary.newWordMap.empty());
 }
 
 void AddWordsPairToDictionary(pair<string, string> pair, Dict& dictionary)
@@ -108,7 +103,7 @@ void AddWordsPairToDictionary(pair<string, string> pair, Dict& dictionary)
 
 void SaveDictionaryToFileIfNeeded(Dict& dictionary)
 {
-	if (CheckIsDictionaryModified(dictionary) && AskForSaveBeforeExit(cin))
+	if (IsDictionaryModified(dictionary) && PromptToSave(cin))
 	{
 		try
 		{
@@ -129,22 +124,26 @@ void SaveDictionaryToFile(Dict& dictionary)
 	SaveMapToStream(dictionary.newWordMap, outputFile);
 }
 
-dictionaryMap LoadDictionaryFromStream(istream& dictFile)
+DictionaryMap LoadDictionaryFromStream(istream& dictFile)
 {
-	dictionaryMap dictionary;
+	DictionaryMap dictionary;
 	for_each(CGetlineIterator(dictFile), CGetlineIterator(), [&](string const& pairStr) {
 		vector<string> pair;
 		boost::split(pair, pairStr, bind2nd(equal_to<char>(), ':'));
-		if (pair.size() != 2 || pair[0].empty() || pair[1].empty())
+		if (pair.size() != 2)
 		{
-			throw invalid_argument("Invalid dictionary structure!");
+			throw invalid_argument("Error in file structure: Symbol ':' is not allowed in words! Fie format: <word>:<word> line by line.");
+		}
+		else if (pair[0].empty() || pair[1].empty())
+		{
+			throw invalid_argument("Error in file structure: Words must be non empty! File format: <word>:<word> line by line.");
 		}
 		dictionary.emplace(move(pair[0]), move(pair[1]));
 	});
 	return dictionary;
 }
 
-void SaveMapToStream(dictionaryMap& map, ostream& outputStream)
+void SaveMapToStream(DictionaryMap& map, ostream& outputStream)
 {
 	for_each(map.begin(), map.end(), [&](pair<string, string> const& pair)
 	{
@@ -161,7 +160,7 @@ void ProcessEnteredWord(string const& word, Dict& dictionary)
 	}
 	else
 	{
-		AskForAddToDictionary(word, dictionary);
+		RequestAddingNewWordToDictionary(word, dictionary);
 	}
 }
 
