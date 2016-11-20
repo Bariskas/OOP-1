@@ -8,7 +8,7 @@ using namespace std;
 struct ModifiedDictionaryFixture
 {
 	DictionaryMap oldMap{ { "cat", "кошка" },{ "cat", "кот" },{ "dog", "собака" }, { "The Bolshoi Theatre", "Большой театр"} };
-	DictionaryMap newMap{ { "cat", "кошка" }, {"cat", "кот"}, { "Dog", "Собака" } };
+	DictionaryMap newMap{ { "cat", "кошка" }, {"cat", "кот"}, { "dog", "собака" } };
 	Dict dict = Dict(oldMap, newMap);
 };
 

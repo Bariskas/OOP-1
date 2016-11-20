@@ -149,7 +149,12 @@ void SaveMapToStream(DictionaryMap& map, ostream& outputStream)
 void ProcessEnteredWord(string const& word, Dict& dictionary)
 {
 	vector<string> translations;
-	if (GetTranslationsOfWord(word, dictionary, translations))
+
+	if (word.empty())
+	{
+		cout << "Слово не может быть пустым." << endl;
+	}
+	else if (GetTranslationsOfWord(word, dictionary, translations))
 	{
 		PrintTranslations(translations);
 	}
