@@ -1,12 +1,13 @@
 #pragma once
 
-typedef std::unordered_multimap<std::string, std::string> DictionaryMap;
+typedef std::unordered_multimap <std::string, std::string> DictionaryMap;
 
 struct Dict
 {
-	Dict(DictionaryMap& oldMap, DictionaryMap& newMap);
+	Dict(DictionaryMap const& oldMap, DictionaryMap const& newMap);
 	Dict() = default;
-	DictionaryMap oldWordMap;
+	DictionaryMap wordMap;
+	DictionaryMap reversedWordMap;
 	DictionaryMap newWordMap;
 	std::string fileName;
 };
@@ -19,11 +20,12 @@ bool PromptToSave(std::istream& input);
 bool GetUserResponseForTranslationOfWord(std::istream& input, std::string const& word, std::string& translatedWord);
 bool GetUserResponseForSavingFile(std::istream& input);
 bool GetTranslationsOfWord(std::string const& word, Dict& dictionary, std::vector<std::string>& translations);
+void GetTranslationsFromMap(std::string const& word, DictionaryMap& map, std::vector<std::string>& translations);
 bool IsDictionaryModified(Dict& dictionary);
-void AddWordsPairToDictionary(std::pair<std::string, std::string> pair, Dict& dictionary);
+void AddWordsPairToDictionary(std::pair<std::string, std::string> const& pair, Dict& dictionary);
 void SaveDictionaryToFileIfNeeded(Dict& dictionary);
 void SaveDictionaryToFile(Dict& dictionary);
-DictionaryMap LoadDictionaryFromStream(std::istream& dictFile);
+Dict CreateDictionaryFromStream(std::istream& dictFile);
 void SaveMapToStream(DictionaryMap& map, std::ostream& outputFile);
 void ProcessEnteredWord(std::string const& word, Dict& dictionary);
 bool ProcessCommand(std::string const& cmd, Dict& dictionary);

@@ -8,7 +8,7 @@ using namespace std;
 struct ModifiedDictionaryFixture
 {
 	DictionaryMap oldMap{ { "cat", "кошка" },{ "cat", "кот" },{ "dog", "собака" }, { "The Bolshoi Theatre", "Большой театр"} };
-	DictionaryMap newMap{ { "cat", "кошка" }, {"cat", "кот"}, { "dog", "собака" } };
+	DictionaryMap newMap{ { "cat", "кошка" }, {"cat", "кот"}, { "Dog", "Собака" } };
 	Dict dict = Dict(oldMap, newMap);
 };
 
@@ -17,9 +17,9 @@ BOOST_AUTO_TEST_SUITE(Dictionary)
 	BOOST_AUTO_TEST_CASE(reads_empty_file_and_returns_empty_map)
 	{
 		ifstream emptyFile;
-		DictionaryMap dic;
-		BOOST_CHECK_NO_THROW(dic = LoadDictionaryFromStream(emptyFile));
-		BOOST_CHECK(dic.empty());
+		Dict dic;
+		BOOST_CHECK_NO_THROW(dic = CreateDictionaryFromStream(emptyFile));
+		BOOST_CHECK(dic.wordMap.empty());
 	}
 
 	BOOST_AUTO_TEST_CASE(reads_wrong_file_and_returns_an_error)
@@ -30,20 +30,20 @@ BOOST_AUTO_TEST_SUITE(Dictionary)
 		istringstream wrongFile4("dog:собака\ncatкошка");
 		istringstream wrongFile5("dog:собака\n\ncat:кошка");
 
-		BOOST_CHECK_THROW(LoadDictionaryFromStream(wrongFile1), invalid_argument);
-		BOOST_CHECK_THROW(LoadDictionaryFromStream(wrongFile2), invalid_argument);
-		BOOST_CHECK_THROW(LoadDictionaryFromStream(wrongFile3), invalid_argument);
-		BOOST_CHECK_THROW(LoadDictionaryFromStream(wrongFile4), invalid_argument);
-		BOOST_CHECK_THROW(LoadDictionaryFromStream(wrongFile5), invalid_argument);
+		BOOST_CHECK_THROW(CreateDictionaryFromStream(wrongFile1), invalid_argument);
+		BOOST_CHECK_THROW(CreateDictionaryFromStream(wrongFile2), invalid_argument);
+		BOOST_CHECK_THROW(CreateDictionaryFromStream(wrongFile3), invalid_argument);
+		BOOST_CHECK_THROW(CreateDictionaryFromStream(wrongFile4), invalid_argument);
+		BOOST_CHECK_THROW(CreateDictionaryFromStream(wrongFile5), invalid_argument);
 	}
 
 	BOOST_AUTO_TEST_CASE(reads_correct_file_and_returns_filled_dictionary)
 	{
-		DictionaryMap dic;
+		Dict dic;
 		stringstream dicFile("cat:кошка\ndog:собака\nхотдог:hotdog\n");
 		DictionaryMap dicResult{ {"cat", "кошка"}, {"dog", "собака"}, {"хотдог", "hotdog"} };
-		BOOST_CHECK_NO_THROW(dic = LoadDictionaryFromStream(dicFile));
-		BOOST_CHECK(dic == dicResult);
+		BOOST_CHECK_NO_THROW(dic = CreateDictionaryFromStream(dicFile));
+		BOOST_CHECK(dic.wordMap == dicResult);
 	}
 
 	BOOST_AUTO_TEST_CASE(can_get_translation_of_new_word_from_input)
@@ -66,13 +66,12 @@ BOOST_FIXTURE_TEST_SUITE(Dictionary_that_contains_new_words, ModifiedDictionaryF
 
 	BOOST_AUTO_TEST_CASE(translates_in_both_directions)
 	{
+
+		istringstream file("cat:кошка\ncat:кот\ndog:собака\nThe Bolshoi Theatre:Большой театр\n");
+		dict.wordMap.clear();
+		dict = CreateDictionaryFromStream(file);
+
 		vector<string> translations;
-
-		vector<string> expectedResult{"кошка", "кот"};
-		GetTranslationsOfWord("cat", dict, translations);
-		BOOST_CHECK(translations == expectedResult);
-
-		translations.clear();
 		vector<string> expectedResult1{ "Большой театр" };
 		GetTranslationsOfWord("the bolshoi theatre", dict, translations);
 		BOOST_CHECK(translations == expectedResult1);
@@ -115,30 +114,29 @@ BOOST_FIXTURE_TEST_SUITE(Dictionary_that_contains_new_words, ModifiedDictionaryF
 	BOOST_AUTO_TEST_CASE(can_write_new_words_to_existed_dictionary_file)
 	{
 		char* testFile = "test.txt";
-		dict.fileName = testFile;
 		ifstream file(testFile);
-		dict.oldWordMap = LoadDictionaryFromStream(file);
+		dict = CreateDictionaryFromStream(file);
+		dict.fileName = testFile;
 		SaveDictionaryToFile(dict);
 
-		DictionaryMap expectedMap(dict.oldWordMap);
+		DictionaryMap expectedMap(dict.wordMap);
 		expectedMap.insert(dict.newWordMap.begin(), dict.newWordMap.end());
 	
 		PrepareFileForRead(testFile, file);
-		DictionaryMap loadedMap = LoadDictionaryFromStream(file);
-		BOOST_CHECK(loadedMap == expectedMap);
+		Dict loadedDict = CreateDictionaryFromStream(file);
+		BOOST_CHECK(loadedDict.wordMap == expectedMap);
 	}
 
 	BOOST_AUTO_TEST_CASE(can_save_words_to_non_existed_file)
 	{
 		char* nonExistentFile = "nonExistentFile.txt";
-
 		remove(nonExistentFile);
 		dict.fileName = nonExistentFile;
 		SaveDictionaryToFile(dict);
 
 		ifstream file(nonExistentFile);
-		DictionaryMap loadedMap = LoadDictionaryFromStream(file);
-		BOOST_CHECK(dict.newWordMap == loadedMap);
+		Dict loadedDict = CreateDictionaryFromStream(file);
+		BOOST_CHECK(dict.newWordMap == loadedDict.wordMap);
 	}
 
 BOOST_AUTO_TEST_SUITE_END()

@@ -4,8 +4,8 @@
 
 using namespace std;
 
-Dict::Dict(DictionaryMap& oldMap, DictionaryMap& newMap)
-	: oldWordMap(move(oldMap)), newWordMap(move(newMap))
+Dict::Dict(DictionaryMap const& oldMap, DictionaryMap const& newMap)
+	: wordMap(move(oldMap)), newWordMap(move(newMap))
 {
 
 }
@@ -65,29 +65,20 @@ bool GetUserResponseForSavingFile(istream& input)
 
 bool GetTranslationsOfWord(string const& word, Dict& dictionary, vector<string>& translations)
 {
-	bool isFound = false;
+	string wordLowered = StrToLowerCase(word);
 
-	auto it = dictionary.oldWordMap.begin();
-	while (it != dictionary.oldWordMap.end())
-	{
-		bool isFoundByKey = false;
-		string wordLowered = StrToLowerCase(word);
-		it = find_if(it, dictionary.oldWordMap.end(), [&](pair<string, string> const& pair) {
-			if (StrToLowerCase(pair.first) == wordLowered)
-			{
-				isFoundByKey = true;
-				return true;
-			}
-			return (StrToLowerCase(pair.second) == wordLowered);
-		});
-		if (it != dictionary.oldWordMap.end())
-		{
-			translations.push_back((isFoundByKey) ? it->second : it->first);
-			isFound = true;
-			++it;
-		}
-	}
-	return isFound;
+	GetTranslationsFromMap(wordLowered, dictionary.wordMap, translations);
+	GetTranslationsFromMap(wordLowered, dictionary.reversedWordMap, translations);
+
+	return (!translations.empty());
+}
+
+void GetTranslationsFromMap(string const& word, DictionaryMap& map, vector<string>& translations)
+{
+	auto range = map.equal_range(word);
+	for_each(range.first, range.second, [&](pair<string, string> const& pair) {
+		translations.push_back(pair.second);
+	});
 }
 
 bool IsDictionaryModified(Dict& dictionary)
@@ -95,10 +86,13 @@ bool IsDictionaryModified(Dict& dictionary)
 	return (!dictionary.newWordMap.empty());
 }
 
-void AddWordsPairToDictionary(pair<string, string> pair, Dict& dictionary)
+void AddWordsPairToDictionary(pair<string, string> const& pair, Dict& dictionary)
 {
-	dictionary.oldWordMap.insert(pair);
-	dictionary.newWordMap.insert(pair);
+	string wordLowered = StrToLowerCase(pair.first);
+	dictionary.wordMap.emplace(wordLowered, pair.second);
+	dictionary.newWordMap.emplace(wordLowered, pair.second);
+
+	dictionary.reversedWordMap.emplace(StrToLowerCase(pair.second), pair.first);
 }
 
 void SaveDictionaryToFileIfNeeded(Dict& dictionary)
@@ -124,9 +118,9 @@ void SaveDictionaryToFile(Dict& dictionary)
 	SaveMapToStream(dictionary.newWordMap, outputFile);
 }
 
-DictionaryMap LoadDictionaryFromStream(istream& dictFile)
+Dict CreateDictionaryFromStream(istream& dictFile)
 {
-	DictionaryMap dictionary;
+	Dict dictionary;
 	for_each(CGetlineIterator(dictFile), CGetlineIterator(), [&](string const& pairStr) {
 		vector<string> pair;
 		boost::split(pair, pairStr, bind2nd(equal_to<char>(), ':'));
@@ -138,7 +132,8 @@ DictionaryMap LoadDictionaryFromStream(istream& dictFile)
 		{
 			throw invalid_argument("Error in file structure: Words must be non empty! File format: <word>:<word> line by line.");
 		}
-		dictionary.emplace(move(pair[0]), move(pair[1]));
+		dictionary.wordMap.emplace(move(StrToLowerCase(pair[0])), pair[1]);
+		dictionary.reversedWordMap.emplace(move(StrToLowerCase(pair[1])), move(pair[0]));
 	});
 	return dictionary;
 }

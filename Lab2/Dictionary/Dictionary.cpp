@@ -16,22 +16,23 @@ int main(int argc, char *argv[])
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
 
-	Dict dictionary;
 	try
 	{
 		CheckForArguments(argc);
-		dictionary.fileName = argv[1];
+		string filename = argv[1];
 		ifstream inputFile;
-		PrepareFileForRead(dictionary.fileName, inputFile);
-		dictionary.oldWordMap = LoadDictionaryFromStream(inputFile);
+		PrepareFileForRead(filename, inputFile);
+		Dict dictionary = CreateDictionaryFromStream(inputFile);
+		dictionary.fileName = filename;
+
+		PrintWelcomeMessage();
+		ProcessInput(cin, dictionary);
 	}
 	catch (exception const& e)
 	{
 		cout << e.what() << endl;
 		return 1;
 	}
-	PrintWelcomeMessage();
-	ProcessInput(cin, dictionary);
     return 0;
 }
 
