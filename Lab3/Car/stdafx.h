@@ -14,3 +14,7 @@
 
 // TODO: reference additional headers your program requires here
 #include <map>
+#include <string>
+#include <iostream>
+#include <functional>
+#include <sstream>

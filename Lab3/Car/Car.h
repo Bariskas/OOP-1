@@ -1,25 +1,24 @@
 #pragma once
 
-enum struct MovementDirection{ STAYING, FORWARD, BACKWARD };
+enum struct MovementDirection{ HOLDING, FORWARD, BACKWARD };
 
 class CCar
 {
 public:
-	CCar();
-	bool TurnOnEngine();
-	bool TurnOffEngine();
-	bool SetGear();
-	bool SetSpeed();
+	void TurnOnEngine();
+	void TurnOffEngine();
+	void SetGear(int gearNumber);
+	void SetSpeed(int speed);
 	bool GetIsTurnedOn()const;
 	int GetGear()const;
 	int GetSpeed()const;
 	MovementDirection GetDirection()const;
+
 private:
-	bool IsSpeedCompatibleWithGear(int gearNumber)const;
-	bool IsDirectionCompatibleWithGear(int gearNumber)const;
+	bool IsSpeedCompatibleWithGear(int gearNumber, int speed)const;
 	bool IsGearSupported(int gearNumber)const;
-	std::map<int, std::pair<int, int>> m_speedRangesMap;
-	bool m_isTurnedOn;
-	int m_gear;
-	int m_speed;
+	static const std::map<int, std::pair<int, int>> m_speedRangesMap;
+	bool m_isTurnedOn = false;
+	int m_gear = 0;
+	int m_speed = 0;
 };
