@@ -41,7 +41,7 @@
     <ClCompile Include="..\Shapes\Point.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Shapes\Utils.cpp">
+    <ClCompile Include="..\Shapes\Triangle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

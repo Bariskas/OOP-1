@@ -4,6 +4,7 @@
 #include "../Shapes/Point.h"
 #include "../Shapes/Color.h"
 #include "../Shapes/LineSegment.h"
+#include "../Shapes/Triangle.h"
 
 using namespace std;
 
@@ -93,6 +94,58 @@ BOOST_FIXTURE_TEST_SUITE(LineSegment, LineFixture)
 	BOOST_AUTO_TEST_CASE(can_return_its_outline_color)
 	{
 		BOOST_CHECK(IsColorEqual(line.GetOutlineColor(), color));
+	}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+struct TriangleFixture
+{
+	CPoint p1 = CPoint(13., 17.);
+	CPoint p2 = CPoint(29., 3.);
+	CPoint p3 = CPoint(7., 43.);
+	CColor outlineColor = CColor(64, 128, 255);
+	CColor fillColor = CColor(42, 84, 168);
+
+	CTriangle triangle = CTriangle(p1, p2, p3, outlineColor, fillColor);
+};
+
+BOOST_FIXTURE_TEST_SUITE(Triangle, TriangleFixture)
+	
+	BOOST_AUTO_TEST_CASE(can_calculate_its_area)
+	{
+		double expectedResult = 166.00000000000045;
+		BOOST_CHECK(triangle.GetArea() - expectedResult <= DBL_EPSILON);
+	}
+
+	BOOST_AUTO_TEST_CASE(can_calculate_its_perimeter)
+	{
+		double expectedResult = 46.797234297887641;
+		BOOST_CHECK(triangle.GetPerimeter() - expectedResult <= DBL_EPSILON);
+	}
+
+	BOOST_AUTO_TEST_CASE(can_return_its_first_point)
+	{
+		BOOST_CHECK(IsPointEqual(triangle.GetVertex1(), p1));
+	}
+
+	BOOST_AUTO_TEST_CASE(can_return_its_second_point)
+	{
+		BOOST_CHECK(IsPointEqual(triangle.GetVertex2(), p2));
+	}
+
+	BOOST_AUTO_TEST_CASE(can_return_its_third_point)
+	{
+		BOOST_CHECK(IsPointEqual(triangle.GetVertex3(), p3));
+	}
+
+	BOOST_AUTO_TEST_CASE(can_return_its_outline_color)
+	{
+		BOOST_CHECK(IsColorEqual(triangle.GetOutlineColor(), outlineColor));
+	}
+
+	BOOST_AUTO_TEST_CASE(can_return_its_fill_color)
+	{
+		BOOST_CHECK(IsColorEqual(triangle.GetFillColor(), fillColor));
 	}
 
 BOOST_AUTO_TEST_SUITE_END()

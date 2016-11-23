@@ -1,13 +1,12 @@
 #include "stdafx.h"
 #include "LineSegment.h"
-#include "Utils.h"
 
 using namespace std;
 
 CLineSegment::CLineSegment(CPoint startPoint, CPoint endPoint, CColor outlineColor)
 	: m_startPoint(startPoint), m_endPoint(endPoint), m_outlineColor(outlineColor)
 {
-	m_length = CalculateDistanceBetweenPoints(m_startPoint, m_endPoint);
+	m_length = CalculateLineLength(m_startPoint, m_endPoint);
 }
 
 double CLineSegment::GetArea()
@@ -26,10 +25,10 @@ std::string CLineSegment::ToString()
 
 	stream << fixed << setprecision(2);
 
-	stream << "start(" << m_startPoint.x << ", " << m_startPoint.y << ") end("
-		<< m_endPoint.x << ", " << m_endPoint.y << ") area=" << GetArea()
-		<< " perimeter=" << GetPerimeter() << " outlineColor("
-		<< m_outlineColor.ToString() << ')';
+	stream << "start(" << m_startPoint.x << ", " << m_startPoint.y << ") "
+		<< "end(" << m_endPoint.x << ", " << m_endPoint.y << ") "
+		<< "area=" << GetArea()	<< " perimeter=" << m_length
+		<< " outlineColor("	<< m_outlineColor.ToString() << ')';
 
 	return stream.str();
 }
@@ -47,4 +46,9 @@ CPoint CLineSegment::GetStartPoint()
 CPoint CLineSegment::GetEndPoint()
 {
 	return m_endPoint;
+}
+
+double CLineSegment::CalculateLineLength(CPoint point1, CPoint point2)
+{
+	return sqrt(pow(point2.x - point1.x, 2) + pow(point2.y - point1.y, 2));
 }

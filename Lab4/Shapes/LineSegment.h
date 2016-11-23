@@ -6,7 +6,7 @@
 class CLineSegment final : public IShape
 {
 public:
-	CLineSegment(CPoint startPoint, CPoint endPoint, CColor color);
+	CLineSegment(CPoint startPoint, CPoint endPoint, CColor outlineColor);
 	double GetArea() override;
 	double GetPerimeter() override;
 	std::string ToString() override;
@@ -15,6 +15,8 @@ public:
 	CPoint GetEndPoint();
 
 private:
+	static double CalculateLineLength(CPoint point1, CPoint point2);
+
 	CColor m_outlineColor;
 	CPoint m_startPoint;
 	CPoint m_endPoint;
