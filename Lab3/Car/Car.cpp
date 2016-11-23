@@ -104,7 +104,7 @@ void CCar::SetSpeed(int speed)
 	}
 }
 
-bool CCar::GetIsTurnedOn()const
+bool CCar::IsTurnedOn()const
 {
 	return m_isTurnedOn;
 }

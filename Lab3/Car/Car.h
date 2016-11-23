@@ -9,7 +9,7 @@ public:
 	void TurnOffEngine();
 	void SetGear(int gearNumber);
 	void SetSpeed(int speed);
-	bool GetIsTurnedOn()const;
+	bool IsTurnedOn()const;
 	int GetGear()const;
 	int GetSpeed()const;
 	MovementDirection GetDirection()const;

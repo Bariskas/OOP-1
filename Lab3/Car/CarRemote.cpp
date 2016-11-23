@@ -53,7 +53,7 @@ void CRemoteControl::Info(std::istream & /*args*/)
 {
 	string info;
 
-	if (m_car.GetIsTurnedOn())
+	if (m_car.IsTurnedOn())
 	{
 		info.append("Car engine is ON. Direction is ");
 		info.append(GetStrDirection(m_car.GetDirection()));

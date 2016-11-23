@@ -11,16 +11,11 @@ struct CarFixture
 	CCar car;
 };
 
-struct TurnedOnCarFixture
-{
-
-};
-
 BOOST_FIXTURE_TEST_SUITE(Car, CarFixture)
 
 	BOOST_AUTO_TEST_CASE(is_turned_off_by_default)
 	{
-		BOOST_CHECK(!car.GetIsTurnedOn());
+		BOOST_CHECK(!car.IsTurnedOn());
 	}
 
 	BOOST_AUTO_TEST_CASE(has_zero_speed_and_gear_by_default)
@@ -37,13 +32,13 @@ BOOST_FIXTURE_TEST_SUITE(Car, CarFixture)
 	BOOST_AUTO_TEST_CASE(can_be_turned_on)
 	{
 		car.TurnOnEngine();
-		BOOST_CHECK(car.GetIsTurnedOn());
+		BOOST_CHECK(car.IsTurnedOn());
 	}
 
 	BOOST_AUTO_TEST_CASE(cant_turned_off)
 	{
 		BOOST_CHECK_THROW(car.TurnOffEngine(), AlreadyTurnedOff);
-		BOOST_CHECK(!car.GetIsTurnedOn());
+		BOOST_CHECK(!car.IsTurnedOn());
 	}
 
 	BOOST_AUTO_TEST_CASE(cant_change_speed_and_gear_when_turned_off)
@@ -67,13 +62,13 @@ BOOST_FIXTURE_TEST_SUITE(Car, CarFixture)
 		BOOST_AUTO_TEST_CASE(cant_turned_on)
 		{
 			BOOST_CHECK_THROW(car.TurnOnEngine(), AlreadyTurnedOn);
-			BOOST_CHECK(car.GetIsTurnedOn());
+			BOOST_CHECK(car.IsTurnedOn());
 		}
 
 		BOOST_AUTO_TEST_CASE(can_turned_off)
 		{
 			BOOST_CHECK_NO_THROW(car.TurnOffEngine());
-			BOOST_CHECK(!car.GetIsTurnedOn());
+			BOOST_CHECK(!car.IsTurnedOn());
 		}
 
 		BOOST_AUTO_TEST_CASE(has_zero_speed_and_gear_by_default)
@@ -128,7 +123,7 @@ BOOST_FIXTURE_TEST_SUITE(Car, CarFixture)
 			BOOST_AUTO_TEST_CASE(can_turned_off)
 			{
 				BOOST_CHECK_THROW(car.TurnOffEngine(), CanBeTurnedOffWhen);
-				BOOST_CHECK(car.GetIsTurnedOn());
+				BOOST_CHECK(car.IsTurnedOn());
 			}
 			
 			BOOST_AUTO_TEST_CASE(can_set_gear_to_neutral)
@@ -219,7 +214,7 @@ BOOST_FIXTURE_TEST_SUITE(Car, CarFixture)
 			BOOST_AUTO_TEST_CASE(can_turned_off)
 			{
 				BOOST_CHECK_THROW(car.TurnOffEngine(), CanBeTurnedOffWhen);
-				BOOST_CHECK(car.GetIsTurnedOn());
+				BOOST_CHECK(car.IsTurnedOn());
 			}
 
 			BOOST_AUTO_TEST_CASE(can_set_gear_to_neutral)
