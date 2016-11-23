@@ -7,15 +7,15 @@ class CRectangle : public ISolidShape
 {
 public:
 	CRectangle(CPoint leftTop, double width, double height, CColor outlineColor, CColor fillColor);
-	double GetArea() override;
-	double GetPerimeter() override;
-	std::string ToString() override;
-	CColor GetOutlineColor() override;
-	CColor GetFillColor() override;
-	CPoint GetLeftTop();
-	CPoint GetRightBottom();
-	double GetWidth();
-	double GetHeight();
+	double GetArea() const override;
+	double GetPerimeter() const override;
+	std::string ToString() const override;
+	CColor GetOutlineColor() const override;
+	CColor GetFillColor() const override;
+	CPoint GetLeftTop() const;
+	CPoint GetRightBottom() const;
+	double GetWidth() const;
+	double GetHeight() const;
 
 private:
 	CPoint m_leftTop;

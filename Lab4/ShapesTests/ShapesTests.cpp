@@ -9,25 +9,6 @@
 
 using namespace std;
 
-struct LineFixture
-{
-	CPoint start = CPoint(13., 21.);
-	CPoint end = CPoint(29., 3.);
-	CColor color = CColor(255, 128, 128);
-
-	CLineSegment line = CLineSegment(start, end, color);
-};
-
-bool IsPointEqual(CPoint p1, CPoint p2)
-{
-	return (p1.x - p2.x <= DBL_EPSILON && p1.y - p2.y <= DBL_EPSILON);
-}
-
-bool IsColorEqual(CColor c1, CColor c2)
-{
-	return (c1.r == c2.r && c1.g == c2.g && c1.b == c2.b);
-}
-
 BOOST_AUTO_TEST_SUITE(Point)
 
 	BOOST_AUTO_TEST_CASE(can_be_created)
@@ -69,6 +50,15 @@ BOOST_AUTO_TEST_SUITE(Color)
 
 BOOST_AUTO_TEST_SUITE_END()
 
+struct LineFixture
+{
+	CPoint start = CPoint(13., 21.);
+	CPoint end = CPoint(29., 3.);
+	CColor color = CColor(255, 128, 128);
+
+	CLineSegment line = CLineSegment(start, end, color);
+};
+
 BOOST_FIXTURE_TEST_SUITE(LineSegment, LineFixture)
 
 	BOOST_AUTO_TEST_CASE(has_zero_area)
@@ -79,22 +69,27 @@ BOOST_FIXTURE_TEST_SUITE(LineSegment, LineFixture)
 	BOOST_AUTO_TEST_CASE(can_calculate_its_perimeter)
 	{
 		double expectedResult = 24.083189157584592;
-		BOOST_CHECK(line.GetPerimeter() - expectedResult <= DBL_EPSILON);
+		BOOST_CHECK_EQUAL(line.GetPerimeter(), expectedResult);
 	}
 
 	BOOST_AUTO_TEST_CASE(can_return_its_start_point)
 	{
-		BOOST_CHECK(IsPointEqual(line.GetStartPoint(), start));
+		BOOST_CHECK(line.GetStartPoint() == start);
 	}
 
 	BOOST_AUTO_TEST_CASE(can_return_its_end_point)
 	{
-		BOOST_CHECK(IsPointEqual(line.GetEndPoint(), end));
+		BOOST_CHECK(line.GetEndPoint() == end);
 	}
 
 	BOOST_AUTO_TEST_CASE(can_return_its_outline_color)
 	{
-		BOOST_CHECK(IsColorEqual(line.GetOutlineColor(), color));
+		BOOST_CHECK(line.GetOutlineColor() == color);
+	}
+
+	BOOST_AUTO_TEST_CASE(two_points_must_be_different)
+	{
+		BOOST_CHECK_THROW(CLineSegment(start, start, color), logic_error);
 	}
 
 BOOST_AUTO_TEST_SUITE_END()
@@ -115,38 +110,43 @@ BOOST_FIXTURE_TEST_SUITE(Triangle, TriangleFixture)
 	BOOST_AUTO_TEST_CASE(can_calculate_its_area)
 	{
 		double expectedResult = 166.00000000000045;
-		BOOST_CHECK(triangle.GetArea() - expectedResult <= DBL_EPSILON);
+		BOOST_CHECK_EQUAL(triangle.GetArea(), expectedResult);
 	}
 
 	BOOST_AUTO_TEST_CASE(can_calculate_its_perimeter)
 	{
 		double expectedResult = 46.797234297887641;
-		BOOST_CHECK(triangle.GetPerimeter() - expectedResult <= DBL_EPSILON);
+		BOOST_CHECK_EQUAL(triangle.GetPerimeter(), expectedResult);
 	}
 
 	BOOST_AUTO_TEST_CASE(can_return_its_first_point)
 	{
-		BOOST_CHECK(IsPointEqual(triangle.GetVertex1(), p1));
+		BOOST_CHECK(triangle.GetVertex1() == p1);
 	}
 
 	BOOST_AUTO_TEST_CASE(can_return_its_second_point)
 	{
-		BOOST_CHECK(IsPointEqual(triangle.GetVertex2(), p2));
+		BOOST_CHECK(triangle.GetVertex2() == p2);
 	}
 
 	BOOST_AUTO_TEST_CASE(can_return_its_third_point)
 	{
-		BOOST_CHECK(IsPointEqual(triangle.GetVertex3(), p3));
+		BOOST_CHECK(triangle.GetVertex3() == p3);
 	}
 
 	BOOST_AUTO_TEST_CASE(can_return_its_outline_color)
 	{
-		BOOST_CHECK(IsColorEqual(triangle.GetOutlineColor(), outlineColor));
+		BOOST_CHECK(triangle.GetOutlineColor() == outlineColor);
 	}
 
 	BOOST_AUTO_TEST_CASE(can_return_its_fill_color)
 	{
-		BOOST_CHECK(IsColorEqual(triangle.GetFillColor(), fillColor));
+		BOOST_CHECK(triangle.GetFillColor() == fillColor);
+	}
+
+	BOOST_AUTO_TEST_CASE(three_points_must_be_different)
+	{
+		BOOST_CHECK_THROW(CTriangle(p1, p1, p3, outlineColor, fillColor), logic_error);
 	}
 
 BOOST_AUTO_TEST_SUITE_END()
@@ -167,25 +167,24 @@ BOOST_FIXTURE_TEST_SUITE(Rectangle, RectangleFixture)
 	BOOST_AUTO_TEST_CASE(can_calculate_its_area)
 	{
 		double expectedResult = 20000.000000000000;
-		BOOST_CHECK(rect.GetArea() - expectedResult <= DBL_EPSILON);
+		BOOST_CHECK_EQUAL(rect.GetArea(), expectedResult);
 	}
 
 	BOOST_AUTO_TEST_CASE(can_calculate_its_perimeter)
 	{
 		double expectedResult = 600.00000000000000;
-		double test = rect.GetPerimeter();
-		BOOST_CHECK(rect.GetPerimeter() - expectedResult <= DBL_EPSILON);
+		BOOST_CHECK_EQUAL(rect.GetPerimeter(), expectedResult);
 	}
 
 	BOOST_AUTO_TEST_CASE(can_return_its_left_top_point)
 	{
-		BOOST_CHECK(IsPointEqual(rect.GetLeftTop(), leftTop));
+		BOOST_CHECK(rect.GetLeftTop() == leftTop);
 	}
 
 	BOOST_AUTO_TEST_CASE(can_return_its_second_point)
 	{
 		CPoint expectedPoint(213., 83.);
-		BOOST_CHECK(IsPointEqual(rect.GetRightBottom(), expectedPoint));
+		BOOST_CHECK(rect.GetRightBottom() == expectedPoint);
 	}
 
 	BOOST_AUTO_TEST_CASE(can_return_its_width)
@@ -200,12 +199,18 @@ BOOST_FIXTURE_TEST_SUITE(Rectangle, RectangleFixture)
 
 	BOOST_AUTO_TEST_CASE(can_return_its_outline_color)
 	{
-		BOOST_CHECK(IsColorEqual(rect.GetOutlineColor(), outlineColor));
+		BOOST_CHECK(rect.GetOutlineColor() == outlineColor);
 	}
 
 	BOOST_AUTO_TEST_CASE(can_return_its_fill_color)
 	{
-		BOOST_CHECK(IsColorEqual(rect.GetFillColor(), fillColor));
+		BOOST_CHECK(rect.GetFillColor() == fillColor);
+	}
+
+	BOOST_AUTO_TEST_CASE(width_and_height_must_be_more_than_0)
+	{
+		BOOST_CHECK_THROW(CRectangle(leftTop, 0., height, outlineColor, fillColor), logic_error);
+		BOOST_CHECK_THROW(CRectangle(leftTop, width, 0., outlineColor, fillColor), logic_error);
 	}
 
 BOOST_AUTO_TEST_SUITE_END()

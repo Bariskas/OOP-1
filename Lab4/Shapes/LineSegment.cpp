@@ -6,44 +6,47 @@ using namespace std;
 CLineSegment::CLineSegment(CPoint startPoint, CPoint endPoint, CColor outlineColor)
 	: m_startPoint(startPoint), m_endPoint(endPoint), m_outlineColor(outlineColor)
 {
-	m_length = CalculateLineLength(m_startPoint, m_endPoint);
+	if (startPoint == endPoint)
+	{
+		throw logic_error("Points must be different");
+	}
 }
 
-double CLineSegment::GetArea()
+double CLineSegment::GetArea() const
 {
 	return 0.;
 }
 
-double CLineSegment::GetPerimeter()
+double CLineSegment::GetPerimeter() const
 {
-	return m_length;
+	return CalculateLineLength(m_startPoint, m_endPoint);
 }
 
-std::string CLineSegment::ToString()
+std::string CLineSegment::ToString() const
 {
 	stringstream stream;
 
 	stream << fixed << setprecision(2);
 
-	stream << "start(" << m_startPoint.x << ", " << m_startPoint.y << ") "
-		<< "end(" << m_endPoint.x << ", " << m_endPoint.y << ") "
-		<< "area=" << GetArea()	<< " perimeter=" << m_length
+	stream << "Line: start" << m_startPoint.ToString()
+		<< "end" << m_endPoint.ToString()
+		<< "area=" << GetArea()	<< " perimeter=" << GetPerimeter()
 		<< " outlineColor("	<< m_outlineColor.ToString() << ')';
 
 	return stream.str();
 }
 
-CColor CLineSegment::GetOutlineColor()
+CColor CLineSegment::GetOutlineColor() const
 {
 	return m_outlineColor;
 }
 
-CPoint CLineSegment::GetStartPoint()
+CPoint CLineSegment::GetStartPoint() const
 {
 	return m_startPoint;
 }
 
-CPoint CLineSegment::GetEndPoint()
+CPoint CLineSegment::GetEndPoint() const
 {
 	return m_endPoint;
 }

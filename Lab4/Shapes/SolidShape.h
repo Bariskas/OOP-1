@@ -7,6 +7,6 @@ class ISolidShape : public IShape
 {
 public:
 	virtual ~ISolidShape() = default;
-	virtual CColor GetFillColor() = 0;
+	virtual CColor GetFillColor() const = 0;
 };
 

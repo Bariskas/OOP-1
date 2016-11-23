@@ -21,7 +21,7 @@ CColor::CColor(uint8_t r, uint8_t g, uint8_t b)
 {
 }
 
-string CColor::ToString()
+string CColor::ToString() const
 {
 	string str;
 
@@ -32,6 +32,11 @@ string CColor::ToString()
 	str.append(to_string(b));
 
 	return str;
+}
+
+bool CColor::operator ==(CColor other) const
+{
+	return (r == other.r && g == other.g && b == other.b);
 }
 
 uint8_t CColor::StrToUint8(std::string str)
