@@ -144,6 +144,7 @@
     <ClInclude Include="Color.h" />
     <ClInclude Include="LineSegment.h" />
     <ClInclude Include="Point.h" />
+    <ClInclude Include="Rectangle.h" />
     <ClInclude Include="Shape.h" />
     <ClInclude Include="SolidShape.h" />
     <ClInclude Include="stdafx.h" />
@@ -154,6 +155,7 @@
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="LineSegment.cpp" />
     <ClCompile Include="Point.cpp" />
+    <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="Shape.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SolidShape.cpp" />

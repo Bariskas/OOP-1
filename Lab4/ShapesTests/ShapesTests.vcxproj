@@ -160,6 +160,7 @@
     <ClCompile Include="..\Shapes\Color.cpp" />
     <ClCompile Include="..\Shapes\LineSegment.cpp" />
     <ClCompile Include="..\Shapes\Point.cpp" />
+    <ClCompile Include="..\Shapes\Rectangle.cpp" />
     <ClCompile Include="..\Shapes\Triangle.cpp" />
     <ClCompile Include="ShapesTests.cpp" />
     <ClCompile Include="stdafx.cpp">

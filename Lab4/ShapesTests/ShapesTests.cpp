@@ -5,6 +5,7 @@
 #include "../Shapes/Color.h"
 #include "../Shapes/LineSegment.h"
 #include "../Shapes/Triangle.h"
+#include "../Shapes/Rectangle.h"
 
 using namespace std;
 
@@ -146,6 +147,65 @@ BOOST_FIXTURE_TEST_SUITE(Triangle, TriangleFixture)
 	BOOST_AUTO_TEST_CASE(can_return_its_fill_color)
 	{
 		BOOST_CHECK(IsColorEqual(triangle.GetFillColor(), fillColor));
+	}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+struct RectangleFixture
+{
+	CPoint leftTop = CPoint(13., 17.);
+	double width = 200.;
+	double height = 100.;
+	CColor outlineColor = CColor(64, 128, 255);
+	CColor fillColor = CColor(42, 84, 168);
+
+	CRectangle rect = CRectangle(leftTop, width, height, outlineColor, fillColor);
+};
+
+BOOST_FIXTURE_TEST_SUITE(Rectangle, RectangleFixture)
+
+	BOOST_AUTO_TEST_CASE(can_calculate_its_area)
+	{
+		double expectedResult = 20000.000000000000;
+		BOOST_CHECK(rect.GetArea() - expectedResult <= DBL_EPSILON);
+	}
+
+	BOOST_AUTO_TEST_CASE(can_calculate_its_perimeter)
+	{
+		double expectedResult = 600.00000000000000;
+		double test = rect.GetPerimeter();
+		BOOST_CHECK(rect.GetPerimeter() - expectedResult <= DBL_EPSILON);
+	}
+
+	BOOST_AUTO_TEST_CASE(can_return_its_left_top_point)
+	{
+		BOOST_CHECK(IsPointEqual(rect.GetLeftTop(), leftTop));
+	}
+
+	BOOST_AUTO_TEST_CASE(can_return_its_second_point)
+	{
+		CPoint expectedPoint(213., 83.);
+		BOOST_CHECK(IsPointEqual(rect.GetRightBottom(), expectedPoint));
+	}
+
+	BOOST_AUTO_TEST_CASE(can_return_its_width)
+	{
+		BOOST_CHECK_EQUAL(rect.GetWidth(), width);
+	}
+
+	BOOST_AUTO_TEST_CASE(can_return_its_height)
+	{
+		BOOST_CHECK_EQUAL(rect.GetHeight(), height);
+	}
+
+	BOOST_AUTO_TEST_CASE(can_return_its_outline_color)
+	{
+		BOOST_CHECK(IsColorEqual(rect.GetOutlineColor(), outlineColor));
+	}
+
+	BOOST_AUTO_TEST_CASE(can_return_its_fill_color)
+	{
+		BOOST_CHECK(IsColorEqual(rect.GetFillColor(), fillColor));
 	}
 
 BOOST_AUTO_TEST_SUITE_END()
