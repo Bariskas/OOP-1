@@ -19,6 +19,8 @@
 #include <string>
 #include <unordered_map>
 #include <boost/algorithm/string.hpp>
+#include <boost/range/adaptor/map.hpp>
+#include <boost/range/algorithm/copy.hpp>
 #include <vector>
 #include <functional>
 #include "FileUtils.h"

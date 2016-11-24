@@ -78,9 +78,7 @@ bool GetTranslationsOfWord(string const& word, Dict& dictionary, vector<string>&
 void GetTranslationsFromMap(string const& word, DictionaryMap& map, vector<string>& translations)
 {
 	auto range = map.equal_range(word);
-	for_each(range.first, range.second, [&](pair<string, string> const& pair) {
-		translations.push_back(pair.second);
-	});
+	copy(range | boost::adaptors::map_values, back_inserter(translations));
 }
 
 bool IsDictionaryModified(Dict& dictionary)
