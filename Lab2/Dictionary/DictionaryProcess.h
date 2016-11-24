@@ -30,3 +30,4 @@ void SaveMapToStream(DictionaryMap& map, std::ostream& outputFile);
 void ProcessEnteredWord(std::string const& word, Dict& dictionary);
 bool ProcessCommand(std::string const& cmd, Dict& dictionary);
 void ProcessInput(std::istream& input, Dict& dictionary);
+void ValidateWord(std::string const& word);

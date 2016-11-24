@@ -139,6 +139,18 @@ BOOST_FIXTURE_TEST_SUITE(Dictionary_that_contains_new_words, ModifiedDictionaryF
 		BOOST_CHECK(dict.newWordMap == loadedDict.wordMap);
 	}
 
+	BOOST_AUTO_TEST_CASE(cant_accept_empty_word)
+	{
+		vector<string> translations;
+		BOOST_CHECK_THROW(GetTranslationsOfWord("", dict, translations), logic_error);
+	}
+
+	BOOST_AUTO_TEST_CASE(cant_accept_word_with_dictionary_separator)
+	{
+		vector<string> translations;
+		BOOST_CHECK_THROW(GetTranslationsOfWord("test:", dict, translations), logic_error);
+	}
+
 BOOST_AUTO_TEST_SUITE_END()
 //
 

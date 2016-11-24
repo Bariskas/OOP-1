@@ -65,6 +65,8 @@ bool GetUserResponseForSavingFile(istream& input)
 
 bool GetTranslationsOfWord(string const& word, Dict& dictionary, vector<string>& translations)
 {
+
+	ValidateWord(word);
 	string wordLowered = StrToLowerCase(word);
 
 	GetTranslationsFromMap(wordLowered, dictionary.wordMap, translations);
@@ -150,17 +152,20 @@ void ProcessEnteredWord(string const& word, Dict& dictionary)
 {
 	vector<string> translations;
 
-	if (word.empty())
+	try
 	{
-		cout << "Слово не может быть пустым." << endl;
+		if (GetTranslationsOfWord(word, dictionary, translations))
+		{
+			PrintTranslations(translations);
+		}
+		else
+		{
+			RequestAddingNewWordToDictionary(word, dictionary);
+		}
 	}
-	else if (GetTranslationsOfWord(word, dictionary, translations))
+	catch (exception const& e)
 	{
-		PrintTranslations(translations);
-	}
-	else
-	{
-		RequestAddingNewWordToDictionary(word, dictionary);
+		cout << e.what() << endl;
 	}
 }
 
@@ -193,5 +198,21 @@ void ProcessInput(istream& input, Dict& dictionary)
 		}
 		PrintCursor();
 		++it;
+	}
+}
+
+void ValidateWord(std::string const& word)
+{
+	char WORD_SEPARATOR = ':';
+	const string EMPTY_WORD_MSG = "Слово не может быть пустым.";
+	const string SEPARATOR_IN_WORD_MSG = "Использование символа ':' запрещено в словах.";
+
+	if (word.empty())
+	{
+		throw logic_error(EMPTY_WORD_MSG);
+	}
+	else if (word.find(WORD_SEPARATOR) != string::npos)
+	{
+		throw logic_error(SEPARATOR_IN_WORD_MSG);
 	}
 }
