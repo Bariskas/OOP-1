@@ -157,6 +157,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Shapes\Circle.cpp" />
     <ClCompile Include="..\Shapes\Color.cpp" />
     <ClCompile Include="..\Shapes\LineSegment.cpp" />
     <ClCompile Include="..\Shapes\Point.cpp" />

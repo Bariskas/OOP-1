@@ -15,6 +15,8 @@
 #include <boost/test/unit_test.hpp>
 
 // TODO: reference additional headers your program requires here
+#define _USE_MATH_DEFINES
+#include <math.h>
 #include <map>
 #include <string>
 #include <vector>

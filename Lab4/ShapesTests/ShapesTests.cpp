@@ -6,6 +6,7 @@
 #include "../Shapes/LineSegment.h"
 #include "../Shapes/Triangle.h"
 #include "../Shapes/Rectangle.h"
+#include "../Shapes/Circle.h"
 
 using namespace std;
 
@@ -211,6 +212,58 @@ BOOST_FIXTURE_TEST_SUITE(Rectangle, RectangleFixture)
 	{
 		BOOST_CHECK_THROW(CRectangle(leftTop, 0., height, outlineColor, fillColor), logic_error);
 		BOOST_CHECK_THROW(CRectangle(leftTop, width, 0., outlineColor, fillColor), logic_error);
+	}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+struct CicleFixture
+{
+	CPoint center = CPoint(130., 170.);
+	double radius = 50.;
+	CColor outlineColor = CColor(64, 128, 255);
+	CColor fillColor = CColor(42, 84, 168);
+
+	CCircle circle = CCircle(center, radius, outlineColor, fillColor);
+};
+
+BOOST_FIXTURE_TEST_SUITE(Circle, CicleFixture)
+
+	BOOST_AUTO_TEST_CASE(can_calculate_its_area)
+	{
+		double expectedResult = 7853.9816339744830;
+		BOOST_CHECK_EQUAL(circle.GetArea(), expectedResult);
+	}
+
+	BOOST_AUTO_TEST_CASE(can_calculate_its_perimeter)
+	{
+		double expectedResult = 314.15926535897933;
+		BOOST_CHECK_EQUAL(circle.GetPerimeter(), expectedResult);
+	}
+
+	BOOST_AUTO_TEST_CASE(can_return_its_center_point)
+	{
+		BOOST_CHECK(circle.GetCenter() == center);
+	}
+
+	BOOST_AUTO_TEST_CASE(can_return_its_radius)
+	{
+		BOOST_CHECK_EQUAL(circle.GetRadius(), radius);
+	}
+
+	BOOST_AUTO_TEST_CASE(can_return_its_outline_color)
+	{
+		BOOST_CHECK(circle.GetOutlineColor() == outlineColor);
+	}
+
+	BOOST_AUTO_TEST_CASE(can_return_its_fill_color)
+	{
+		BOOST_CHECK(circle.GetFillColor() == fillColor);
+	}
+
+	BOOST_AUTO_TEST_CASE(radius_must_be_more_than_0)
+	{
+		BOOST_CHECK_THROW(CCircle(center, -5., outlineColor, fillColor), logic_error);
+		BOOST_CHECK_THROW(CCircle(center, 0., outlineColor, fillColor), logic_error);
 	}
 
 BOOST_AUTO_TEST_SUITE_END()

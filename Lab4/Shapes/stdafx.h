@@ -13,6 +13,8 @@
 
 
 // TODO: reference additional headers your program requires here
+#define _USE_MATH_DEFINES
+#include <math.h>
 #include <string>
 #include <vector>
 #include <algorithm>

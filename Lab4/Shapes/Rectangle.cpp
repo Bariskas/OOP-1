@@ -35,6 +35,7 @@ std::string CRectangle::ToString() const
 		<< "area=" << GetArea() << " perimeter=" << GetPerimeter() << " "
 		<< "outlineColor(" << m_outlineColor.ToString() << ") "
 		<< "fillColor(" << m_fillColor.ToString() << ")";
+
 	return stream.str();
 }
 
