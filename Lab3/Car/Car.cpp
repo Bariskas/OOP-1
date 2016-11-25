@@ -9,6 +9,7 @@ const map<int, pair<int, int>> CCar::m_speedRangesMap{
 	{ 0, { -20, 150 } },
 	{ 1, { 0, 30 } },
 	{ 2, { 20, 50 } },
+	{ 2, { 20, 50 } },
 	{ 3, { 30, 60 } },
 	{ 4, { 40, 90 } },
 	{ 5, { 50, 150 } }
@@ -44,11 +45,7 @@ void CCar::TurnOffEngine()
 
 void CCar::SetGear(int gearNumber)
 {
-	if (m_gear == gearNumber)
-	{
-		throw AlreadyHaveThisGear();
-	}
-	else if (!m_isTurnedOn)
+	if (!m_isTurnedOn)
 	{
 		throw CantSetGearWhenTurnedOff();
 	}
@@ -86,11 +83,7 @@ void CCar::SetSpeed(int speed)
 		speed = -speed;
 	}
 
-	if (m_speed == speed)
-	{
-		throw AlreadyHaveThisSpeed();
-	}
-	else if (m_gear == 0 && abs(m_speed) < abs(speed))
+	if (m_gear == 0 && abs(m_speed) < abs(speed))
 	{
 		throw CantIncreaseSpeedWhenNeutralGear();
 	}
@@ -142,8 +135,9 @@ bool CCar::IsSpeedCompatibleWithGear(int gearNumber, int speed)const
 	auto gearSpeedRange = m_speedRangesMap.find(gearNumber);
 	if (gearSpeedRange != m_speedRangesMap.end())
 	{
-		pair<int, int> speedRange = gearSpeedRange->second;
-		return (speed >= speedRange.first && speed <= speedRange.second);
+		int min; int max;
+		tie(min, max) = gearSpeedRange->second;
+		return (speed >= min && speed <= max);
 	}
 	else
 	{

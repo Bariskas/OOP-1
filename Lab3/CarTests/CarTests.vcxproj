@@ -157,7 +157,9 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\CarRemoteTests\CarRemoteTests.cpp" />
     <ClCompile Include="..\Car\Car.cpp" />
+    <ClCompile Include="..\Car\CarRemote.cpp" />
     <ClCompile Include="CarTests.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

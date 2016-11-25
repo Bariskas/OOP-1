@@ -1,7 +1,11 @@
 #pragma once
 #include <exception>
 
-struct AlreadyTurnedOn : public std::exception
+class CarException : public std::exception
+{
+};
+
+struct AlreadyTurnedOn : public CarException
 {
 	virtual const char* what() const throw() override
 	{
@@ -9,7 +13,7 @@ struct AlreadyTurnedOn : public std::exception
 	}
 };
 
-struct AlreadyTurnedOff : public std::exception
+struct AlreadyTurnedOff : public CarException
 {
 	virtual const char* what() const throw() override
 	{
@@ -17,7 +21,7 @@ struct AlreadyTurnedOff : public std::exception
 	}
 };
 
-struct CanBeTurnedOffWhen : public std::exception
+struct CanBeTurnedOffWhen : public CarException
 {
 	virtual const char* what() const throw() override
 	{
@@ -25,15 +29,7 @@ struct CanBeTurnedOffWhen : public std::exception
 	}
 };
 
-struct AlreadyHaveThisGear : public std::exception
-{
-	virtual const char* what() const throw() override
-	{
-		return "Car already have this gear";
-	}
-};
-
-struct CantSetGearWhenTurnedOff : public std::exception
+struct CantSetGearWhenTurnedOff : public CarException
 {
 	virtual const char* what() const throw() override
 	{
@@ -41,7 +37,7 @@ struct CantSetGearWhenTurnedOff : public std::exception
 	}
 };
 
-struct GearIsNotSupported : public std::exception
+struct GearIsNotSupported : public CarException
 {
 	virtual const char* what() const throw() override
 	{
@@ -49,7 +45,7 @@ struct GearIsNotSupported : public std::exception
 	}
 };
 
-struct CantSetRearGearWhenSpeedNonZero : public std::exception
+struct CantSetRearGearWhenSpeedNonZero : public CarException
 {
 	virtual const char* what() const throw() override
 	{
@@ -57,7 +53,7 @@ struct CantSetRearGearWhenSpeedNonZero : public std::exception
 	}
 };
 
-struct GearIsNotSupportCurrentSpeed : public std::exception
+struct GearIsNotSupportCurrentSpeed : public CarException
 {
 	virtual const char* what() const throw() override
 	{
@@ -65,7 +61,7 @@ struct GearIsNotSupportCurrentSpeed : public std::exception
 	}
 };
 
-struct CantSetSpeedWhenTurnedOff : public std::exception
+struct CantSetSpeedWhenTurnedOff : public CarException
 {
 	virtual const char* what() const throw() override
 	{
@@ -73,23 +69,15 @@ struct CantSetSpeedWhenTurnedOff : public std::exception
 	}
 };
 
-struct NegativeValueEntered : public std::exception
+struct NegativeValueEntered : public CarException
 {
 	virtual const char* what() const throw() override
 	{
-		return "Speed must be a positive value";
+		return "Speed must be a positive number";
 	}
 };
 
-struct AlreadyHaveThisSpeed : public std::exception
-{
-	virtual const char* what() const throw() override
-	{
-		return "Car already have this speed";
-	}
-};
-
-struct CurrentGearIsNotSupportThisSpeed : public std::exception
+struct CurrentGearIsNotSupportThisSpeed : public CarException
 {
 	virtual const char* what() const throw() override
 	{
@@ -97,7 +85,7 @@ struct CurrentGearIsNotSupportThisSpeed : public std::exception
 	}
 };
 
-struct CantIncreaseSpeedWhenNeutralGear : public std::exception
+struct CantIncreaseSpeedWhenNeutralGear : public CarException
 {
 	virtual const char* what() const throw() override
 	{

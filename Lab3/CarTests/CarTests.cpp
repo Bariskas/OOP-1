@@ -9,6 +9,42 @@ using namespace std;
 struct CarFixture
 {
 	CCar car;
+
+	void ExpectCarCantSetSpeed(int speed, int expectedSpeed)
+	{
+		BOOST_CHECK_THROW(car.SetSpeed(speed), CarException);
+		BOOST_CHECK_EQUAL(car.GetSpeed(), expectedSpeed);
+	}
+
+	void ExpectCarCantSetGear(int gear, int expectedGear)
+	{
+		BOOST_CHECK_THROW(car.SetGear(gear), CarException);
+		BOOST_CHECK_EQUAL(car.GetGear(), expectedGear);
+	}
+
+	void ExpectCarSetSpeed(int speed)
+	{
+		BOOST_CHECK_NO_THROW(car.SetSpeed(speed));
+		BOOST_CHECK_EQUAL(car.GetSpeed(), speed);
+	}
+
+	void ExpectCarSetGear(int gear)
+	{
+		BOOST_CHECK_NO_THROW(car.SetGear(gear));
+		BOOST_CHECK_EQUAL(car.GetGear(), gear);
+	}
+
+	void ExpectCanTurnEngineOn()
+	{
+		car.TurnOnEngine();
+		BOOST_CHECK(car.IsTurnedOn());
+	}
+
+	void ExpectCanTurnEngineOff()
+	{
+		car.TurnOffEngine();
+		BOOST_CHECK(!car.IsTurnedOn());
+	}
 };
 
 BOOST_FIXTURE_TEST_SUITE(Car, CarFixture)
@@ -31,11 +67,10 @@ BOOST_FIXTURE_TEST_SUITE(Car, CarFixture)
 
 	BOOST_AUTO_TEST_CASE(can_be_turned_on)
 	{
-		car.TurnOnEngine();
-		BOOST_CHECK(car.IsTurnedOn());
+		ExpectCanTurnEngineOn();
 	}
 
-	BOOST_AUTO_TEST_CASE(cant_turned_off)
+	BOOST_AUTO_TEST_CASE(cant_be_turned_off)
 	{
 		BOOST_CHECK_THROW(car.TurnOffEngine(), AlreadyTurnedOff);
 		BOOST_CHECK(!car.IsTurnedOn());
@@ -43,10 +78,8 @@ BOOST_FIXTURE_TEST_SUITE(Car, CarFixture)
 
 	BOOST_AUTO_TEST_CASE(cant_change_speed_and_gear_when_turned_off)
 	{
-		BOOST_CHECK_THROW(car.SetGear(1), CantSetGearWhenTurnedOff);
-		BOOST_CHECK(car.GetGear() == 0);
-		BOOST_CHECK_THROW(car.SetSpeed(10), CantSetSpeedWhenTurnedOff);
-		BOOST_CHECK(car.GetSpeed() == 0);
+		ExpectCarCantSetGear(1, 0);
+		ExpectCarCantSetSpeed(10, 0);
 	}
 
 	struct WhenTurnedOn : CarFixture
@@ -59,16 +92,15 @@ BOOST_FIXTURE_TEST_SUITE(Car, CarFixture)
 
 	BOOST_FIXTURE_TEST_SUITE(when_turned_on, WhenTurnedOn)
 		
-		BOOST_AUTO_TEST_CASE(cant_turned_on)
+		BOOST_AUTO_TEST_CASE(cant_be_turned_on)
 		{
 			BOOST_CHECK_THROW(car.TurnOnEngine(), AlreadyTurnedOn);
 			BOOST_CHECK(car.IsTurnedOn());
 		}
 
-		BOOST_AUTO_TEST_CASE(can_turned_off)
+		BOOST_AUTO_TEST_CASE(can_be_turned_off)
 		{
-			BOOST_CHECK_NO_THROW(car.TurnOffEngine());
-			BOOST_CHECK(!car.IsTurnedOn());
+			ExpectCanTurnEngineOff();
 		}
 
 		BOOST_AUTO_TEST_CASE(has_zero_speed_and_gear_by_default)
@@ -84,29 +116,21 @@ BOOST_FIXTURE_TEST_SUITE(Car, CarFixture)
 
 		BOOST_AUTO_TEST_CASE(can_set_gear_from_neutral_to_rear_transmission)
 		{
-			BOOST_CHECK_NO_THROW(car.SetGear(-1));
-			BOOST_CHECK(car.GetGear() == -1);
+			ExpectCarSetGear(-1);
 		}
 
 		BOOST_AUTO_TEST_CASE(can_set_from_neutral_to_first_gear)
 		{
-			BOOST_CHECK_NO_THROW(car.SetGear(1));
-			BOOST_CHECK(car.GetGear() == 1);
+			ExpectCarSetGear(1);
 		}
 
 		BOOST_AUTO_TEST_CASE(cant_set_from_neutral_to_more_than_first_gear)
 		{
-			BOOST_CHECK_THROW(car.SetGear(2), GearIsNotSupportCurrentSpeed);
-			BOOST_CHECK(car.GetGear() == 0);
-
-			BOOST_CHECK_THROW(car.SetGear(3), GearIsNotSupportCurrentSpeed);
-			BOOST_CHECK(car.GetGear() == 0);
-
-			BOOST_CHECK_THROW(car.SetGear(4), GearIsNotSupportCurrentSpeed);
-			BOOST_CHECK(car.GetGear() == 0);
-
-			BOOST_CHECK_THROW(car.SetGear(5), GearIsNotSupportCurrentSpeed);
-			BOOST_CHECK(car.GetGear() == 0);
+			ExpectCarCantSetGear(2, 0);
+			ExpectCarCantSetGear(3, 0);
+			ExpectCarCantSetGear(4, 0);
+			ExpectCarCantSetGear(5, 0);
+			ExpectCarCantSetGear(6, 0);
 		}
 
 		struct WhenMovingForward : WhenTurnedOn
@@ -120,8 +144,9 @@ BOOST_FIXTURE_TEST_SUITE(Car, CarFixture)
 
 		BOOST_FIXTURE_TEST_SUITE(when_moving_forward, WhenMovingForward)
 
-			BOOST_AUTO_TEST_CASE(can_turned_off)
+			BOOST_AUTO_TEST_CASE(cant_be_turned_off)
 			{
+
 				BOOST_CHECK_THROW(car.TurnOffEngine(), CanBeTurnedOffWhen);
 				BOOST_CHECK(car.IsTurnedOn());
 			}
@@ -135,38 +160,32 @@ BOOST_FIXTURE_TEST_SUITE(Car, CarFixture)
 
 			BOOST_AUTO_TEST_CASE(cant_set_to_rear_gear)
 			{
-				BOOST_CHECK_THROW(car.SetGear(-1), CantSetRearGearWhenSpeedNonZero);
+				ExpectCarCantSetGear(-1, 1);
 			}
 
 			BOOST_AUTO_TEST_CASE(gear_can_be_switched_at_appropriate_speed)
 			{
-				BOOST_CHECK_THROW(car.SetGear(2), GearIsNotSupportCurrentSpeed);
+				BOOST_CHECK_THROW(car.SetSpeed(-5), NegativeValueEntered);
+
+				ExpectCarCantSetGear(2, 1);
 				car.SetSpeed(20);
-				BOOST_CHECK_NO_THROW(car.SetGear(2));
-				BOOST_CHECK(car.GetGear() == 2);
 
-				BOOST_CHECK_THROW(car.SetGear(3 ), GearIsNotSupportCurrentSpeed);
+				ExpectCarSetGear(2);
+				ExpectCarCantSetGear(3, 2);
+
 				car.SetSpeed(50);
-				BOOST_CHECK_NO_THROW(car.SetGear(3));
-				BOOST_CHECK(car.GetGear() == 3);
+				ExpectCarSetGear(3);
 
-				BOOST_CHECK_NO_THROW(car.SetGear(4));
-				BOOST_CHECK(car.GetGear() == 4);
-
-				BOOST_CHECK_NO_THROW(car.SetGear(5));
-				BOOST_CHECK(car.GetGear() == 5);
-
-				BOOST_CHECK_NO_THROW(car.SetGear(0));
-				BOOST_CHECK(car.GetGear() == 0);
-				BOOST_CHECK_NO_THROW(car.SetGear(4));
-				BOOST_CHECK(car.GetGear() == 4);
-				BOOST_CHECK_NO_THROW(car.SetGear(2));
-				BOOST_CHECK(car.GetGear() == 2);
+				ExpectCarSetGear(4);
+				ExpectCarSetGear(5);
+				ExpectCarSetGear(0);
+				ExpectCarSetGear(4);
+				ExpectCarSetGear(2);
 			}
 
 			BOOST_AUTO_TEST_CASE(cant_set_to_unsupported_speed)
 			{
-				BOOST_CHECK_THROW(car.SetSpeed(50), CurrentGearIsNotSupportThisSpeed);
+				ExpectCarCantSetSpeed(50, 10);
 			}
 
 			struct WhenMovingForwardAtNeutral : WhenMovingForward
@@ -181,19 +200,17 @@ BOOST_FIXTURE_TEST_SUITE(Car, CarFixture)
 
 				BOOST_AUTO_TEST_CASE(can_decrease_speed)
 				{
-					BOOST_CHECK_NO_THROW(car.SetSpeed(5));
-					BOOST_CHECK(car.GetSpeed() == 5);
+					ExpectCarSetSpeed(5);
 				}
 				
 				BOOST_AUTO_TEST_CASE(cant_increase_speed)
 				{
-					BOOST_CHECK_THROW(car.SetSpeed(20), CantIncreaseSpeedWhenNeutralGear);
-					BOOST_CHECK(car.GetSpeed() == 10);
+					ExpectCarCantSetSpeed(20, 10);
 				}
 
 				BOOST_AUTO_TEST_CASE(cant_set_to_rear_gear)
 				{
-					BOOST_CHECK_THROW(car.SetGear(-1), CantSetRearGearWhenSpeedNonZero);
+					ExpectCarCantSetGear(-1, 0);
 				}
 
 			BOOST_AUTO_TEST_SUITE_END()
@@ -211,7 +228,7 @@ BOOST_FIXTURE_TEST_SUITE(Car, CarFixture)
 
 		BOOST_FIXTURE_TEST_SUITE(when_moving_backward, WhenMovingBackward)
 
-			BOOST_AUTO_TEST_CASE(can_turned_off)
+			BOOST_AUTO_TEST_CASE(cant_be_turned_off)
 			{
 				BOOST_CHECK_THROW(car.TurnOffEngine(), CanBeTurnedOffWhen);
 				BOOST_CHECK(car.IsTurnedOn());
@@ -219,20 +236,19 @@ BOOST_FIXTURE_TEST_SUITE(Car, CarFixture)
 
 			BOOST_AUTO_TEST_CASE(can_set_gear_to_neutral)
 			{
-				car.SetGear(0);
-				BOOST_CHECK(car.GetGear() == 0);
+				ExpectCarSetGear(0);
 				BOOST_CHECK(car.GetSpeed() == 10);
 			}
 
-			BOOST_AUTO_TEST_CASE(cant_set_gear_to_first_gear)
+			BOOST_AUTO_TEST_CASE(cant_set_to_first_gear)
 			{
-				BOOST_CHECK_THROW(car.SetGear(1), GearIsNotSupportCurrentSpeed);
-				BOOST_CHECK(car.GetGear() == -1);
+				ExpectCarCantSetGear(1, -1);
 			}
 
 			BOOST_AUTO_TEST_CASE(can_set_speed)
 			{
-				BOOST_CHECK_NO_THROW(car.SetSpeed(20));
+				ExpectCarSetSpeed(20);
+				BOOST_CHECK_THROW(car.SetSpeed(-5), NegativeValueEntered);
 			}
 
 			struct WhenMovingBackwardAtNeutral : WhenMovingBackward
@@ -247,19 +263,22 @@ BOOST_FIXTURE_TEST_SUITE(Car, CarFixture)
 
 				BOOST_AUTO_TEST_CASE(can_decrease_speed)
 				{
-					BOOST_CHECK_NO_THROW(car.SetSpeed(5));
-					BOOST_CHECK(car.GetSpeed() == 5);
+					ExpectCarSetSpeed(5);
 				}
 
 				BOOST_AUTO_TEST_CASE(cant_increase_speed)
 				{
-					BOOST_CHECK_THROW(car.SetSpeed(20), CantIncreaseSpeedWhenNeutralGear);
-					BOOST_CHECK(car.GetSpeed() == 10);
+					ExpectCarCantSetSpeed(20, 10);
 				}
 
 				BOOST_AUTO_TEST_CASE(cant_set_to_rear_gear)
 				{
-					BOOST_CHECK_THROW(car.SetGear(-1), CantSetRearGearWhenSpeedNonZero);
+					ExpectCarCantSetGear(-1, 0);
+				}
+
+				BOOST_AUTO_TEST_CASE(cant_set_to_first_gear)
+				{
+					ExpectCarCantSetGear(1, 0);
 				}
 
 			BOOST_AUTO_TEST_SUITE_END()
