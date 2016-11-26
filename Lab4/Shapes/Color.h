@@ -2,16 +2,14 @@
 class CColor final
 {
 public:
-	CColor(std::string colorStr);
+	CColor() = default;
 	CColor(uint8_t r, uint8_t g, uint8_t b);
 	std::string ToString() const;
 	bool operator ==(CColor other) const;
+	friend std::istream& operator >>(std::istream& stream, CColor& color);
 
-	uint8_t r;
-	uint8_t g;
-	uint8_t b;
-
-private:
-	uint8_t StrToUint8(std::string str);
+	uint8_t r = 0;
+	uint8_t g = 0;
+	uint8_t b = 0;
 };
 

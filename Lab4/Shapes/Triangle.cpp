@@ -37,11 +37,11 @@ std::string CTriangle::ToString() const
 	stream << fixed << setprecision(2);
 
 	stream << "Triangle: vertex1" << m_vertex1.ToString()
-		<< "vertex2" << m_vertex2.ToString()
-		<< "vertex3" << m_vertex3.ToString()
-		<< "area=" << m_area << " perimeter=" << m_perimeter << " "
-		<< "outlineColor(" << m_outlineColor.ToString() << ") "
-		<< "fillColor(" << m_fillColor.ToString() << ")";
+		<< " vertex2" << m_vertex2.ToString()
+		<< " vertex3" << m_vertex3.ToString()
+		<< " area=" << m_area << " perimeter=" << m_perimeter
+		<< " outlineColor(" << m_outlineColor.ToString() << ")"
+		<< " fillColor(" << m_fillColor.ToString() << ")";
 
 	return stream.str();
 }

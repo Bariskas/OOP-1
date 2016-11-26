@@ -33,7 +33,9 @@ BOOST_AUTO_TEST_SUITE(Color)
 
 	BOOST_AUTO_TEST_CASE(can_be_created_by_string)
 	{
-		CColor color("64:128:255");
+		CColor color;
+		stringstream("64:128:255") >> color;
+
 		BOOST_CHECK(color.r == 64);
 		BOOST_CHECK(color.g == 128);
 		BOOST_CHECK(color.b == 255);
@@ -41,12 +43,14 @@ BOOST_AUTO_TEST_SUITE(Color)
 
 	BOOST_AUTO_TEST_CASE(cant_be_created_by_incorrect_string_value)
 	{
-		BOOST_CHECK_THROW(CColor color(""), runtime_error);
-		BOOST_CHECK_THROW(CColor color("64"), runtime_error);
-		BOOST_CHECK_THROW(CColor color(":128:255"), runtime_error);
-		BOOST_CHECK_THROW(CColor color("64:128255"), runtime_error);
-		BOOST_CHECK_THROW(CColor color("64:b128:255"), runtime_error);
-		BOOST_CHECK_THROW(CColor color("64:128:256"), runtime_error);
+		CColor color;
+
+		BOOST_CHECK_THROW(stringstream("") >> color, runtime_error);
+		BOOST_CHECK_THROW(stringstream("64") >> color, runtime_error);
+		BOOST_CHECK_THROW(stringstream(":128:255") >> color, runtime_error);
+		BOOST_CHECK_THROW(stringstream("64:128255") >> color, runtime_error);
+		BOOST_CHECK_THROW(stringstream("64:b128:255") >> color, runtime_error);
+		BOOST_CHECK_THROW(stringstream("64:128:256") >> color, runtime_error);
 	}
 
 BOOST_AUTO_TEST_SUITE_END()
@@ -184,7 +188,7 @@ BOOST_FIXTURE_TEST_SUITE(Rectangle, RectangleFixture)
 
 	BOOST_AUTO_TEST_CASE(can_return_its_second_point)
 	{
-		CPoint expectedPoint(213., 83.);
+		CPoint expectedPoint(213., -83.);
 		BOOST_CHECK(rect.GetRightBottom() == expectedPoint);
 	}
 

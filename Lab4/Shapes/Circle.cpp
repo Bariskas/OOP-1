@@ -30,11 +30,11 @@ std::string CCircle::ToString() const
 
 	stream << fixed << setprecision(2);
 
-	stream << "Circle: center" << m_center.ToString() << " "
-		<< "radius=" << m_radius << " "
-		<< "area=" << GetArea() << " perimeter=" << GetPerimeter() << " "
-		<< "outlineColor(" << m_outlineColor.ToString() << ") "
-		<< "fillColor(" << m_fillColor.ToString() << ")";
+	stream << "Circle: center" << m_center.ToString()
+		<< " radius=" << m_radius << " "
+		<< " area=" << GetArea() << " perimeter=" << GetPerimeter()
+		<< " outlineColor(" << m_outlineColor.ToString() << ")"
+		<< " fillColor(" << m_fillColor.ToString() << ")";
 
 	return stream.str();
 }

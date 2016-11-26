@@ -30,11 +30,11 @@ std::string CRectangle::ToString() const
 	stream << fixed << setprecision(2);
 
 	stream << "Rectangle: leftTop" << m_leftTop.ToString()
-		<< "rightBottom" << GetRightBottom().ToString()
-		<< "width=" << m_width << " heigth=" << m_height
-		<< "area=" << GetArea() << " perimeter=" << GetPerimeter() << " "
-		<< "outlineColor(" << m_outlineColor.ToString() << ") "
-		<< "fillColor(" << m_fillColor.ToString() << ")";
+		<< " rightBottom" << GetRightBottom().ToString()
+		<< " width=" << m_width << " heigth=" << m_height
+		<< " area=" << GetArea() << " perimeter=" << GetPerimeter()
+		<< " outlineColor(" << m_outlineColor.ToString() << ")"
+		<< " fillColor(" << m_fillColor.ToString() << ")";
 
 	return stream.str();
 }

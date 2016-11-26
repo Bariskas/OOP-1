@@ -29,8 +29,8 @@ std::string CLineSegment::ToString() const
 	stream << fixed << setprecision(2);
 
 	stream << "Line: start" << m_startPoint.ToString()
-		<< "end" << m_endPoint.ToString()
-		<< "area=" << GetArea()	<< " perimeter=" << GetPerimeter()
+		<< " end" << m_endPoint.ToString()
+		<< " area=" << GetArea()	<< " perimeter=" << GetPerimeter()
 		<< " outlineColor("	<< m_outlineColor.ToString() << ')';
 
 	return stream.str();

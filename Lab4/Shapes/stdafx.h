@@ -24,3 +24,6 @@
 #include <iostream>
 #include <iomanip>
 #include <sstream>
+#include <memory>
+#include <functional>
+#include <map>
