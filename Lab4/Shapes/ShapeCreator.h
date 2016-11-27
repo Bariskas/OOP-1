@@ -19,7 +19,9 @@ public:
 
 private:
 	std::unique_ptr<IShape> CreateLine(std::stringstream& info);
-	// TODO: the rest of shit
+	std::unique_ptr<IShape> CreateTriangle(std::stringstream& info);
+	std::unique_ptr<IShape> CreateRectangle(std::stringstream& info);
+	std::unique_ptr<IShape> CreateCircle(std::stringstream& info);
 
 	typedef std::map<std::string, std::function<std::unique_ptr<IShape>(std::stringstream&)>> ShapeCreatorActionMap;
 	const ShapeCreatorActionMap m_shapeCreatorActionMap;

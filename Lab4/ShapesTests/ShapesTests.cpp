@@ -7,6 +7,7 @@
 #include "../Shapes/Triangle.h"
 #include "../Shapes/Rectangle.h"
 #include "../Shapes/Circle.h"
+#include "../Shapes/ShapeCreator.h"
 
 using namespace std;
 
@@ -115,12 +116,13 @@ BOOST_FIXTURE_TEST_SUITE(Triangle, TriangleFixture)
 	BOOST_AUTO_TEST_CASE(can_calculate_its_area)
 	{
 		double expectedResult = 166.00000000000045;
+		double result = triangle.GetArea();
 		BOOST_CHECK_EQUAL(triangle.GetArea(), expectedResult);
 	}
 
 	BOOST_AUTO_TEST_CASE(can_calculate_its_perimeter)
 	{
-		double expectedResult = 46.797234297887641;
+		double expectedResult = 93.594468595775282;
 		BOOST_CHECK_EQUAL(triangle.GetPerimeter(), expectedResult);
 	}
 
@@ -268,6 +270,48 @@ BOOST_FIXTURE_TEST_SUITE(Circle, CicleFixture)
 	{
 		BOOST_CHECK_THROW(CCircle(center, -5., outlineColor, fillColor), logic_error);
 		BOOST_CHECK_THROW(CCircle(center, 0., outlineColor, fillColor), logic_error);
+	}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+struct ShapeCreatorFixture
+{
+	CShapeCreator creator;
+
+	void CheckCanCreate(string const& info, double expectedArea, double expectedPerimeter)
+	{
+		unique_ptr<IShape> shape;
+		BOOST_CHECK_NO_THROW(shape = creator.CreateShape(info));
+		BOOST_CHECK_EQUAL(shape->GetArea(), expectedArea);
+		BOOST_CHECK_EQUAL(shape->GetPerimeter(), expectedPerimeter);
+	}
+};
+
+BOOST_FIXTURE_TEST_SUITE(ShapeCreator, ShapeCreatorFixture)
+	
+	BOOST_AUTO_TEST_CASE(returns_error_on_wrong_shape_info)
+	{
+		BOOST_CHECK_THROW(creator.CreateShape("test"), runtime_error);
+	}
+
+	BOOST_AUTO_TEST_CASE(can_create_line)
+	{
+		CheckCanCreate("Line 0:100 0:200 64:128:255", 0, 100);
+	}
+
+	BOOST_AUTO_TEST_CASE(can_create_triangle)
+	{
+		CheckCanCreate("Triangle 0:0 0:100 100:100 64:128:255 64:128:255", 5000, 341.42135623730951);
+	}
+
+	BOOST_AUTO_TEST_CASE(can_create_rectangle)
+	{
+		CheckCanCreate("Rectangle 100:100 200 300 64:128:255 64:128:255", 60000, 1000);
+	}
+
+	BOOST_AUTO_TEST_CASE(can_create_circle)
+	{
+		CheckCanCreate("Circle 100:100 50 64:128:255 64:128:255", 7853.9816339744830, 314.15926535897933);
 	}
 
 BOOST_AUTO_TEST_SUITE_END()

@@ -73,11 +73,11 @@ CPoint CTriangle::GetVertex3() const
 
 double CTriangle::CalculateArea(double a, double b, double c)
 {
-	double perimeter = CalculatePerimeter(a, b, c);
-	return sqrt(perimeter * (perimeter - a) * (perimeter - b) * (perimeter - c));
+	double p_number = (a + b + c) / 2;
+	return sqrt(p_number * (p_number - a) * (p_number - b) * (p_number - c));
 }
 
 double CTriangle::CalculatePerimeter(double a, double b, double c)
 {
-	return (a + b + c) / 2;
+	return a + b + c;
 }
