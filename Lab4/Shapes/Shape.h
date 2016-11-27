@@ -11,3 +11,5 @@ public:
 	virtual std::string ToString() const = 0;
 	virtual CColor GetOutlineColor() const = 0;
 };
+
+typedef std::unique_ptr<IShape> ShapePtr;

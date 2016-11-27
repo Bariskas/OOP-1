@@ -21,7 +21,7 @@ CShapeCreator::CShapeCreator()
 {
 }
 
-std::unique_ptr<IShape> CShapeCreator::CreateShape(std::string const& info)
+ShapePtr CShapeCreator::CreateShape(std::string const& info)
 {
 	stringstream infoStream(info);
 	string shapeName;
@@ -36,7 +36,7 @@ std::unique_ptr<IShape> CShapeCreator::CreateShape(std::string const& info)
 	return it->second(infoStream);
 }
 
-std::unique_ptr<IShape> CShapeCreator::CreateLine(std::stringstream& info)
+ShapePtr CShapeCreator::CreateLine(std::stringstream& info)
 {
 	CPoint startPoint;
 	CPoint endPoint;
@@ -47,7 +47,7 @@ std::unique_ptr<IShape> CShapeCreator::CreateLine(std::stringstream& info)
 	return make_unique<CLineSegment>(std::move(CLineSegment(startPoint, endPoint, outlineColor)));
 }
 
-std::unique_ptr<IShape> CShapeCreator::CreateTriangle(std::stringstream& info)
+ShapePtr CShapeCreator::CreateTriangle(std::stringstream& info)
 {
 	CPoint vertex1;
 	CPoint vertex2;
@@ -60,7 +60,7 @@ std::unique_ptr<IShape> CShapeCreator::CreateTriangle(std::stringstream& info)
 	return make_unique<CTriangle>(std::move(CTriangle(vertex1, vertex2, vertex3, outlineColor, fillColor)));
 }
 
-std::unique_ptr<IShape> CShapeCreator::CreateRectangle(std::stringstream& info)
+ShapePtr CShapeCreator::CreateRectangle(std::stringstream& info)
 {
 	CPoint leftTop;
 	CColor outlineColor;
@@ -81,7 +81,7 @@ std::unique_ptr<IShape> CShapeCreator::CreateRectangle(std::stringstream& info)
 	return make_unique<CRectangle>(std::move(CRectangle(leftTop, width, height, outlineColor, fillColor)));
 }
 
-std::unique_ptr<IShape> CShapeCreator::CreateCircle(std::stringstream& info)
+ShapePtr CShapeCreator::CreateCircle(std::stringstream& info)
 {
 	CPoint center;
 	CColor outlineColor;

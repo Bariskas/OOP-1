@@ -56,5 +56,8 @@
     <ClCompile Include="..\Shapes\ShapeCreator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Shapes\ShapeManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

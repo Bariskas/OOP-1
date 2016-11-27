@@ -18,6 +18,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <iterator>
 #include <functional>
 #include <boost/algorithm/string.hpp>
 #include <cmath>

@@ -148,6 +148,7 @@
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="Shape.h" />
     <ClInclude Include="ShapeCreator.h" />
+    <ClInclude Include="ShapeManager.h" />
     <ClInclude Include="SolidShape.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="StringUtils.h" />
@@ -163,6 +164,7 @@
     <ClCompile Include="Shape.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ShapeCreator.cpp" />
+    <ClCompile Include="ShapeManager.cpp" />
     <ClCompile Include="SolidShape.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

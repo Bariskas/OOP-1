@@ -8,6 +8,7 @@
 #include "../Shapes/Rectangle.h"
 #include "../Shapes/Circle.h"
 #include "../Shapes/ShapeCreator.h"
+#include "../Shapes/ShapeManager.h"
 
 using namespace std;
 
@@ -222,7 +223,7 @@ BOOST_FIXTURE_TEST_SUITE(Rectangle, RectangleFixture)
 
 BOOST_AUTO_TEST_SUITE_END()
 
-struct CicleFixture
+struct CircleFixture
 {
 	CPoint center = CPoint(130., 170.);
 	double radius = 50.;
@@ -232,7 +233,7 @@ struct CicleFixture
 	CCircle circle = CCircle(center, radius, outlineColor, fillColor);
 };
 
-BOOST_FIXTURE_TEST_SUITE(Circle, CicleFixture)
+BOOST_FIXTURE_TEST_SUITE(Circle, CircleFixture)
 
 	BOOST_AUTO_TEST_CASE(can_calculate_its_area)
 	{
@@ -289,9 +290,9 @@ struct ShapeCreatorFixture
 
 BOOST_FIXTURE_TEST_SUITE(ShapeCreator, ShapeCreatorFixture)
 	
-	BOOST_AUTO_TEST_CASE(returns_error_on_wrong_shape_info)
+	BOOST_AUTO_TEST_CASE(returns_error_on_wrong_shape_name)
 	{
-		BOOST_CHECK_THROW(creator.CreateShape("test"), runtime_error);
+		BOOST_CHECK_THROW(creator.CreateShape("test 0:100 0:200 64:128:255"), runtime_error);
 	}
 
 	BOOST_AUTO_TEST_CASE(can_create_line)

@@ -12,15 +12,13 @@ CPoint::CPoint(double x, double y)
 
 std::string CPoint::ToString() const
 {
-	string str;
+	stringstream stream;
 
-	str.append("(");
-	str.append(to_string(x));
-	str.append(", ");
-	str.append(to_string(y));
-	str.append(")");
+	stream << fixed << setprecision(2);
 
-	return str;
+	stream << '(' << x << ", " << y << ')';
+
+	return stream.str();
 }
 
 bool CPoint::operator ==(CPoint other) const
