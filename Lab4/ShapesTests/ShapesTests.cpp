@@ -3,6 +3,7 @@
 #include <boost/algorithm/string/replace.hpp>
 #include "../Shapes/Point.h"
 #include "../Shapes/Color.h"
+#include "../Shapes/Shape.h"
 #include "../Shapes/LineSegment.h"
 #include "../Shapes/Triangle.h"
 #include "../Shapes/Rectangle.h"
@@ -14,11 +15,33 @@ using namespace std;
 
 BOOST_AUTO_TEST_SUITE(Point)
 
-	BOOST_AUTO_TEST_CASE(can_be_created)
+	BOOST_AUTO_TEST_CASE(can_be_created_by_number)
 	{
 		CPoint point(11, 12);
 		BOOST_CHECK(point.x == 11);
 		BOOST_CHECK(point.y == 12);
+	}
+	
+
+	BOOST_AUTO_TEST_CASE(can_be_created_by_string)
+	{
+		CPoint point;
+		stringstream("64:128") >> point;
+
+		BOOST_CHECK(point.x == 64);
+		BOOST_CHECK(point.y == 128);
+	}
+
+	BOOST_AUTO_TEST_CASE(cant_be_created_by_incorrect_string_value)
+	{
+		CPoint point;
+
+		BOOST_CHECK_THROW(stringstream("") >> point, runtime_error);
+		BOOST_CHECK_THROW(stringstream("64") >> point, runtime_error);
+		BOOST_CHECK_THROW(stringstream(":128") >> point, runtime_error);
+		BOOST_CHECK_THROW(stringstream("64128") >> point, runtime_error);
+		BOOST_CHECK_THROW(stringstream("64:b128") >> point, runtime_error);
+		BOOST_CHECK_THROW(stringstream("a64:128") >> point, runtime_error);
 	}
 
 BOOST_AUTO_TEST_SUITE_END()
@@ -51,7 +74,9 @@ BOOST_AUTO_TEST_SUITE(Color)
 		BOOST_CHECK_THROW(stringstream("64") >> color, runtime_error);
 		BOOST_CHECK_THROW(stringstream(":128:255") >> color, runtime_error);
 		BOOST_CHECK_THROW(stringstream("64:128255") >> color, runtime_error);
+		BOOST_CHECK_THROW(stringstream("a64:128:255") >> color, runtime_error);
 		BOOST_CHECK_THROW(stringstream("64:b128:255") >> color, runtime_error);
+		BOOST_CHECK_THROW(stringstream("64:128:c255") >> color, runtime_error);
 		BOOST_CHECK_THROW(stringstream("64:128:256") >> color, runtime_error);
 	}
 
@@ -281,7 +306,7 @@ struct ShapeCreatorFixture
 
 	void CheckCanCreate(string const& info, double expectedArea, double expectedPerimeter)
 	{
-		unique_ptr<IShape> shape;
+		ShapePtr shape;
 		BOOST_CHECK_NO_THROW(shape = creator.CreateShape(info));
 		BOOST_CHECK_EQUAL(shape->GetArea(), expectedArea);
 		BOOST_CHECK_EQUAL(shape->GetPerimeter(), expectedPerimeter);
@@ -313,6 +338,67 @@ BOOST_FIXTURE_TEST_SUITE(ShapeCreator, ShapeCreatorFixture)
 	BOOST_AUTO_TEST_CASE(can_create_circle)
 	{
 		CheckCanCreate("Circle 100:100 50 64:128:255 64:128:255", 7853.9816339744830, 314.15926535897933);
+	}
+
+	BOOST_AUTO_TEST_CASE(returns_error_if_not_enough_parameters)
+	{
+		BOOST_CHECK_THROW(creator.CreateShape("Circle 100:100 50 64:128:255"), runtime_error);
+		BOOST_CHECK_THROW(creator.CreateShape("Rectangle 100:100 200 300"), runtime_error);
+		BOOST_CHECK_THROW(creator.CreateShape("Triangle 0:0 0:100 100:90"), runtime_error);
+		BOOST_CHECK_THROW(creator.CreateShape("Line 0:100"), runtime_error);
+	}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+struct ShapeManagerFixture
+{
+	CShapeManager manager;
+};
+
+BOOST_FIXTURE_TEST_SUITE(Empty_shapeManager, ShapeManagerFixture)
+
+	BOOST_AUTO_TEST_CASE(returns_error_when_try_to_get_shape_with_max_area)
+	{
+		BOOST_CHECK_THROW(manager.GetShapeWithMaxArea(), logic_error);
+	}
+
+	BOOST_AUTO_TEST_CASE(returns_error_when_try_to_get_shape_with_min_perimeter)
+	{
+		BOOST_CHECK_THROW(manager.GetShapeWithMinPerimeter(), logic_error);
+	}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+struct FilledShapeManagerFixture : ShapeManagerFixture
+{
+	FilledShapeManagerFixture()
+	{
+		boost::iostreams::stream<boost::iostreams::null_sink> nullOstream((boost::iostreams::null_sink()));
+
+		manager.AddShape("Line 0:100 0:200 64:128:255", nullOstream);
+		manager.AddShape("Triangle 0:0 0:100 100:100 64:128:255 64:128:255", nullOstream);
+		manager.AddShape("Rectangle 100:100 200 300 64:128:255 64:128:255", nullOstream);
+		manager.AddShape("Circle 100:100 50 64:128:255 64:128:255", nullOstream);
+	}
+};
+
+BOOST_FIXTURE_TEST_SUITE(Filled_shapeManager, FilledShapeManagerFixture)
+
+	BOOST_AUTO_TEST_CASE(can_return_shape_with_max_area)
+	{
+		double expectedArea = 60000.000000000000;
+
+		ShapePtr& shape = manager.GetShapeWithMaxArea();
+		BOOST_CHECK(shape->GetArea() == expectedArea);
+	}
+	
+
+	BOOST_AUTO_TEST_CASE(can_return_shape_with_min_perimeter)
+	{
+		double expectedPerimeter = 100.000000000000;
+
+		ShapePtr& shape = manager.GetShapeWithMinPerimeter();
+		BOOST_CHECK(shape->GetPerimeter() == expectedPerimeter);
 	}
 
 BOOST_AUTO_TEST_SUITE_END()

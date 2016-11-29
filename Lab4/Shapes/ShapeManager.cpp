@@ -3,25 +3,26 @@
 
 using namespace std;
 
-CShapeManager::CShapeManager(ostream& output)
-	: m_output(output)
-	, m_shapeCreator(std::move(CShapeCreator()))
+CShapeManager::CShapeManager()
+	: m_shapeCreator(std::move(CShapeCreator()))
 {
 }
 
-void CShapeManager::AddShapesFromStream(istream& input)
+void CShapeManager::AddShapesFromStream(istream& input, std::ostream& output)
 {
 	string shapeInfo;
-	
+
+	PrintCursor(output);
 	while (getline(input, shapeInfo))
 	{
-		AddShape(shapeInfo);
+		AddShape(shapeInfo, output);
+		PrintCursor(output);
 	}
 }
 
-void CShapeManager::PrintShapes()
+void CShapeManager::PrintShapes(ostream& output)
 {
-	transform(m_shapeList.begin(), m_shapeList.end(), ostream_iterator<string>(m_output, "\n"),
+	transform(m_shapeList.begin(), m_shapeList.end(), ostream_iterator<string>(output, "\n"),
 		[](ShapePtr const& shape) { return std::move(shape->ToString()); });
 }
 
@@ -47,23 +48,28 @@ ShapePtr& CShapeManager::GetShapeWithMinPerimeter()
 	}
 
 	auto it = min_element(m_shapeList.begin(), m_shapeList.end(), [](ShapePtr const& shape1, ShapePtr const& shape2) {
-		return shape1->GetPerimeter() > shape2->GetPerimeter();
+		return shape1->GetPerimeter() < shape2->GetPerimeter();
 	});
 
 	return *it;
 }
 
-void CShapeManager::AddShape(std::string const& shapeInfo)
+void CShapeManager::AddShape(std::string const& shapeInfo, std::ostream& output)
 {
 	try
 	{
 		ShapePtr shape = m_shapeCreator.CreateShape(shapeInfo);
 		m_shapeList.push_back(std::move(shape));
-		m_output << "ok";
+		output << "ok";
 	}
 	catch (exception const& e)
 	{
-		m_output << "Error: " << e.what();
+		output << "Error: " << e.what();
 	}
-	m_output << endl << endl;
+	output << endl << endl;
+}
+
+void CShapeManager::PrintCursor(std::ostream& output)
+{
+	output << '>';
 }

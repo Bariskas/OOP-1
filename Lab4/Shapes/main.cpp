@@ -5,9 +5,9 @@ using namespace std;
 
 int main()
 {
-	CShapeManager shapeManager(cout);
+	CShapeManager shapeManager;
 
-	shapeManager.AddShapesFromStream(cin);
+	shapeManager.AddShapesFromStream(cin, cout);
 
 	try
 	{

@@ -23,6 +23,11 @@ CShapeCreator::CShapeCreator()
 
 ShapePtr CShapeCreator::CreateShape(std::string const& info)
 {
+	if (info.empty())
+	{
+		throw runtime_error("Empty shapeInfo entered!");
+	}
+
 	stringstream infoStream(info);
 	string shapeName;
 	infoStream >> shapeName;
@@ -38,6 +43,11 @@ ShapePtr CShapeCreator::CreateShape(std::string const& info)
 
 ShapePtr CShapeCreator::CreateLine(std::stringstream& info)
 {
+	if (!CheckNumberOfParams(info.str(), 4))
+	{
+		throw runtime_error("Wrong parameters count!\nUsage: Line <startPoint> <endPoint> <outlineColor>");
+	}
+
 	CPoint startPoint;
 	CPoint endPoint;
 	CColor outlineColor;
@@ -49,6 +59,11 @@ ShapePtr CShapeCreator::CreateLine(std::stringstream& info)
 
 ShapePtr CShapeCreator::CreateTriangle(std::stringstream& info)
 {
+	if (!CheckNumberOfParams(info.str(), 6))
+	{
+		throw runtime_error("Wrong parameters count!\nUsage: Triangle <vertex1> <vertex2> <vertex3> <outlineColor> <fillColor>");
+	}
+
 	CPoint vertex1;
 	CPoint vertex2;
 	CPoint vertex3;
@@ -62,6 +77,11 @@ ShapePtr CShapeCreator::CreateTriangle(std::stringstream& info)
 
 ShapePtr CShapeCreator::CreateRectangle(std::stringstream& info)
 {
+	if (!CheckNumberOfParams(info.str(), 6))
+	{
+		throw runtime_error("Wrong parameters count!\nUsage: Rectangle <leftTopPoint> <width> <height> <outlineColor> <fillColor>");
+	}
+
 	CPoint leftTop;
 	CColor outlineColor;
 	CColor fillColor;
@@ -83,6 +103,11 @@ ShapePtr CShapeCreator::CreateRectangle(std::stringstream& info)
 
 ShapePtr CShapeCreator::CreateCircle(std::stringstream& info)
 {
+	if (!CheckNumberOfParams(info.str(), 5))
+	{
+		throw runtime_error("Wrong parameters count!\nUsage: Circle <centerPoint> <radius> <outlineColor> <fillColor>");
+	}
+
 	CPoint center;
 	CColor outlineColor;
 	CColor fillColor;

@@ -5,18 +5,19 @@
 class CShapeManager
 {
 public:
-	CShapeManager(std::ostream& output);
-	void AddShapesFromStream(std::istream& input);
-	void PrintShapes();
+	CShapeManager();
+	CShapeManager(CShapeManager const& copy) = delete;
+	void AddShapesFromStream(std::istream& input, std::ostream& output);
+	void AddShape(std::string const& shapeInfo, std::ostream& output);
+	void PrintShapes(std::ostream& output);
 	ShapePtr& GetShapeWithMaxArea();
 	ShapePtr& GetShapeWithMinPerimeter();
 
 private:
-	void AddShape(std::string const& shapeInfo);
+	void PrintCursor(std::ostream& output);
 
 	typedef std::vector<ShapePtr> ShapeList;
 	
-	std::ostream& m_output;
 	CShapeCreator m_shapeCreator;
 	ShapeList m_shapeList;
 };

@@ -52,3 +52,11 @@ double StrToDouble(std::string str)
 
 	return result;
 }
+
+bool CheckNumberOfParams(string str, int count)
+{
+	vector<string> param;
+	boost::split(param, str, bind2nd(equal_to<char>(), ' '));
+
+	return param.size() == count;
+}

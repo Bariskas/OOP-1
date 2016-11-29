@@ -23,6 +23,8 @@
 #include <algorithm>
 #include <functional>
 #include <boost/algorithm/string.hpp>
+#include "boost/iostreams/stream.hpp"
+#include "boost/iostreams/device/null.hpp"
 #include <cmath>
 #include <iostream>
 #include <iomanip>

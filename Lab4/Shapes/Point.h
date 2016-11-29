@@ -9,6 +9,6 @@ public:
 	bool operator ==(CPoint other) const;
 	friend std::istream& operator >>(std::istream& stream, CPoint& point);
 
-	double x;
-	double y;
+	double x = 0;
+	double y = 0;
 };
