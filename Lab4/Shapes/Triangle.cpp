@@ -6,29 +6,34 @@ using namespace std;
 
 CTriangle::CTriangle(CPoint vertex1, CPoint vertex2, CPoint vertex3, CColor outlineColor, CColor fillColor)
 	: m_vertex1(vertex1), m_vertex2(vertex2), m_vertex3(vertex3)
-	, m_outlineColor(outlineColor), m_fillColor(fillColor)
+	, CSolidShape(outlineColor, fillColor)
 {
 	if (vertex1 == vertex2 || vertex2 == vertex3 || vertex3 == vertex1)
 	{
 		throw logic_error("Points must be different");
 	}
-
-	double line12Length = CLineSegment::CalculateLineLength(vertex1, vertex2);
-	double line23Length = CLineSegment::CalculateLineLength(vertex2, vertex3);
-	double line31Length = CLineSegment::CalculateLineLength(vertex3, vertex1);
-
-	m_perimeter = CalculatePerimeter(line12Length, line23Length, line31Length);
-	m_area = CalculateArea(line12Length, line23Length, line31Length);
 }
 
 double CTriangle::GetArea() const
 {
-	return m_area;
+	double line1;
+	double line2;
+	double line3;
+
+	GetEdgeLength(line1, line2, line3);
+
+	return CalculateArea(line1, line2, line3);
 }
 
 double CTriangle::GetPerimeter() const
 {
-	return m_perimeter;
+	double line1;
+	double line2;
+	double line3;
+
+	GetEdgeLength(line1, line2, line3);
+
+	return CalculatePerimeter(line1, line2, line3);
 }
 
 std::string CTriangle::ToString() const
@@ -40,21 +45,9 @@ std::string CTriangle::ToString() const
 	stream << "Triangle: vertex1" << m_vertex1.ToString()
 		<< " vertex2" << m_vertex2.ToString()
 		<< " vertex3" << m_vertex3.ToString()
-		<< " area=" << m_area << " perimeter=" << m_perimeter
-		<< " outlineColor(" << m_outlineColor.ToString() << ")"
-		<< " fillColor(" << m_fillColor.ToString() << ")";
+		<< CSolidShape::ToString();
 
 	return stream.str();
-}
-
-CColor CTriangle::GetOutlineColor() const
-{
-	return m_outlineColor;
-}
-
-CColor CTriangle::GetFillColor() const
-{
-	return m_fillColor;
 }
 
 CPoint CTriangle::GetVertex1() const
@@ -81,4 +74,11 @@ double CTriangle::CalculateArea(double a, double b, double c)
 double CTriangle::CalculatePerimeter(double a, double b, double c)
 {
 	return a + b + c;
+}
+
+void CTriangle::GetEdgeLength(double& line1, double& line2, double& line3) const
+{
+	line1 = CLineSegment::CalculateLineLength(m_vertex1, m_vertex2);
+	line2 = CLineSegment::CalculateLineLength(m_vertex2, m_vertex3);
+	line3 = CLineSegment::CalculateLineLength(m_vertex3, m_vertex1);
 }

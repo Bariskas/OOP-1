@@ -1,5 +1,4 @@
 #pragma once
-#include "Shape.h"
 #include "SolidShape.h"
 #include "Point.h"
 #include "Color.h"

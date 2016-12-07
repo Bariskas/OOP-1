@@ -1,7 +1,8 @@
 #pragma once
 #include "IShape.h"
+#include "IShapeFactory.h"
 
-class CShapeFactory
+class CShapeFactory : public IShapeFactory
 {
 public:
 	CShapeFactory();

@@ -4,8 +4,8 @@
 
 using namespace std;
 
-CShapeManager::CShapeManager()
-	: m_shapeCreator(std::move(CShapeFactory()))
+CShapeManager::CShapeManager(CShapeFactory& factory)
+	: m_shapeFactory(factory)
 {
 }
 
@@ -59,7 +59,7 @@ void CShapeManager::AddShape(std::string const& shapeInfo, std::ostream& output)
 {
 	try
 	{
-		IShapePtr shape = m_shapeCreator.CreateShape(shapeInfo);
+		IShapePtr shape = m_shapeFactory.CreateShape(shapeInfo);
 		m_shapeList.push_back(std::move(shape));
 		output << "ok";
 	}

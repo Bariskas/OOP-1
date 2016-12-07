@@ -352,7 +352,8 @@ BOOST_AUTO_TEST_SUITE_END()
 
 struct ShapeManagerFixture
 {
-	CShapeManager manager;
+	CShapeFactory factory;
+	CShapeManager manager = CShapeManager(factory);
 };
 
 BOOST_FIXTURE_TEST_SUITE(Empty_shapeManager, ShapeManagerFixture)

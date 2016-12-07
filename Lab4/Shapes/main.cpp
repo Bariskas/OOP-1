@@ -6,7 +6,8 @@ using namespace std;
 
 int main()
 {
-	CShapeManager shapeManager;
+	CShapeFactory shapeFactory;
+	CShapeManager shapeManager(shapeFactory);
 
 	shapeManager.AddShapesFromStream(cin, cout);
 

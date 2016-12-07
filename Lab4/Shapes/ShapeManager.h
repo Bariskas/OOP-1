@@ -4,8 +4,8 @@
 class CShapeManager
 {
 public:
-	CShapeManager();
-	CShapeManager(CShapeManager const& copy) = delete;
+	CShapeManager(CShapeFactory& factory);
+	//CShapeManager(CShapeManager const& copy) = delete;
 	void AddShapesFromStream(std::istream& input, std::ostream& output);
 	void AddShape(std::string const& shapeInfo, std::ostream& output);
 	void PrintShapes(std::ostream& output);
@@ -17,7 +17,7 @@ private:
 
 	typedef std::vector<IShapePtr> ShapeList;
 	
-	CShapeFactory m_shapeCreator;
+	IShapeFactory& m_shapeFactory;
 	ShapeList m_shapeList;
 };
 
