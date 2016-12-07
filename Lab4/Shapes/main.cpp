@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "IShape.h"
 #include "ShapeManager.h"
 
 using namespace std;
@@ -11,8 +12,8 @@ int main()
 
 	try
 	{
-		ShapePtr& shapeWithMaxArea = shapeManager.GetShapeWithMaxArea();
-		ShapePtr& shapeWithMinPerimeter = shapeManager.GetShapeWithMinPerimeter();
+		IShape* shapeWithMaxArea = shapeManager.GetShapeWithMaxArea();
+		IShape* shapeWithMinPerimeter = shapeManager.GetShapeWithMinPerimeter();
 		cout << "Shape with Max area: " << shapeWithMaxArea->ToString() << endl
 			<< "Shape with Min perimeter: " << shapeWithMinPerimeter->ToString() << endl;
 	}

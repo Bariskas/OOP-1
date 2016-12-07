@@ -1,15 +1,19 @@
 #pragma once
+#include "IShape.h"
+#include "Point.h"
+#include "Color.h"
 
-class CColor;
-
-class IShape
+class CShape : public virtual IShape
 {
 public:
-	virtual ~IShape() = default;
-	virtual double GetArea() const = 0;
-	virtual double GetPerimeter() const = 0;
-	virtual std::string ToString() const = 0;
-	virtual CColor GetOutlineColor() const = 0;
+	CShape(CColor outlineColor);
+	virtual ~CShape() = default;
+	CColor GetOutlineColor() const override;
+
+protected:
+	std::string ToString() const override;
+
+private:
+	CColor m_outlineColor;
 };
 
-typedef std::unique_ptr<IShape> ShapePtr;

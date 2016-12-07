@@ -5,7 +5,7 @@ using namespace std;
 
 CRectangle::CRectangle(CPoint leftTop, double width, double height, CColor outlineColor, CColor fillColor)
 	: m_leftTop(leftTop), m_width(width), m_height(height)
-	, m_outlineColor(outlineColor), m_fillColor(fillColor)
+	, CSolidShape(outlineColor, fillColor)
 {
 	if (width <= DBL_EPSILON || height <= DBL_EPSILON)
 	{
@@ -32,21 +32,9 @@ std::string CRectangle::ToString() const
 	stream << "Rectangle: leftTop" << m_leftTop.ToString()
 		<< " rightBottom" << GetRightBottom().ToString()
 		<< " width=" << m_width << " heigth=" << m_height
-		<< " area=" << GetArea() << " perimeter=" << GetPerimeter()
-		<< " outlineColor(" << m_outlineColor.ToString() << ")"
-		<< " fillColor(" << m_fillColor.ToString() << ")";
+		<< CSolidShape::ToString();
 
 	return stream.str();
-}
-
-CColor CRectangle::GetOutlineColor() const
-{
-	return m_outlineColor;
-}
-
-CColor CRectangle::GetFillColor() const
-{
-	return m_fillColor;
 }
 
 CPoint CRectangle::GetLeftTop() const

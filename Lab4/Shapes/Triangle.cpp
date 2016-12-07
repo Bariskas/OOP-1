@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Triangle.h"
+#include "LineSegment.h"
 
 using namespace std;
 

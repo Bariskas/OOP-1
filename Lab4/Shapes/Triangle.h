@@ -1,8 +1,7 @@
 #pragma once
-#include "SolidShape.h"
+#include "ISolidShape.h"
 #include "Point.h"
 #include "Color.h"
-#include "LineSegment.h"
 
 class CTriangle : public ISolidShape
 {

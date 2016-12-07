@@ -146,9 +146,11 @@
     <ClInclude Include="LineSegment.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="Rectangle.h" />
+    <ClInclude Include="IShape.h" />
     <ClInclude Include="Shape.h" />
-    <ClInclude Include="ShapeCreator.h" />
+    <ClInclude Include="ShapeFactory.h" />
     <ClInclude Include="ShapeManager.h" />
+    <ClInclude Include="ISolidShape.h" />
     <ClInclude Include="SolidShape.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="StringUtils.h" />
@@ -161,10 +163,12 @@
     <ClCompile Include="LineSegment.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="Rectangle.cpp" />
-    <ClCompile Include="Shape.cpp" />
+    <ClCompile Include="IShape.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="ShapeCreator.cpp" />
+    <ClCompile Include="Shape.cpp" />
+    <ClCompile Include="ShapeFactory.cpp" />
     <ClCompile Include="ShapeManager.cpp" />
+    <ClCompile Include="ISolidShape.cpp" />
     <ClCompile Include="SolidShape.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

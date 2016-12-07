@@ -5,7 +5,7 @@ using namespace std;
 
 CCircle::CCircle(CPoint center, double radius, CColor outlineColor, CColor fillColor)
 	: m_center(center), m_radius(radius)
-	, m_outlineColor(outlineColor), m_fillColor(fillColor)
+	, CSolidShape(outlineColor, fillColor)
 {
 	if (m_radius <= DBL_EPSILON)
 	{
@@ -32,21 +32,9 @@ std::string CCircle::ToString() const
 
 	stream << "Circle: center" << m_center.ToString()
 		<< " radius=" << m_radius << " "
-		<< " area=" << GetArea() << " perimeter=" << GetPerimeter()
-		<< " outlineColor(" << m_outlineColor.ToString() << ")"
-		<< " fillColor(" << m_fillColor.ToString() << ")";
+		<< CSolidShape::ToString();
 
 	return stream.str();
-}
-
-CColor CCircle::GetOutlineColor() const
-{
-	return m_outlineColor;
-}
-
-CColor CCircle::GetFillColor() const
-{
-	return m_fillColor;
 }
 
 CPoint CCircle::GetCenter() const

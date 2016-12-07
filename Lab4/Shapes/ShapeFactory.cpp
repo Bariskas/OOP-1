@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "ShapeCreator.h"
+#include "ShapeFactory.h"
 #include "StringUtils.h"
 #include "Point.h"
 #include "Color.h"
@@ -11,17 +11,17 @@
 using namespace std;
 using namespace std::placeholders;
 
-CShapeCreator::CShapeCreator()
+CShapeFactory::CShapeFactory()
 	: m_shapeCreatorActionMap({
-		{ "Line", bind(&CShapeCreator::CreateLine, this, _1) },
-		{ "Triangle", bind(&CShapeCreator::CreateTriangle, this, _1) },
-		{ "Rectangle", bind(&CShapeCreator::CreateRectangle, this, _1) },
-		{ "Circle", bind(&CShapeCreator::CreateCircle, this, _1) }
+		{ "Line", bind(&CShapeFactory::CreateLine, this, _1) },
+		{ "Triangle", bind(&CShapeFactory::CreateTriangle, this, _1) },
+		{ "Rectangle", bind(&CShapeFactory::CreateRectangle, this, _1) },
+		{ "Circle", bind(&CShapeFactory::CreateCircle, this, _1) }
 	})
 {
 }
 
-ShapePtr CShapeCreator::CreateShape(std::string const& info)
+IShapePtr CShapeFactory::CreateShape(std::string const& info)
 {
 	if (info.empty())
 	{
@@ -41,7 +41,7 @@ ShapePtr CShapeCreator::CreateShape(std::string const& info)
 	return it->second(infoStream);
 }
 
-ShapePtr CShapeCreator::CreateLine(std::stringstream& info)
+IShapePtr CShapeFactory::CreateLine(std::stringstream& info)
 {
 	if (!CheckNumberOfParams(info.str(), 4))
 	{
@@ -57,7 +57,7 @@ ShapePtr CShapeCreator::CreateLine(std::stringstream& info)
 	return make_unique<CLineSegment>(std::move(CLineSegment(startPoint, endPoint, outlineColor)));
 }
 
-ShapePtr CShapeCreator::CreateTriangle(std::stringstream& info)
+IShapePtr CShapeFactory::CreateTriangle(std::stringstream& info)
 {
 	if (!CheckNumberOfParams(info.str(), 6))
 	{
@@ -75,7 +75,7 @@ ShapePtr CShapeCreator::CreateTriangle(std::stringstream& info)
 	return make_unique<CTriangle>(std::move(CTriangle(vertex1, vertex2, vertex3, outlineColor, fillColor)));
 }
 
-ShapePtr CShapeCreator::CreateRectangle(std::stringstream& info)
+IShapePtr CShapeFactory::CreateRectangle(std::stringstream& info)
 {
 	if (!CheckNumberOfParams(info.str(), 6))
 	{
@@ -101,7 +101,7 @@ ShapePtr CShapeCreator::CreateRectangle(std::stringstream& info)
 	return make_unique<CRectangle>(std::move(CRectangle(leftTop, width, height, outlineColor, fillColor)));
 }
 
-ShapePtr CShapeCreator::CreateCircle(std::stringstream& info)
+IShapePtr CShapeFactory::CreateCircle(std::stringstream& info)
 {
 	if (!CheckNumberOfParams(info.str(), 5))
 	{

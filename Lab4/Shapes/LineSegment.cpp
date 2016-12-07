@@ -4,7 +4,7 @@
 using namespace std;
 
 CLineSegment::CLineSegment(CPoint startPoint, CPoint endPoint, CColor outlineColor)
-	: m_startPoint(startPoint), m_endPoint(endPoint), m_outlineColor(outlineColor)
+	: CShape(outlineColor), m_startPoint(startPoint), m_endPoint(endPoint)
 {
 	if (startPoint == endPoint)
 	{
@@ -26,19 +26,11 @@ std::string CLineSegment::ToString() const
 {
 	stringstream stream;
 
-	stream << fixed << setprecision(2);
-
 	stream << "Line: start" << m_startPoint.ToString()
 		<< " end" << m_endPoint.ToString()
-		<< " area=" << GetArea()	<< " perimeter=" << GetPerimeter()
-		<< " outlineColor("	<< m_outlineColor.ToString() << ')';
+		<< CShape::ToString();
 
 	return stream.str();
-}
-
-CColor CLineSegment::GetOutlineColor() const
-{
-	return m_outlineColor;
 }
 
 CPoint CLineSegment::GetStartPoint() const

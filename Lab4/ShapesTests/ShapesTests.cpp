@@ -3,12 +3,12 @@
 #include <boost/algorithm/string/replace.hpp>
 #include "../Shapes/Point.h"
 #include "../Shapes/Color.h"
-#include "../Shapes/Shape.h"
+#include "../Shapes/IShape.h"
 #include "../Shapes/LineSegment.h"
 #include "../Shapes/Triangle.h"
 #include "../Shapes/Rectangle.h"
 #include "../Shapes/Circle.h"
-#include "../Shapes/ShapeCreator.h"
+#include "../Shapes/ShapeFactory.h"
 #include "../Shapes/ShapeManager.h"
 
 using namespace std;
@@ -302,11 +302,11 @@ BOOST_AUTO_TEST_SUITE_END()
 
 struct ShapeCreatorFixture
 {
-	CShapeCreator creator;
+	CShapeFactory creator;
 
 	void CheckCanCreate(string const& info, double expectedArea, double expectedPerimeter)
 	{
-		ShapePtr shape;
+		IShapePtr shape;
 		BOOST_CHECK_NO_THROW(shape = creator.CreateShape(info));
 		BOOST_CHECK_EQUAL(shape->GetArea(), expectedArea);
 		BOOST_CHECK_EQUAL(shape->GetPerimeter(), expectedPerimeter);
@@ -388,7 +388,7 @@ BOOST_FIXTURE_TEST_SUITE(Filled_shapeManager, FilledShapeManagerFixture)
 	{
 		double expectedArea = 60000.000000000000;
 
-		ShapePtr& shape = manager.GetShapeWithMaxArea();
+		IShape* shape = manager.GetShapeWithMaxArea();
 		BOOST_CHECK(shape->GetArea() == expectedArea);
 	}
 	
@@ -397,7 +397,7 @@ BOOST_FIXTURE_TEST_SUITE(Filled_shapeManager, FilledShapeManagerFixture)
 	{
 		double expectedPerimeter = 100.000000000000;
 
-		ShapePtr& shape = manager.GetShapeWithMinPerimeter();
+		IShape* shape = manager.GetShapeWithMinPerimeter();
 		BOOST_CHECK(shape->GetPerimeter() == expectedPerimeter);
 	}
 
