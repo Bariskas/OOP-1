@@ -4,7 +4,7 @@
 
 using namespace std;
 
-CShapeManager::CShapeManager(CShapeFactory& factory)
+CShapeManager::CShapeManager(IShapeFactory& factory)
 	: m_shapeFactory(factory)
 {
 }

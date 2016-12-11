@@ -18,6 +18,8 @@ std::string CShape::ToString() const
 	stringstream stream;
 	stream << fixed << setprecision(2);
 
+	AppendProperties(stream);
+
 	stream << " area=" << GetArea() << " perimeter=" << GetPerimeter()
 		<< " outlineColor(" << m_outlineColor.ToString() << ')';
 

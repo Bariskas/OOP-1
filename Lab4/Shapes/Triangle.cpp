@@ -36,18 +36,11 @@ double CTriangle::GetPerimeter() const
 	return CalculatePerimeter(line1, line2, line3);
 }
 
-std::string CTriangle::ToString() const
+void CTriangle::AppendProperties(std::stringstream& stream) const
 {
-	stringstream stream;
-
-	stream << fixed << setprecision(2);
-
 	stream << "Triangle: vertex1" << m_vertex1.ToString()
 		<< " vertex2" << m_vertex2.ToString()
-		<< " vertex3" << m_vertex3.ToString()
-		<< CSolidShape::ToString();
-
-	return stream.str();
+		<< " vertex3" << m_vertex3.ToString();
 }
 
 CPoint CTriangle::GetVertex1() const

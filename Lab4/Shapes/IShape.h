@@ -10,6 +10,9 @@ public:
 	virtual double GetPerimeter() const = 0;
 	virtual std::string ToString() const = 0;
 	virtual CColor GetOutlineColor() const = 0;
+
+protected:
+	virtual void AppendProperties(std::stringstream& stream) const = 0;
 };
 
 typedef std::unique_ptr<IShape> IShapePtr;

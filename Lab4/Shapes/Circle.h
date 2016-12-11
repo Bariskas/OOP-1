@@ -10,9 +10,11 @@ public:
 	CCircle(CPoint center, double radius, CColor outlineColor, CColor fillColor);
 	double GetArea() const override;
 	double GetPerimeter() const override;
-	std::string ToString() const override;
 	CPoint GetCenter() const;
 	double GetRadius() const;
+
+protected:
+	void AppendProperties(std::stringstream& stream) const override;
 
 private:
 	CPoint m_center;

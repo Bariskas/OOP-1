@@ -23,18 +23,11 @@ double CRectangle::GetPerimeter() const
 	return (m_width + m_height) * 2;
 }
 
-std::string CRectangle::ToString() const
+void CRectangle::AppendProperties(std::stringstream& stream) const
 {
-	stringstream stream;
-
-	stream << fixed << setprecision(2);
-
 	stream << "Rectangle: leftTop" << m_leftTop.ToString()
 		<< " rightBottom" << GetRightBottom().ToString()
-		<< " width=" << m_width << " heigth=" << m_height
-		<< CSolidShape::ToString();
-
-	return stream.str();
+		<< " width=" << m_width << " heigth=" << m_height;
 }
 
 CPoint CRectangle::GetLeftTop() const

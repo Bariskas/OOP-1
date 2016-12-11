@@ -22,15 +22,10 @@ double CLineSegment::GetPerimeter() const
 	return CalculateLineLength(m_startPoint, m_endPoint);
 }
 
-std::string CLineSegment::ToString() const
+void CLineSegment::AppendProperties(std::stringstream& stream) const
 {
-	stringstream stream;
-
 	stream << "Line: start" << m_startPoint.ToString()
-		<< " end" << m_endPoint.ToString()
-		<< CShape::ToString();
-
-	return stream.str();
+		<< " end" << m_endPoint.ToString();
 }
 
 CPoint CLineSegment::GetStartPoint() const

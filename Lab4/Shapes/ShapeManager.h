@@ -4,8 +4,7 @@
 class CShapeManager
 {
 public:
-	CShapeManager(CShapeFactory& factory);
-	//CShapeManager(CShapeManager const& copy) = delete;
+	CShapeManager(IShapeFactory& factory);
 	void AddShapesFromStream(std::istream& input, std::ostream& output);
 	void AddShape(std::string const& shapeInfo, std::ostream& output);
 	void PrintShapes(std::ostream& output);

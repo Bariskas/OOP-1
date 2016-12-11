@@ -9,9 +9,10 @@ public:
 	CShape(CColor outlineColor);
 	virtual ~CShape() = default;
 	CColor GetOutlineColor() const override;
+	std::string ToString() const override;
 
 protected:
-	std::string ToString() const override;
+	void AppendProperties(std::stringstream& sstream) const = 0;
 
 private:
 	CColor m_outlineColor;

@@ -24,17 +24,10 @@ double CCircle::GetPerimeter() const
 }
 
 
-std::string CCircle::ToString() const
+void CCircle::AppendProperties(std::stringstream& stream) const
 {
-	stringstream stream;
-
-	stream << fixed << setprecision(2);
-
 	stream << "Circle: center" << m_center.ToString()
-		<< " radius=" << m_radius << " "
-		<< CSolidShape::ToString();
-
-	return stream.str();
+		<< " radius=" << m_radius;
 }
 
 CPoint CCircle::GetCenter() const
