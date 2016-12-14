@@ -17,3 +17,9 @@
 // TODO: reference additional headers your program requires here
 #include <exception>
 #include <stdexcept>
+#include <iostream>
+#include <string>
+#include <vector>
+#include <functional>
+#include <cstdlib>
+#include <boost/algorithm/string.hpp>

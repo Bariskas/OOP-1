@@ -72,7 +72,7 @@ CRational const CRational::operator-(CRational const& rational)const
 	int lcm = Lcm(m_denominator, rational.m_denominator);
 	auto commonNumerators = GetCommonNumerators(*this, rational);
 
-	return CRational(commonNumerators.first + commonNumerators.second, lcm);
+	return CRational(commonNumerators.first - commonNumerators.second, lcm);
 }
 
 CRational const CRational::operator-(int number)const
@@ -267,14 +267,14 @@ bool operator>=(int number, CRational const& rational)
 	return CRational(number) >= rational;
 }
 
-std::ostream& CRational::operator<<(std::ostream& output)const
+std::ostream& operator<<(std::ostream& output, CRational const& rational)
 {
-	output << m_numerator << '/' << m_denominator;
+	output << rational.GetNumerator() << '/' << rational.GetDenominator();
 
 	return output;
 }
 
-std::istream& CRational::operator>>(std::istream& input)
+std::istream& operator>> (std::istream& input, CRational& rational)
 {
 	string rationalNumberStr;
 	vector<string> values;
@@ -291,7 +291,7 @@ std::istream& CRational::operator>>(std::istream& input)
 		int denominator = StrToInt(values[1]);
 
 		CRational number(numenator, denominator);
-		swap(*this, number);
+		swap(rational, number);
 	}
 	catch (exception const&)
 	{
@@ -304,7 +304,7 @@ std::istream& CRational::operator>>(std::istream& input)
 void CRational::Normalize()
 {
 	int gcd = Gcd(m_numerator, m_denominator);
-	if (gcd != 0)
+	if (gcd != 0 && m_numerator != 0)
 	{
 		m_numerator /= gcd;
 		m_denominator /= gcd;

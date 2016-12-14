@@ -20,3 +20,4 @@
 #include <vector>
 #include <functional>
 #include <cstdlib>
+#include <boost/algorithm/string.hpp>
