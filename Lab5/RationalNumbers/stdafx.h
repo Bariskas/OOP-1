@@ -16,3 +16,7 @@
 #include <exception>
 #include <stdexcept>
 #include <iostream>
+#include <string>
+#include <vector>
+#include <functional>
+#include <cstdlib>

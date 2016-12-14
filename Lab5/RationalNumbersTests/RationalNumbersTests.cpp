@@ -56,6 +56,9 @@ BOOST_AUTO_TEST_SUITE(RationalNumber)
 
 		CRational number3(0, -1);
 		CheckRationalNumberEqual(number3, 0, 1);
+
+		CRational number(-7);
+		CheckRationalNumberEqual(number, -7, 1);
 	}
 
 	BOOST_AUTO_TEST_CASE(returns_double_value)

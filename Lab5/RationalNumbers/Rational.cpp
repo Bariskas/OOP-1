@@ -32,22 +32,29 @@ double CRational::ToDouble()const
 	return m_numerator / (double)m_denominator;
 }
 
+std::pair<int, CRational> CRational::ToCompoundFraction()const
+{
+	auto division = div(m_numerator, m_denominator);
+
+	return make_pair(division.quot, CRational(division.rem, m_denominator));
+}
+
+CRational const CRational::operator+()const
+{
+	return *this;
+}
+
 CRational const CRational::operator-()const
 {
-	CRational number(-this->m_numerator, this->m_denominator);
-	
-	return number;
+	return CRational(-this->m_numerator, this->m_denominator);
 }
 
 CRational const CRational::operator+(CRational const& rational)const
 {
 	int lcm = Lcm(m_denominator, rational.m_denominator);
-	int numerator1 = m_numerator * (lcm / m_denominator);
-	int numerator2 = rational.m_numerator * (lcm / rational.m_denominator);
+	auto commonNumerators = GetCommonNumerators(*this, rational);
 
-	CRational result(numerator1 + numerator2, lcm);
-
-	return result;
+	return CRational(commonNumerators.first + commonNumerators.second, lcm);
 }
 
 CRational const CRational::operator+(int number)const
@@ -55,9 +62,243 @@ CRational const CRational::operator+(int number)const
 	return *this + CRational(number);
 }
 
-CRational const operator+(int number, CRational rational)
+CRational const operator+(int number, CRational const& rational)
 {
-	return rational + CRational(number);
+	return CRational(number) + rational;
+}
+
+CRational const CRational::operator-(CRational const& rational)const
+{
+	int lcm = Lcm(m_denominator, rational.m_denominator);
+	auto commonNumerators = GetCommonNumerators(*this, rational);
+
+	return CRational(commonNumerators.first + commonNumerators.second, lcm);
+}
+
+CRational const CRational::operator-(int number)const
+{
+	return *this - CRational(number);
+}
+
+CRational const operator-(int number, CRational const& rational)
+{
+	return CRational(number) - rational;
+}
+
+CRational& CRational::operator+=(CRational const& rational)
+{
+	*this = *this + rational;
+
+	return *this;
+}
+
+CRational& CRational::operator+=(int number)
+{
+	*this += CRational(number);
+
+	return *this;
+}
+
+CRational& CRational::operator-=(CRational const& rational)
+{
+	*this = *this - rational;
+
+	return *this;
+}
+
+CRational& CRational:: operator-=(int number)
+{
+	*this -= CRational(number);
+
+	return *this;
+}
+
+CRational const CRational::operator*(CRational const& rational)const
+{
+	return CRational(m_numerator * rational.m_numerator, m_denominator * rational.m_denominator);
+}
+
+CRational const CRational::operator*(int number)const
+{
+	return *this * CRational(number);
+}
+
+CRational const operator*(int number, CRational const& rational)
+{
+	return CRational(number) * rational;
+}
+
+CRational const CRational::operator/(CRational const& rational)const
+{
+	return CRational(m_numerator * rational.m_denominator, m_denominator * rational.m_numerator);
+}
+
+CRational const CRational::operator/(int number)const
+{
+	return *this / CRational(number);
+}
+
+CRational const operator/(int number, CRational const& rational)
+{
+	return CRational(number) / rational;
+}
+
+CRational& CRational::operator*=(CRational const& rational)
+{
+	*this = *this * rational;
+
+	return *this;
+}
+
+CRational& CRational::operator*=(int number)
+{
+	*this *= CRational(number);
+
+	return *this;
+}
+
+CRational& CRational::operator/=(CRational const& rational)
+{
+	*this = *this / rational;
+
+	return *this;
+}
+
+CRational& CRational:: operator/=(int number)
+{
+	*this /= CRational(number);
+
+	return *this;
+}
+
+bool CRational::operator==(CRational const& rational)const
+{
+	auto commonNumerators = GetCommonNumerators(*this, rational);
+
+	return commonNumerators.first == commonNumerators.second;
+}
+
+bool CRational::operator==(int number)const
+{
+	return *this == CRational(number);
+}
+
+bool operator==(int number, CRational const& rational)
+{
+	return rational == CRational(number);
+}
+
+bool CRational::operator!=(CRational const& rational)const
+{
+	return !(*this == rational);
+}
+
+bool CRational::operator!=(int number)const
+{
+	return *this != CRational(number);
+}
+
+bool operator!=(int number, CRational const& rational)
+{
+	return rational != CRational(number);
+}
+
+bool CRational::operator<(CRational const& rational)const
+{
+	auto commonNumerators = GetCommonNumerators(*this, rational);
+
+	return commonNumerators.first < commonNumerators.second;
+}
+
+bool CRational::operator<(int number)const
+{
+	return *this < CRational(number);
+}
+
+bool operator<(int number, CRational const& rational)
+{
+	return CRational(number) < rational;
+}
+
+bool CRational::operator>(CRational const& rational)const
+{
+	auto commonNumerators = GetCommonNumerators(*this, rational);
+
+	return commonNumerators.first > commonNumerators.second;
+}
+
+bool CRational::operator>(int number)const
+{
+	return *this > CRational(number);
+}
+
+bool operator>(int number, CRational const& rational)
+{
+	return CRational(number) > rational;
+}
+
+bool CRational::operator<=(CRational const& rational)const
+{
+	return !(*this > rational);
+}
+
+bool CRational::operator<=(int number)const
+{
+	return *this <= CRational(number);
+}
+
+bool operator<=(int number, CRational const& rational)
+{
+	return CRational(number) <= rational;
+}
+
+bool CRational::operator>=(CRational const& rational)const
+{
+	return !(*this < rational);
+}
+
+bool CRational::operator>=(int number)const
+{
+	return *this >= CRational(number);
+}
+
+bool operator>=(int number, CRational const& rational)
+{
+	return CRational(number) >= rational;
+}
+
+std::ostream& CRational::operator<<(std::ostream& output)const
+{
+	output << m_numerator << '/' << m_denominator;
+
+	return output;
+}
+
+std::istream& CRational::operator>>(std::istream& input)
+{
+	string rationalNumberStr;
+	vector<string> values;
+
+	boost::split(values, rationalNumberStr, bind2nd(equal_to<char>(), '\\'));
+	if (values.size() != 2)
+	{
+		throw runtime_error("Must be numerator/denominator in string!");
+	}
+
+	try
+	{
+		int numenator = StrToInt(values[0]);
+		int denominator = StrToInt(values[1]);
+
+		CRational number(numenator, denominator);
+		swap(*this, number);
+	}
+	catch (exception const&)
+	{
+		throw runtime_error("Wrong rational number!");
+	}
+
+	return input;
 }
 
 void CRational::Normalize()
@@ -74,4 +315,13 @@ void CRational::Normalize()
 		m_numerator = -m_numerator;
 		m_denominator = -m_denominator;
 	}
+}
+
+std::pair<int, int> CRational::GetCommonNumerators(CRational const& rational1, CRational const& rational2)
+{
+	int lcm = Lcm(rational1.m_denominator, rational2.m_denominator);
+	int numerator1 = rational1.m_numerator * (lcm / rational1.m_denominator);
+	int numerator2 = rational2.m_numerator * (lcm / rational2.m_denominator);
+
+	return make_pair(numerator1, numerator2);
 }
