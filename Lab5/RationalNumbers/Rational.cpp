@@ -277,9 +277,10 @@ std::ostream& operator<<(std::ostream& output, CRational const& rational)
 std::istream& operator>> (std::istream& input, CRational& rational)
 {
 	string rationalNumberStr;
+	input >> rationalNumberStr;
 	vector<string> values;
 
-	boost::split(values, rationalNumberStr, bind2nd(equal_to<char>(), '\\'));
+	boost::split(values, rationalNumberStr, bind2nd(equal_to<char>(), '/'));
 	if (values.size() != 2)
 	{
 		throw runtime_error("Must be numerator/denominator in string!");

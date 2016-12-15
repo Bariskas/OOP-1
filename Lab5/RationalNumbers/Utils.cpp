@@ -30,7 +30,7 @@ int StrToInt(std::string str)
 			throw exception();
 		}
 
-		int number = stoi(str);
+		result = stoi(str);
 	}
 	catch (exception const&)
 	{

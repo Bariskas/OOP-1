@@ -20,39 +20,39 @@ public:
 	CRational const operator-(CRational const& rational)const;
 	CRational const operator-(int number)const;
 
-	CRational const operator*(CRational const& rational)const; //todo tests
-	CRational const operator*(int number)const; //todo tests
+	CRational const operator*(CRational const& rational)const;
+	CRational const operator*(int number)const;
 
-	CRational const operator/(CRational const& rational)const; //todo tests
-	CRational const operator/(int number)const; //todo tests
+	CRational const operator/(CRational const& rational)const;
+	CRational const operator/(int number)const;
 
 	CRational& operator+=(CRational const& rational);
 	CRational& operator+=(int number);
 
-	CRational& operator-=(CRational const& rational); //todo tests
-	CRational& operator-=(int number); //todo tests
+	CRational& operator-=(CRational const& rational);
+	CRational& operator-=(int number);
 
-	CRational& operator*=(CRational const& rational); //todo tests
-	CRational& operator*=(int number); //todo tests
+	CRational& operator*=(CRational const& rational);
+	CRational& operator*=(int number);
 
-	CRational& operator/=(CRational const& rational); //todo tests
-	CRational& operator/=(int number); //todo tests
+	CRational& operator/=(CRational const& rational);
+	CRational& operator/=(int number);
 
-	bool operator==(CRational const& rational)const; //todo tests
-	bool operator==(int number)const; //todo tests
+	bool operator==(CRational const& rational)const;
+	bool operator==(int number)const;
 
-	bool operator!=(CRational const& rational)const; //todo tests
-	bool operator!=(int number)const; //todo tests
+	bool operator!=(CRational const& rational)const;
+	bool operator!=(int number)const;
 
-	bool operator<(CRational const& rational)const; //todo tests
-	bool operator<(int number)const; //todo tests
-	bool operator>(CRational const& rational)const; //todo tests
-	bool operator>(int number)const; //todo tests
+	bool operator<(CRational const& rational)const;
+	bool operator<(int number)const;
+	bool operator>(CRational const& rational)const;
+	bool operator>(int number)const;
 
-	bool operator<=(CRational const& rational)const; //todo tests
-	bool operator<=(int number)const; //todo tests
-	bool operator>=(CRational const& rational)const; //todo tests
-	bool operator>=(int number)const; //todo tests
+	bool operator<=(CRational const& rational)const;
+	bool operator<=(int number)const;
+	bool operator>=(CRational const& rational)const;
+	bool operator>=(int number)const;
 
 private :
 	void Normalize();
@@ -64,14 +64,14 @@ private :
 
 CRational const operator+(int number, CRational const& rational);
 CRational const operator-(int number, CRational const& rational);
-CRational const operator*(int number, CRational const& rational); //todo tests
-CRational const operator/(int number, CRational const& rational); //todo tests
-bool operator==(int number, CRational const& rational); //todo tests
-bool operator!=(int number, CRational const& rational); //todo tests
-bool operator<(int number, CRational const& rational); //todo tests
-bool operator>(int number, CRational const& rational); //todo tests
-bool operator<=(int number, CRational const& rational); //todo tests
-bool operator>=(int number, CRational const& rational); //todo tests
+CRational const operator*(int number, CRational const& rational);
+CRational const operator/(int number, CRational const& rational);
+bool operator==(int number, CRational const& rational);
+bool operator!=(int number, CRational const& rational);
+bool operator<(int number, CRational const& rational);
+bool operator>(int number, CRational const& rational);
+bool operator<=(int number, CRational const& rational);
+bool operator>=(int number, CRational const& rational);
 
 std::ostream& operator<<(std::ostream& output, CRational const& rational); //todo tests
 std::istream& operator>>(std::istream& input, CRational& rational); //todo tests

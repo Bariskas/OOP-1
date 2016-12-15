@@ -150,24 +150,261 @@ BOOST_AUTO_TEST_SUITE(RationalNumber)
 
 	BOOST_AUTO_TEST_SUITE_END()
 
+		BOOST_FIXTURE_TEST_SUITE(substracts_by_shorthand_operator, RationalFixture)
+		
+			BOOST_AUTO_TEST_CASE(rational_number)
+			{
+				CheckRationalNumberEqual(number -= CRational(13, 2), -1, 4);
+			}
+
+			BOOST_AUTO_TEST_CASE(int_number)
+			{
+				CheckRationalNumberEqual(number -= 3, 13, 4);
+			}
+
+		BOOST_AUTO_TEST_SUITE_END()
+
 	BOOST_FIXTURE_TEST_SUITE(calculates_multiplication_of, RationalFixture)
 
 		BOOST_AUTO_TEST_CASE(two_rational_numbers)
 		{
-			CheckRationalNumberEqual(number - CRational(13, 2), -1, 4);
+			CheckRationalNumberEqual(number * CRational(4, 25), 1, 1);
 		}
 
 		BOOST_AUTO_TEST_CASE(rational_with_int)
 		{
-			CheckRationalNumberEqual(number - 3, 13, 4);
+			CheckRationalNumberEqual(number * 3, 75, 4);
 		}
 
 		BOOST_AUTO_TEST_CASE(int_with_rational)
 		{
-			CheckRationalNumberEqual(8 - number, 7, 4);
+			CheckRationalNumberEqual(3 * number, 75, 4);
 		}
 
 	BOOST_AUTO_TEST_SUITE_END()
+
+	BOOST_FIXTURE_TEST_SUITE(multiplies_by_shorthand_operator, RationalFixture)
+
+		BOOST_AUTO_TEST_CASE(rational_number)
+		{
+			CheckRationalNumberEqual(number *= CRational(-2, 3), -25, 6);
+		}
+
+		BOOST_AUTO_TEST_CASE(int_number)
+		{
+			CheckRationalNumberEqual(number *= -3, -75, 4);
+		}
+
+	BOOST_AUTO_TEST_SUITE_END()
+
+	BOOST_FIXTURE_TEST_SUITE(calculates_division_of, RationalFixture)
+
+		BOOST_AUTO_TEST_CASE(two_rational_numbers)
+		{
+			CheckRationalNumberEqual(number / CRational(25, 4), 1, 1);
+		}
+
+		BOOST_AUTO_TEST_CASE(rational_with_int)
+		{
+			CheckRationalNumberEqual(number / 5, 5, 4);
+		}
+
+		BOOST_AUTO_TEST_CASE(int_with_rational)
+		{
+			CheckRationalNumberEqual(3 / number, 12, 25);
+		}
+
+	BOOST_AUTO_TEST_SUITE_END()
+
+	BOOST_FIXTURE_TEST_SUITE(divided_by_shorthand_operator, RationalFixture)
+
+		BOOST_AUTO_TEST_CASE(rational_number)
+		{
+			CheckRationalNumberEqual(number /= CRational(25, 4), 1, 1);
+		}
+
+		BOOST_AUTO_TEST_CASE(int_number)
+		{
+			CheckRationalNumberEqual(number /= -5, -5, 4);
+		}
+
+	BOOST_AUTO_TEST_SUITE_END()
+
+	BOOST_FIXTURE_TEST_SUITE(checks_equal, RationalFixture)
+		
+		BOOST_AUTO_TEST_CASE(two_rational_numbers)
+		{
+			BOOST_CHECK_EQUAL(CRational(24, 4), CRational(30, 5));
+			BOOST_CHECK(!(CRational(-24, 4) == CRational(30, 5)));
+		}
+
+		BOOST_AUTO_TEST_CASE(rational_with_int)
+		{
+			BOOST_CHECK_EQUAL(CRational(40, 8), 5);
+			BOOST_CHECK(!(CRational(40, 8) == -5));
+		}
+
+		BOOST_AUTO_TEST_CASE(int_with_rational)
+		{
+			BOOST_CHECK_EQUAL(3, CRational(90, 30));
+			BOOST_CHECK(!(3 == CRational(90, 33)));
+		}
+
+	BOOST_AUTO_TEST_SUITE_END()
+
+	BOOST_FIXTURE_TEST_SUITE(checks_not_equal, RationalFixture)
+
+		BOOST_AUTO_TEST_CASE(two_rational_numbers)
+		{
+			BOOST_CHECK(CRational(25, 4) != CRational(30, 5));
+			BOOST_CHECK(!(CRational(24, 4) != CRational(30, 5)));
+		}
+
+		BOOST_AUTO_TEST_CASE(rational_with_int)
+		{
+			BOOST_CHECK(CRational(40, 8) != 6);
+			BOOST_CHECK(!(CRational(40, 8) != 5));
+		}
+
+		BOOST_AUTO_TEST_CASE(int_with_rational)
+		{
+			BOOST_CHECK(-3 != CRational(90, 30));
+			BOOST_CHECK(!(-3 != CRational(90, -30)));
+		}
+
+	BOOST_AUTO_TEST_SUITE_END()
+
+	BOOST_FIXTURE_TEST_SUITE(checks_is_less, RationalFixture)
+
+		BOOST_AUTO_TEST_CASE(two_rational_numbers)
+		{
+			BOOST_CHECK(CRational(25, 4) < CRational(26, 4));
+			BOOST_CHECK(!(CRational(25, 4) < CRational(25, 4)));
+			BOOST_CHECK(!(CRational(25, 4) < CRational(23, 4)));
+
+			BOOST_CHECK(CRational(-26, 4) < CRational(25, 4));
+		}
+
+		BOOST_AUTO_TEST_CASE(rational_with_int)
+		{
+			BOOST_CHECK(CRational(39, 5) < 8);
+			BOOST_CHECK(!(CRational(40, 5) < 8));
+			BOOST_CHECK(!(CRational(42, 5) < 8));
+		}
+
+		BOOST_AUTO_TEST_CASE(int_with_rational)
+		{
+			BOOST_CHECK(7 < CRational(39, 5));
+			BOOST_CHECK(!(8 < CRational(40, 5)));
+			BOOST_CHECK(!(9 < CRational(42, 5)));
+		}
+
+	BOOST_AUTO_TEST_SUITE_END()
+
+	BOOST_FIXTURE_TEST_SUITE(checks_is_greater, RationalFixture)
+
+		BOOST_AUTO_TEST_CASE(two_rational_numbers)
+		{
+			BOOST_CHECK(CRational(25, 4) > CRational(24, 4));
+			BOOST_CHECK(!(CRational(25, 4) > CRational(25, 4)));
+			BOOST_CHECK(!(CRational(24, 4) > CRational(25, 4)));
+		}
+
+		BOOST_AUTO_TEST_CASE(rational_with_int)
+		{
+			BOOST_CHECK(CRational(41, 5) > 8);
+			BOOST_CHECK(!(CRational(40, 5) > 8));
+			BOOST_CHECK(!(CRational(39, 5) > 8));
+		}
+
+		BOOST_AUTO_TEST_CASE(int_with_rational)
+		{
+			BOOST_CHECK(8 > CRational(39, 5));
+			BOOST_CHECK(!(8 > CRational(40, 5)));
+			BOOST_CHECK(!(8 > CRational(42, 5)));
+		}
+
+	BOOST_AUTO_TEST_SUITE_END()
+
+	BOOST_FIXTURE_TEST_SUITE(checks_is_less_equal, RationalFixture)
+
+		BOOST_AUTO_TEST_CASE(two_rational_numbers)
+		{
+			BOOST_CHECK(CRational(25, 4) <= CRational(26, 4));
+			BOOST_CHECK(CRational(25, 4) <= CRational(25, 4));
+			BOOST_CHECK(!(CRational(25, 4) <= CRational(23, 4)));
+
+			BOOST_CHECK(CRational(-26, 4) < CRational(25, 4));
+		}
+
+		BOOST_AUTO_TEST_CASE(rational_with_int)
+		{
+			BOOST_CHECK(CRational(39, 5) <= 8);
+			BOOST_CHECK(CRational(40, 5) <= 8);
+			BOOST_CHECK(!(CRational(42, 5) <= 8));
+		}
+
+		BOOST_AUTO_TEST_CASE(int_with_rational)
+		{
+			BOOST_CHECK(7 <= CRational(39, 5));
+			BOOST_CHECK(8 <= CRational(40, 5));
+			BOOST_CHECK(!(9 <= CRational(42, 5)));
+		}
+
+	BOOST_AUTO_TEST_SUITE_END()
+
+	BOOST_FIXTURE_TEST_SUITE(checks_is_great_equal, RationalFixture)
+
+		BOOST_AUTO_TEST_CASE(two_rational_numbers)
+		{
+			BOOST_CHECK(CRational(25, 4) >= CRational(24, 4));
+			BOOST_CHECK(CRational(25, 4) >= CRational(25, 4));
+			BOOST_CHECK(!(CRational(24, 4) >= CRational(25, 4)));
+		}
+
+		BOOST_AUTO_TEST_CASE(rational_with_int)
+		{
+			BOOST_CHECK(CRational(41, 5) >= 8);
+			BOOST_CHECK(CRational(40, 5) >= 8);
+			BOOST_CHECK(!(CRational(39, 5) >= 8));
+		}
+
+		BOOST_AUTO_TEST_CASE(int_with_rational)
+		{
+			BOOST_CHECK(8 >= CRational(39, 5));
+			BOOST_CHECK(8 >= CRational(40, 5));
+			BOOST_CHECK(!(8 >= CRational(42, 5)));
+		}
+
+	BOOST_AUTO_TEST_SUITE_END()
+
+	BOOST_FIXTURE_TEST_CASE(prints_in_stream, RationalFixture)
+	{
+		ostringstream test;
+
+		test << CRational(-42, 17) << ' ' << CRational(0, 123);
+
+		BOOST_CHECK(test.str() == "-42/17 0/123");
+	}
+
+	BOOST_AUTO_TEST_CASE(gets_from_stream)
+	{
+		istringstream test("42/17 -4/13 0/0 te/st 12/  /34 test");
+
+		CRational rational1;
+		CRational rational2;
+		CRational rational3;
+		test >> rational1 >> rational2 >> rational3;
+
+		CheckRationalNumberEqual(rational1, 42, 17);
+		CheckRationalNumberEqual(rational2, -4, 13);
+		CheckRationalNumberEqual(rational3, 0, 1);
+
+		BOOST_CHECK_THROW(test >> CRational(), runtime_error);
+		BOOST_CHECK_THROW(test >> CRational(), runtime_error);
+		BOOST_CHECK_THROW(test >> CRational(), runtime_error);
+		BOOST_CHECK_THROW(test >> CRational(), runtime_error);
+	}
 
 BOOST_AUTO_TEST_SUITE_END()
 
