@@ -8,6 +8,7 @@ class CSolidShape :	public virtual ISolidShape, public CShape
 public:
 	CSolidShape(CColor outlineColor, CColor fillColor);
 	virtual ~CSolidShape() = default;
+	CColor GetOutlineColor() const override;
 	CColor GetFillColor() const override;
 	std::string ToString() const final override;
 

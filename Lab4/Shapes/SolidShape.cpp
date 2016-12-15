@@ -10,6 +10,11 @@ CSolidShape::CSolidShape(CColor outlineColor, CColor fillColor)
 {
 }
 
+CColor CSolidShape::GetOutlineColor() const
+{
+	return CShape::GetOutlineColor();
+}
+
 CColor CSolidShape::GetFillColor() const
 {
 	return m_fillColor;

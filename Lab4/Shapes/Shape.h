@@ -11,9 +11,6 @@ public:
 	CColor GetOutlineColor() const override;
 	std::string ToString() const override;
 
-protected:
-	void AppendProperties(std::stringstream& sstream) const = 0;
-
 private:
 	CColor m_outlineColor;
 };
