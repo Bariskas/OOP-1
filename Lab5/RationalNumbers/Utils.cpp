@@ -19,7 +19,7 @@ int Lcm(int a, int b)
 	return a / Gcd(a, b) * b;
 }
 
-int StrToInt(std::string str)
+int StrToInt(std::string const& str)
 {
 	int result = 0;
 

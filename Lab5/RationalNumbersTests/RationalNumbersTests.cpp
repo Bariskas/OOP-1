@@ -92,7 +92,14 @@ BOOST_AUTO_TEST_SUITE(RationalNumber)
 		CRational number = CRational(25, 4);
 	};
 
-	BOOST_FIXTURE_TEST_CASE(returns_negative_number, RationalFixture)
+	BOOST_FIXTURE_TEST_CASE(returns_same_number_by_unary_plus_operator, RationalFixture)
+	{
+		CheckRationalNumberEqual(+number, 25, 4);
+		CheckRationalNumberEqual(+CRational(-25, 4), -25, 4);
+		CheckRationalNumberEqual(+(+number), 25, 4);
+	}
+
+	BOOST_FIXTURE_TEST_CASE(returns_negative_number_by_unary_minus_operator, RationalFixture)
 	{
 		CheckRationalNumberEqual(-number, -25, 4);
 		CheckRationalNumberEqual(-(-number), 25, 4);
