@@ -6,13 +6,13 @@
 class CLineSegment final : public CShape
 {
 public:
-	CLineSegment(CPoint startPoint, CPoint endPoint, CColor outlineColor);
+	CLineSegment(CPoint const& startPoint, CPoint const& endPoint, CColor const& outlineColor);
 	double GetArea() const override;
 	double GetPerimeter() const override;
 	CPoint GetStartPoint() const;
 	CPoint GetEndPoint() const;
 
-	static double CalculateLineLength(CPoint point1, CPoint point2);
+	static double CalculateLineLength(CPoint const& point1, CPoint const& point2);
 
 protected:
 	void AppendProperties(std::stringstream& stream) const override;

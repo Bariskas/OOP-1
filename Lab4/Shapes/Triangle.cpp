@@ -4,7 +4,7 @@
 
 using namespace std;
 
-CTriangle::CTriangle(CPoint vertex1, CPoint vertex2, CPoint vertex3, CColor outlineColor, CColor fillColor)
+CTriangle::CTriangle(CPoint const& vertex1, CPoint const& vertex2, CPoint const& vertex3, CColor const& outlineColor, CColor const& fillColor)
 	: m_vertex1(vertex1), m_vertex2(vertex2), m_vertex3(vertex3)
 	, CSolidShape(outlineColor, fillColor)
 {

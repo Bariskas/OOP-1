@@ -3,7 +3,7 @@
 
 using namespace std;
 
-CCircle::CCircle(CPoint center, double radius, CColor outlineColor, CColor fillColor)
+CCircle::CCircle(CPoint const& center, double radius, CColor const& outlineColor, CColor const& fillColor)
 	: m_center(center), m_radius(radius)
 	, CSolidShape(outlineColor, fillColor)
 {

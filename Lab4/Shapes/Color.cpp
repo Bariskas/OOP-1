@@ -22,7 +22,7 @@ string CColor::ToString() const
 	return str;
 }
 
-bool CColor::operator ==(CColor other) const
+bool CColor::operator ==(CColor const& other) const
 {
 	return (r == other.r && g == other.g && b == other.b);
 }

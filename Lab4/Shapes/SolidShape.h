@@ -6,7 +6,7 @@
 class CSolidShape :	public virtual ISolidShape, public CShape
 {
 public:
-	CSolidShape(CColor outlineColor, CColor fillColor);
+	CSolidShape(CColor const& outlineColor, CColor const& fillColor);
 	virtual ~CSolidShape() = default;
 	CColor GetOutlineColor() const override;
 	CColor GetFillColor() const override;

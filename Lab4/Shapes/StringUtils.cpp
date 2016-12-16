@@ -3,7 +3,7 @@
 
 using namespace std;
 
-uint8_t StrToUint8(std::string str)
+uint8_t StrToUint8(std::string const& str)
 {
 	uint8_t result = 0;
 
@@ -32,7 +32,7 @@ uint8_t StrToUint8(std::string str)
 	return result;
 }
 
-double StrToDouble(std::string str)
+double StrToDouble(std::string const& str)
 {
 	double result = 0.;
 
@@ -53,7 +53,7 @@ double StrToDouble(std::string str)
 	return result;
 }
 
-bool CheckNumberOfParams(string str, int count)
+bool CheckNumberOfParams(std::string const& str, int count)
 {
 	vector<string> param;
 	boost::split(param, str, bind2nd(equal_to<char>(), ' '));

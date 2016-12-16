@@ -5,7 +5,7 @@ public:
 	CColor() = default;
 	CColor(uint8_t r, uint8_t g, uint8_t b);
 	std::string ToString() const;
-	bool operator ==(CColor other) const;
+	bool operator ==(CColor const& other) const;
 
 	uint8_t r = 0;
 	uint8_t g = 0;

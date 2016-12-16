@@ -21,7 +21,7 @@ std::string CPoint::ToString() const
 	return stream.str();
 }
 
-bool CPoint::operator ==(CPoint other) const
+bool CPoint::operator ==(CPoint const& other) const
 {
 	return (abs(x - other.x) <= DBL_EPSILON && abs(y - other.y) <= DBL_EPSILON);
 }

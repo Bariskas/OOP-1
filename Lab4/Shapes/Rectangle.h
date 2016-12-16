@@ -6,7 +6,7 @@
 class CRectangle : public CSolidShape
 {
 public:
-	CRectangle(CPoint leftTop, double width, double height, CColor outlineColor, CColor fillColor);
+	CRectangle(CPoint const& leftTop, double width, double height, CColor const& outlineColor, CColor const& fillColor);
 	double GetArea() const override;
 	double GetPerimeter() const override;
 	CPoint GetLeftTop() const;

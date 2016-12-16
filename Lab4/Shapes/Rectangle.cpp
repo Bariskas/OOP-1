@@ -3,7 +3,7 @@
 
 using namespace std;
 
-CRectangle::CRectangle(CPoint leftTop, double width, double height, CColor outlineColor, CColor fillColor)
+CRectangle::CRectangle(CPoint const& leftTop, double width, double height, CColor const& outlineColor, CColor const& fillColor)
 	: m_leftTop(leftTop), m_width(width), m_height(height)
 	, CSolidShape(outlineColor, fillColor)
 {

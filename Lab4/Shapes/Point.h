@@ -6,7 +6,7 @@ public:
 	CPoint() = default;
 	CPoint(double x, double y);
 	std::string ToString() const;
-	bool operator ==(CPoint other) const;
+	bool operator ==(CPoint const& other) const;
 
 	double x = 0;
 	double y = 0;

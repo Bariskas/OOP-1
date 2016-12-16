@@ -6,7 +6,7 @@
 class CTriangle : public CSolidShape
 {
 public:
-	CTriangle(CPoint vertex1, CPoint vertex2, CPoint vertex3, CColor outlineColor, CColor fillColor);
+	CTriangle(CPoint const& vertex1, CPoint const& vertex2, CPoint const& vertex3, CColor const& outlineColor, CColor const& fillColor);
 	double GetArea() const override;
 	double GetPerimeter() const override;
 	CPoint GetVertex1() const;

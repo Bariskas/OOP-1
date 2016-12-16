@@ -1,5 +1,5 @@
 #pragma once
 
-uint8_t StrToUint8(std::string str);
-double StrToDouble(std::string str);
-bool CheckNumberOfParams(std::string str, int count);
+uint8_t StrToUint8(std::string const& str);
+double StrToDouble(std::string const& str);
+bool CheckNumberOfParams(std::string const& str, int count);

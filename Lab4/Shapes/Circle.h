@@ -7,7 +7,7 @@
 class CCircle :	public CSolidShape
 {
 public:
-	CCircle(CPoint center, double radius, CColor outlineColor, CColor fillColor);
+	CCircle(CPoint const& center, double radius, CColor const& outlineColor, CColor const& fillColor);
 	double GetArea() const override;
 	double GetPerimeter() const override;
 	CPoint GetCenter() const;

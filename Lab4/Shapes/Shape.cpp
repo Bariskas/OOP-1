@@ -3,7 +3,7 @@
 
 using namespace std;
 
-CShape::CShape(CColor outlineColor)
+CShape::CShape(CColor const& outlineColor)
 	: m_outlineColor(outlineColor)
 {
 }

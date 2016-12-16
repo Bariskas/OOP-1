@@ -5,7 +5,7 @@
 
 using namespace std;
 
-CSolidShape::CSolidShape(CColor outlineColor, CColor fillColor)
+CSolidShape::CSolidShape(CColor const& outlineColor, CColor const& fillColor)
 	: CShape(outlineColor), m_fillColor(fillColor)
 {
 }
